@@ -14,4 +14,4 @@ jobs:
       run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
     - name: Run unit tests
       id: unit-tests
-      run: xcodebuild test -scheme IACC -project IACC.xcodeproj -destination 'platform=iOS Simulator,OS=16.2,name=iPhone 14 Pro Max' | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild test -scheme iACC -project iACC.xcodeproj -destination 'platform=iOS Simulator,OS=16.2,name=iPhone 14 Pro Max' | xcpretty && exit ${PIPESTATUS[0]}
