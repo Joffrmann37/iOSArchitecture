@@ -85,7 +85,7 @@ class ListViewController: UITableViewController {
                 }
             }
 		} else if fromCardsScreen {
-			CardAPI.shared.loadCards { [weak self] result in
+            CardsViewModel.shared.loadCards { [weak self] result in
 				DispatchQueue.mainAsyncIfNeeded {
                     self?.handleAPIResult(result.map { [weak self] items in
                         items.map { item in

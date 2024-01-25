@@ -68,7 +68,7 @@ class CardsIntegrationTests: XCTestCase {
 		let card0 = aCard(number: "a number", holder: "a holder")
 		let card1 = aCard(number: "another number", holder: "another holder")
 		let cardsList = try SceneBuilder()
-			.build(cardsAPI: .once([card0, card1]))
+			.build(cardsViewModel: .once([card0, card1]))
 			.cardsList()
 		
 		XCTAssertEqual(cardsList.numberOfCards(), 2, "cards count")
@@ -80,7 +80,7 @@ class CardsIntegrationTests: XCTestCase {
 	
 	func test_cardsList_showsError_whenAPIRequestFails() throws {
 		let cardsList = try SceneBuilder()
-			.build(cardsAPI: .once(NSError(localizedDescription: "an error")))
+			.build(cardsViewModel: .once(NSError(localizedDescription: "an error")))
 			.cardsList()
 		
 		XCTAssertEqual(cardsList.errorMessage(), "an error")
@@ -90,7 +90,7 @@ class CardsIntegrationTests: XCTestCase {
 		let refreshedCard = aCard(number: "refreshed number", holder: "refreshed holder")
 		
 		let cardsList = try SceneBuilder()
-			.build(cardsAPI: .results([
+			.build(cardsViewModel: .results([
 				.success([]),
 				.success([refreshedCard])
 			]))
@@ -107,7 +107,7 @@ class CardsIntegrationTests: XCTestCase {
 	
 	func test_cardsList_showsLoadingIndicator_untilAPIRequestSucceeds() throws {
 		let cardsList = try SceneBuilder()
-			.build(cardsAPI: .resultBuilder {
+			.build(cardsViewModel: .resultBuilder {
 				let cardsList = try? ContainerViewControllerSpy.current.cardsList()
 				XCTAssertEqual(cardsList?.isShowingLoadingIndicator(), true, "should show loading indicator until API request completes")
 				return .success([aCard()])
@@ -123,7 +123,7 @@ class CardsIntegrationTests: XCTestCase {
 	
 	func test_cardsList_showsLoadingIndicator_untilAPIRequestFails() throws {
 		let cardsList = try SceneBuilder()
-			.build(cardsAPI: .resultBuilder {
+			.build(cardsViewModel: .resultBuilder {
 				let cardsList = try? ContainerViewControllerSpy.current.cardsList()
 				XCTAssertEqual(cardsList?.isShowingLoadingIndicator(), true, "should show loading indicator until API request fails")
 				return .failure(anError())
@@ -141,7 +141,7 @@ class CardsIntegrationTests: XCTestCase {
 		let card0 = aCard(number: "a number", holder: "a holder")
 		let card1 = aCard(number: "another number", holder: "another holder")
 		let cardsList = try SceneBuilder()
-			.build(cardsAPI: .once([card0, card1]))
+			.build(cardsViewModel: .once([card0, card1]))
 			.cardsList()
 
 		cardsList.selectCard(at: 0)

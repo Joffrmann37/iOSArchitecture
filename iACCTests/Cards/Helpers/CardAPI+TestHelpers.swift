@@ -9,32 +9,33 @@ import Foundation
 /// This `CardAPI` test helper extension provides fast and reliable ways of stubbing
 /// network requests with canned results to prevent making real network requests during tests.
 ///
-extension CardAPI {	
-	static func once(_ cards: [Card]) -> CardAPI {
+extension CardsViewModel {
+	static func once(_ cards: [Card]) -> CardsViewModel {
 		results([.success(cards)])
 	}
 	
-	static func once(_ error: Error) -> CardAPI {
+	static func once(_ error: Error) -> CardsViewModel {
 		results([.failure(error)])
 	}
 	
-	static func results(_ results: [Result<[Card], Error>]) -> CardAPI {
+	static func results(_ results: [Result<[Card], Error>]) -> CardsViewModel {
 		var results = results
 		return resultBuilder { results.removeFirst() }
 	}
 	
-	static func resultBuilder(_ resultBuilder: @escaping () -> Result<[Card], Error>) -> CardAPI {
-		CardAPIStub(resultBuilder: resultBuilder)
+	static func resultBuilder(_ resultBuilder: @escaping () -> Result<[Card], Error>) -> CardsViewModel {
+        CardViewModelStub(resultBuilder: resultBuilder)
 	}
 	
-	private class CardAPIStub: CardAPI {
+	private class CardViewModelStub: CardsViewModel {
 		private let nextResult: () -> Result<[Card], Error>
 		
 		init(resultBuilder: @escaping () -> Result<[Card], Error>) {
 			nextResult = resultBuilder
+            super.init()
 		}
 		
-		override func loadCards(completion: @escaping (Result<[Card], Error>) -> Void) {
+        override func loadCards(cards: [Card], completion: @escaping (Result<[Card], Error>) -> Void) {
 			completion(nextResult())
 		}
 	}
