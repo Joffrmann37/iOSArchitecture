@@ -8,10 +8,6 @@ protocol FriendsRepo: AnyObject {
     func loadFriends(result: (Result<[Friend], Error>), completion: @escaping (Result<[Friend], Error>) -> Void)
 }
 
-protocol GetFriendsScenario: AnyObject {
-    func loadFriends(result: (Result<[Friend], Error>), completion: @escaping (Result<[Friend], Error>) -> Void)
-}
-
 struct Friend: Equatable {
 	let id: UUID
 	let name: String
@@ -21,10 +17,9 @@ struct Friend: Equatable {
 class FriendsViewModel {
     static var shared = FriendsViewModel()
     var getFriendsUseCase: GetFriendsUseCase
-    var friendsAPI: FriendsAPI = FriendsAPI()
     
     init() {
-        self.getFriendsUseCase = GetFriendsUseCase(friendsAPI: friendsAPI)
+        self.getFriendsUseCase = GetFriendsUseCase(friendsAPI: FriendsAPI())
     }
     
     init(getFriendsUseCase: GetFriendsUseCase) {
@@ -42,7 +37,7 @@ class FriendsViewModel {
     }
 }
 
-class GetFriendsUseCase: GetFriendsScenario {
+class GetFriendsUseCase {
     let friendsAPI: FriendsAPI
     
     init(friendsAPI: FriendsAPI) {

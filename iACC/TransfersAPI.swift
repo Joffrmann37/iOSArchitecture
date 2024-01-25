@@ -8,10 +8,6 @@ protocol TransfersRepo: AnyObject {
     func loadTransfers(result: (Result<[Transfer], Error>), completion: @escaping (Result<[Transfer], Error>) -> Void)
 }
 
-protocol GetTransfersScenario: AnyObject {
-    func loadTransfers(result: (Result<[Transfer], Error>), completion: @escaping (Result<[Transfer], Error>) -> Void)
-}
-
 struct Transfer: Equatable {
 	let id: Int
 	let description: String
@@ -75,7 +71,7 @@ class TransfersViewModel {
     }
 }
 
-class GetTransfersUseCase: GetTransfersScenario {
+class GetTransfersUseCase {
     private let transfersAPI: TransfersAPI
     
     init(transfersAPI: TransfersAPI) {
