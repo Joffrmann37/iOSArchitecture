@@ -97,7 +97,7 @@ class ListViewController: UITableViewController {
 				}
 			}
 		} else if fromSentTransfersScreen || fromReceivedTransfersScreen {
-			TransfersAPI.shared.loadTransfers { [weak self, longDateStyle, fromSentTransfersScreen] result in
+            TransfersViewModel.shared.loadTransfers { [weak self, longDateStyle, fromSentTransfersScreen] result in
 				DispatchQueue.mainAsyncIfNeeded {
                     self?.handleAPIResult(result.map { [weak self] items in
                         return items

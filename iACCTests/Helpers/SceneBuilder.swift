@@ -47,7 +47,7 @@ struct SceneBuilder {
 		user: User? = nil,
 		friendsViewModel: FriendsViewModel = .once([]),
 		friendsCache: FriendsCache = .never,
-		transfersAPI: TransfersAPI = .once([]),
+		transfersViewModel: TransfersViewModel = .once([]),
 		cardsViewModel: CardsViewModel = .once([]),
 		timeZone: TimeZone = .GMT,
 		locale: Locale = .en_US_POSIX
@@ -57,7 +57,7 @@ struct SceneBuilder {
         
         User.shared = user
         FriendsViewModel.shared = friendsViewModel
-		TransfersAPI.shared = transfersAPI
+        TransfersViewModel.shared = transfersViewModel
         CardsViewModel.shared = cardsViewModel
 		
 		Formatters.date.locale = locale

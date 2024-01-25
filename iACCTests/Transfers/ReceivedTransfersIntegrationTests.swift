@@ -70,7 +70,7 @@ class ReceivedTransfersIntegrationTests: XCTestCase {
 		let transfer2 = aTranfer(description: "another description", amount: 99.99, currencyCode: "GBP", sender: "Bob", recipient: "Mary", sent: false, date: .JUN_29_2007_AT_9_41_AM)
 		
 		let receivedTransfersList = try SceneBuilder()
-			.build(transfersAPI: .once([transfer0, transfer1, transfer2]))
+			.build(transfersViewModel: .once([transfer0, transfer1, transfer2]))
 			.receivedTransfersList()
 		
 		XCTAssertEqual(receivedTransfersList.numberOfReceivedTransfers(), 2, "receivedTransfers count")
@@ -85,7 +85,7 @@ class ReceivedTransfersIntegrationTests: XCTestCase {
 		let refreshedTransfer1 = aTranfer(sent: true)
 		
 		let receivedTransfersList = try SceneBuilder()
-			.build(transfersAPI: .results([
+			.build(transfersViewModel: .results([
 				.success([]),
 				.success([refreshedTransfer0, refreshedTransfer1])
 			]))
@@ -102,7 +102,7 @@ class ReceivedTransfersIntegrationTests: XCTestCase {
 	
 	func test_receivedTransfersList_showsLoadingIndicator_untilAPIRequestSucceeds() throws {
 		let receivedTransfersList = try SceneBuilder()
-			.build(transfersAPI: .resultBuilder {
+			.build(transfersViewModel: .resultBuilder {
 				let receivedTransfersList = try? ContainerViewControllerSpy.current.receivedTransfersList()
 				XCTAssertEqual(receivedTransfersList?.isShowingLoadingIndicator(), true, "should show loading indicator until API request completes")
 				return .success([])
@@ -118,7 +118,7 @@ class ReceivedTransfersIntegrationTests: XCTestCase {
 	
 	func test_receivedTransfersList_showsLoadingIndicator_untilAPIRequestFails() throws {
 		let receivedTransfersList = try SceneBuilder()
-			.build(transfersAPI: .resultBuilder {
+			.build(transfersViewModel: .resultBuilder {
 				let receivedTransfersList = try? ContainerViewControllerSpy.current.receivedTransfersList()
 				XCTAssertEqual(receivedTransfersList?.isShowingLoadingIndicator(), true, "should show loading indicator until API request fails")
 				return .failure(anError())
@@ -136,7 +136,7 @@ class ReceivedTransfersIntegrationTests: XCTestCase {
 		let receivedTransfersList = try SceneBuilder()
 			.build(
 				user: nonPremiumUser(),
-				transfersAPI: .results([
+				transfersViewModel: .results([
 					.failure(NSError(localizedDescription: "request error")),
 					.failure(NSError(localizedDescription: "retry error")),
 				])
@@ -150,7 +150,7 @@ class ReceivedTransfersIntegrationTests: XCTestCase {
 	func test_receivedTransfersList_refreshData_retriesOnceOnAPIFailure() throws {
 		let receivedTransfersList = try SceneBuilder()
 			.build(
-				transfersAPI: .results([
+				transfersViewModel: .results([
 					.failure(NSError(localizedDescription: "request error")),
 					.failure(NSError(localizedDescription: "request retry error")),
 					
@@ -176,7 +176,7 @@ class ReceivedTransfersIntegrationTests: XCTestCase {
 		let transfer1 = aTranfer(sent: false)
 		
 		let receivedTransfersList = try SceneBuilder()
-			.build(transfersAPI: .once([transfer0, transfer1]))
+			.build(transfersViewModel: .once([transfer0, transfer1]))
 			.receivedTransfersList()
 		
 		receivedTransfersList.selectTransfer(at: 0)
