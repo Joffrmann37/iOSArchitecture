@@ -70,7 +70,7 @@ class FriendsIntegrationTests: XCTestCase {
 		let friendsList = try SceneBuilder()
 			.build(
 				user: nonPremiumUser(),
-				friendsAPI: .once([friend0, friend1]),
+				friendsViewModel: .once([friend0, friend1]),
 				friendsCache: .never
 			)
 			.friendsList()
@@ -85,7 +85,7 @@ class FriendsIntegrationTests: XCTestCase {
 	func test_friendsList_showsLoadingIndicator_untilAPIRequestSucceeds() throws {
 		let friendsList = try SceneBuilder()
 			.build(
-				friendsAPI: .resultBuilder {
+                friendsViewModel: .resultBuilder { 
 					let friendsList = try? ContainerViewControllerSpy.current.friendsList()
 					XCTAssertEqual(friendsList?.isShowingLoadingIndicator(), true, "should show loading indicator until API request completes")
 					return .success([aFriend()])
@@ -105,7 +105,7 @@ class FriendsIntegrationTests: XCTestCase {
 		let friendsList = try SceneBuilder()
 			.build(
 				user: nonPremiumUser(),
-				friendsAPI: .resultBuilder {
+                friendsViewModel: .resultBuilder { 
 					let friendsList = try? ContainerViewControllerSpy.current.friendsList()
 					XCTAssertEqual(friendsList?.isShowingLoadingIndicator(), true, "should show loading indicator while retrying API requests")
 					return .failure(anError())
@@ -125,7 +125,7 @@ class FriendsIntegrationTests: XCTestCase {
 		let friendsList = try SceneBuilder()
 			.build(
 				user: premiumUser(),
-				friendsAPI: .resultBuilder {
+                friendsViewModel: .resultBuilder { 
 					let friendsList = try? ContainerViewControllerSpy.current.friendsList()
 					XCTAssertEqual(friendsList?.isShowingLoadingIndicator(), true, "should show loading indicator while retrying API requests")
 					return .failure(anError())
@@ -149,7 +149,7 @@ class FriendsIntegrationTests: XCTestCase {
 		let friendsList = try SceneBuilder()
 			.build(
 				user: nonPremiumUser(),
-				friendsAPI: .results([
+				friendsViewModel: .results([
 					.failure(NSError(localizedDescription: "1st request error")),
 					.failure(NSError(localizedDescription: "1st retry error")),
 					.failure(NSError(localizedDescription: "2nd retry error"))
@@ -165,11 +165,13 @@ class FriendsIntegrationTests: XCTestCase {
 	func test_friendsList_withPremiumUser_showsCachedFriends_afterRetryingFailedAPIRequestTwice() throws {
 		let friend0 = aFriend(name: "a name", phone: "a phone")
 		let friend1 = aFriend(name: "another name", phone: "another phone")
+        
+        
 		
 		let friendsList = try SceneBuilder()
 			.build(
 				user: premiumUser(),
-				friendsAPI: .results([
+				friendsViewModel: .results([
 					.failure(NSError(localizedDescription: "1st request error")),
 					.failure(NSError(localizedDescription: "1st retry error")),
 					.failure(NSError(localizedDescription: "2nd retry error"))
@@ -189,7 +191,7 @@ class FriendsIntegrationTests: XCTestCase {
 		let friendsList = try SceneBuilder()
 			.build(
 				user: premiumUser(),
-				friendsAPI: .results([
+				friendsViewModel: .results([
 					.failure(NSError(localizedDescription: "1st request error")),
 					.failure(NSError(localizedDescription: "1st retry error")),
 					.failure(NSError(localizedDescription: "2nd retry error"))
@@ -203,14 +205,15 @@ class FriendsIntegrationTests: XCTestCase {
 	}
 	
 	func test_friendsList_canRefreshData() throws {
-		let refreshedFriend = aFriend(name: "refreshed name", phone: "refreshed phone")
+        let refreshedFriend = aFriend(name: "refreshed name", phone: "refreshed phone")
+        let friendsVM: [Result<[Friend], Error>] = ([
+            .success([]),
+            .success([refreshedFriend])
+        ])
 		
 		let friendsList = try SceneBuilder()
 			.build(
-				friendsAPI: .results([
-					.success([]),
-					.success([refreshedFriend])
-				])
+				friendsViewModel: .results(friendsVM)
 			)
 			.friendsList()
 		
@@ -224,17 +227,18 @@ class FriendsIntegrationTests: XCTestCase {
 	}
 	
 	func test_friendsList_refreshData_retriesTwiceOnAPIFailure() throws {
+        let friendsVM: [Result<[Friend], Error>] = ([
+            .failure(NSError(localizedDescription: "1st request error")),
+            .failure(NSError(localizedDescription: "1st retry error")),
+            .failure(NSError(localizedDescription: "2nd retry error")),
+            
+            .failure(NSError(localizedDescription: "1st refresh error")),
+            .failure(NSError(localizedDescription: "1st refresh retry error")),
+            .failure(NSError(localizedDescription: "2nd refresh retry error"))
+        ])
 		let friendsList = try SceneBuilder()
 			.build(
-				friendsAPI: .results([
-					.failure(NSError(localizedDescription: "1st request error")),
-					.failure(NSError(localizedDescription: "1st retry error")),
-					.failure(NSError(localizedDescription: "2nd retry error")),
-					
-					.failure(NSError(localizedDescription: "1st refresh error")),
-					.failure(NSError(localizedDescription: "1st refresh retry error")),
-					.failure(NSError(localizedDescription: "2nd refresh retry error"))
-				]),
+				friendsViewModel: .results(friendsVM),
 				friendsCache: .never
 			)
 			.friendsList()
@@ -257,7 +261,7 @@ class FriendsIntegrationTests: XCTestCase {
 		let friendsList = try SceneBuilder()
 			.build(
 				user: premiumUser(),
-				friendsAPI: .results([
+				friendsViewModel: .results([
 					.success([]),
 					.failure(NSError(localizedDescription: "1st request error")),
 					.failure(NSError(localizedDescription: "1st retry error")),
@@ -286,7 +290,7 @@ class FriendsIntegrationTests: XCTestCase {
 		_ = try SceneBuilder()
 			.build(
 				user: nonPremiumUser(),
-				friendsAPI: .once([friend0, friend1]),
+				friendsViewModel: .once([friend0, friend1]),
 				friendsCache: .saveCallback { cachedItems.append($0) }
 			)
 			.friendsList()
@@ -302,7 +306,7 @@ class FriendsIntegrationTests: XCTestCase {
 		_ = try SceneBuilder()
 			.build(
 				user: premiumUser(),
-				friendsAPI: .once([friend0, friend1]),
+				friendsViewModel: .once([friend0, friend1]),
 				friendsCache: .saveCallback { cachedItems.append($0) }
 			)
 			.friendsList()
@@ -317,7 +321,7 @@ class FriendsIntegrationTests: XCTestCase {
 		let friendsList = try SceneBuilder()
 			.build(
 				user: premiumUser(),
-				friendsAPI: .once([friend0, friend1]),
+				friendsViewModel: .once([friend0, friend1]),
 				friendsCache: .never
 			)
 			.friendsList()
@@ -336,7 +340,7 @@ class FriendsIntegrationTests: XCTestCase {
 		let friendsList = try SceneBuilder()
 			.build(
 				user: premiumUser(),
-				friendsAPI: .results([
+				friendsViewModel: .results([
 					.failure(anError()),
 					.failure(anError()),
 					.failure(anError())

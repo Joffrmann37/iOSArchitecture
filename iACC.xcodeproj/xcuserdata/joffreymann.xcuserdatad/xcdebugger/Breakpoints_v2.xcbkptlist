@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "77C45002-8D07-48FE-9414-7FC354964E6F"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C65A8A9C-F357-4EAB-A388-23434ECFB8E7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "iACC/ListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
+            landmarkName = "handleAPIResult(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "C65A8A9C-F357-4EAB-A388-23434ECFB8E7 - 16cb688a5b273be4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (iACC.Friend) -&gt; iACC.ViewModel in closure #1 () -&gt; () in closure #1 (Swift.Result&lt;Swift.Array&lt;iACC.Friend&gt;, Swift.Error&gt;) -&gt; () in iACC.ListViewController.handleAPIResult(Swift.Result&lt;Swift.Array&lt;iACC.ViewModel&gt;, Swift.Error&gt;) -&gt; ()"
+                  moduleName = "iACC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joffreymann/Documents/ios-practice/iACC-Project-January-2024-e9e5/iACC/ListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "162"
+                  endingLineNumber = "162"
+                  offsetFromSymbolStart = "303">
+               </Location>
+               <Location
+                  uuid = "C65A8A9C-F357-4EAB-A388-23434ECFB8E7 - 155f83714e30bfeb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in closure #1 (Swift.Result&lt;Swift.Array&lt;iACC.Friend&gt;, Swift.Error&gt;) -&gt; () in iACC.ListViewController.handleAPIResult(Swift.Result&lt;Swift.Array&lt;iACC.ViewModel&gt;, Swift.Error&gt;) -&gt; ()"
+                  moduleName = "iACC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joffreymann/Documents/ios-practice/iACC-Project-January-2024-e9e5/iACC/ListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "162"
+                  endingLineNumber = "162"
+                  offsetFromSymbolStart = "347">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

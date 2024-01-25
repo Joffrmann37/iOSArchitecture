@@ -4,22 +4,61 @@
 
 import Foundation
 
+protocol FriendsRepo: AnyObject {
+    func loadFriends(result: (Result<[Friend], Error>), completion: @escaping (Result<[Friend], Error>) -> Void)
+}
+
+protocol GetFriendsScenario: AnyObject {
+    func loadFriends(result: (Result<[Friend], Error>), completion: @escaping (Result<[Friend], Error>) -> Void)
+}
+
 struct Friend: Equatable {
 	let id: UUID
 	let name: String
 	let phone: String
 }
 
-class FriendsAPI {
-	static var shared = FriendsAPI()
-	
+class FriendsViewModel {
+    static var shared = FriendsViewModel()
+    var getFriendsUseCase: GetFriendsUseCase
+    var friendsAPI: FriendsAPI = FriendsAPI()
+    
+    init() {
+        self.getFriendsUseCase = GetFriendsUseCase(friendsAPI: friendsAPI)
+    }
+    
+    init(getFriendsUseCase: GetFriendsUseCase) {
+        self.getFriendsUseCase = getFriendsUseCase
+    }
+    
+    func loadFriends(friends: [Friend] = [
+        Friend(id: UUID(), name: "Bob", phone: "9999-9999"),
+        Friend(id: UUID(), name: "Mary", phone: "1111-1111")
+        ],
+        completion: @escaping (Result<[Friend], Error>) -> Void) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
+            self.getFriendsUseCase.loadFriends(result: .success(friends), completion: completion)
+        }
+    }
+}
+
+class GetFriendsUseCase: GetFriendsScenario {
+    let friendsAPI: FriendsAPI
+    
+    init(friendsAPI: FriendsAPI) {
+        self.friendsAPI = friendsAPI
+    }
+    
+    func loadFriends(result: (Result<[Friend], Error>), completion: @escaping (Result<[Friend], Error>) -> Void) {
+        friendsAPI.loadFriends(result: result, completion: completion)
+    }
+}
+
+class FriendsAPI: FriendsRepo {
+    static var shared = FriendsAPI()
+    
 	/// For demo purposes, this method simulates an API request with a pre-defined response and delay.
-	func loadFriends(completion: @escaping (Result<[Friend], Error>) -> Void) {
-		DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
-			completion(.success([
-				Friend(id: UUID(), name: "Bob", phone: "9999-9999"),
-				Friend(id: UUID(), name: "Mary", phone: "1111-1111")
-			]))
-		}
+    func loadFriends(result: (Result<[Friend], Error>), completion: @escaping (Result<[Friend], Error>) -> Void) {
+        completion(result)
 	}
 }
