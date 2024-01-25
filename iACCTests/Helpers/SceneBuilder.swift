@@ -48,7 +48,7 @@ struct SceneBuilder {
 		friendsViewModel: FriendsViewModel = .once([]),
 		friendsCache: FriendsCache = .never,
 		transfersAPI: TransfersAPI = .once([]),
-		cardsAPI: CardAPI = .once([]),
+		cardsViewModel: CardsViewModel = .once([]),
 		timeZone: TimeZone = .GMT,
 		locale: Locale = .en_US_POSIX
 	) throws -> ContainerViewControllerSpy {
@@ -58,7 +58,7 @@ struct SceneBuilder {
         User.shared = user
         FriendsViewModel.shared = friendsViewModel
 		TransfersAPI.shared = transfersAPI
-		CardAPI.shared = cardsAPI
+        CardsViewModel.shared = cardsViewModel
 		
 		Formatters.date.locale = locale
 		Formatters.date.timeZone = timeZone
