@@ -1,23 +1,8 @@
-//
+//	
 // Copyright © Essential Developer. All rights reserved.
 //
 
 import Foundation
-
-protocol TransfersRepo: AnyObject {
-    func loadTransfers(result: (Result<[Transfer], Error>), completion: @escaping (Result<[Transfer], Error>) -> Void)
-}
-
-struct Transfer: Equatable {
-	let id: Int
-	let description: String
-	let amount: Decimal
-	let currencyCode: String
-	let sender: String
-	let recipient: String
-	let isSender: Bool
-	let date: Date
-}
 
 class TransfersViewModel {
     static var shared = TransfersViewModel()
@@ -68,26 +53,5 @@ class TransfersViewModel {
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
             self.getTransfersUseCase.loadTransfers(result: .success(transfers), completion: completion)
         }
-    }
-}
-
-class GetTransfersUseCase {
-    private let transfersAPI: TransfersAPI
-    
-    init(transfersAPI: TransfersAPI) {
-        self.transfersAPI = transfersAPI
-    }
-    
-    func loadTransfers(result: (Result<[Transfer], Error>), completion: @escaping (Result<[Transfer], Error>) -> Void) {
-        transfersAPI.loadTransfers(result: result, completion: completion)
-    }
-}
-
-class TransfersAPI: TransfersRepo {
-	static var shared = TransfersAPI()
-	
-	/// For demo purposes, this method simulates an API request with a pre-defined response and delay.
-    func loadTransfers(result: (Result<[Transfer], Error>), completion: @escaping (Result<[Transfer], Error>) -> Void) {
-        completion(result)
     }
 }
