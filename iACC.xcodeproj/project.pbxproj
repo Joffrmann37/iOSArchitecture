@@ -217,20 +217,14 @@
 		08927B912686183A009195BD /* iACC */ = {
 			isa = PBXGroup;
 			children = (
-				08927B922686183A009195BD /* AppDelegate.swift */,
-				08927B942686183A009195BD /* SceneDelegate.swift */,
-				08040FFB268B4C1D0062A93B /* MainTabBarController.swift */,
-				08927BC5268618AC009195BD /* ListViewController.swift */,
-				08927BC3268618AC009195BD /* SegmentNavigationViewController.swift */,
-				08927BCC268618AC009195BD /* NotImplementedViewControllers.swift */,
-				B4DFEAFC2B6177E700DB0F66 /* ListItemViewModel.swift */,
-				080833DF268F609C00A8099A /* Helpers.swift */,
-				08927BCA268618AC009195BD /* User.swift */,
-				08927BCB268618AC009195BD /* FriendsAPI.swift */,
-				08927BC7268618AC009195BD /* FriendsCache.swift */,
-				08927BC8268618AC009195BD /* TransfersAPI.swift */,
-				08927BC6268618AC009195BD /* CardAPI.swift */,
-				080833E1268F69C200A8099A /* ArticlesAPI.swift */,
+				B44AACCC2B6305F00089B7E2 /* App Delegate */,
+				B44AACCD2B6306000089B7E2 /* Scene Delegate */,
+				B44AACCA2B63058D0089B7E2 /* View Controllers */,
+				B44AACCB2B63059E0089B7E2 /* View Models */,
+				B44AACC52B6305330089B7E2 /* Helpers */,
+				B44AACC62B63053A0089B7E2 /* Domain */,
+				B44AACC72B6305490089B7E2 /* Data */,
+				B44AACC82B6305690089B7E2 /* Cache */,
 				08927BC22686185C009195BD /* Supporting Files */,
 			);
 			path = iACC;
@@ -256,6 +250,76 @@
 				08927BA02686183B009195BD /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B44AACC52B6305330089B7E2 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				080833DF268F609C00A8099A /* Helpers.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		B44AACC62B63053A0089B7E2 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				08927BCA268618AC009195BD /* User.swift */,
+			);
+			name = Domain;
+			sourceTree = "<group>";
+		};
+		B44AACC72B6305490089B7E2 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				08927BCB268618AC009195BD /* FriendsAPI.swift */,
+				08927BC8268618AC009195BD /* TransfersAPI.swift */,
+				08927BC6268618AC009195BD /* CardAPI.swift */,
+				080833E1268F69C200A8099A /* ArticlesAPI.swift */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		B44AACC82B6305690089B7E2 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				08927BC7268618AC009195BD /* FriendsCache.swift */,
+			);
+			name = Cache;
+			sourceTree = "<group>";
+		};
+		B44AACCA2B63058D0089B7E2 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				08040FFB268B4C1D0062A93B /* MainTabBarController.swift */,
+				08927BC5268618AC009195BD /* ListViewController.swift */,
+				08927BC3268618AC009195BD /* SegmentNavigationViewController.swift */,
+				08927BCC268618AC009195BD /* NotImplementedViewControllers.swift */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		B44AACCB2B63059E0089B7E2 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				B4DFEAFC2B6177E700DB0F66 /* ListItemViewModel.swift */,
+			);
+			name = "View Models";
+			sourceTree = "<group>";
+		};
+		B44AACCC2B6305F00089B7E2 /* App Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				08927B922686183A009195BD /* AppDelegate.swift */,
+			);
+			name = "App Delegate";
+			sourceTree = "<group>";
+		};
+		B44AACCD2B6306000089B7E2 /* Scene Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				08927B942686183A009195BD /* SceneDelegate.swift */,
+			);
+			name = "Scene Delegate";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

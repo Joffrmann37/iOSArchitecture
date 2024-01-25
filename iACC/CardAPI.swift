@@ -8,10 +8,6 @@ protocol CardRepo: AnyObject {
     func loadCards(result: (Result<[Card], Error>), completion: @escaping (Result<[Card], Error>) -> Void)
 }
 
-protocol GetCardsScenario: AnyObject {
-    func loadCards(result: (Result<[Card], Error>), completion: @escaping (Result<[Card], Error>) -> Void)
-}
-
 struct Card: Equatable {
 	let id: Int
 	let number: String
@@ -42,8 +38,8 @@ class CardsViewModel {
     }
 }
 
-class GetCardsUseCase: GetCardsScenario {
-    let cardAPI: CardAPI
+class GetCardsUseCase {
+    private let cardAPI: CardAPI
     
     init(cardAPI: CardAPI) {
         self.cardAPI = cardAPI
