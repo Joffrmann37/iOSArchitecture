@@ -5,6 +5,8 @@
 import UIKit
 
 class ListViewController: UITableViewController {
+    var mockFriendsVM: FriendsViewModel?
+    var friendsVM: FriendsViewModel!
 	var items = [ViewModel]()
 
 	var retryCount = 0
@@ -68,8 +70,8 @@ class ListViewController: UITableViewController {
 	@objc private func refresh() {
 		refreshControl?.beginRefreshing()
 		if fromFriendsScreen {
-			FriendsAPI.shared.loadFriends { [weak self] result in
-				DispatchQueue.mainAsyncIfNeeded {
+            FriendsViewModel.shared.loadFriends { [weak self] result in
+                DispatchQueue.mainAsyncIfNeeded {
                     self?.handleAPIResult(result.map { [weak self] items in
                         if User.shared?.isPremium == true {
                             (UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate).cache.save(items)
@@ -80,8 +82,8 @@ class ListViewController: UITableViewController {
                             }
                         }
                     })
-				}
-			}
+                }
+            }
 		} else if fromCardsScreen {
 			CardAPI.shared.loadCards { [weak self] result in
 				DispatchQueue.mainAsyncIfNeeded {

@@ -33,7 +33,7 @@ struct SceneBuilder {
 	static func reset() {
 		User.shared = nil
 		
-		FriendsAPI.shared = FriendsAPI()
+        FriendsViewModel.shared = FriendsViewModel()
 		SceneDelegate.main.cache = FriendsCache()
 		TransfersAPI.shared = TransfersAPI()
 		CardAPI.shared = CardAPI()
@@ -45,7 +45,7 @@ struct SceneBuilder {
 	
 	func build(
 		user: User? = nil,
-		friendsAPI: FriendsAPI = .once([]),
+		friendsViewModel: FriendsViewModel = .once([]),
 		friendsCache: FriendsCache = .never,
 		transfersAPI: TransfersAPI = .once([]),
 		cardsAPI: CardAPI = .once([]),
@@ -56,7 +56,7 @@ struct SceneBuilder {
         SceneDelegate.main.cache = friendsCache
         
         User.shared = user
-		FriendsAPI.shared = friendsAPI
+        FriendsViewModel.shared = friendsViewModel
 		TransfersAPI.shared = transfersAPI
 		CardAPI.shared = cardsAPI
 		
