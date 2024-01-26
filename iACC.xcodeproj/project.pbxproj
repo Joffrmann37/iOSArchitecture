@@ -51,8 +51,8 @@
 		B49459CB2B6321A900D41A8E /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459CA2B6321A900D41A8E /* Card.swift */; };
 		B49459D02B63222400D41A8E /* Transfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459CF2B63222400D41A8E /* Transfer.swift */; };
 		B49459D82B63250100D41A8E /* GetTransfersUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459D72B63250100D41A8E /* GetTransfersUseCase.swift */; };
-		B49459DC2B63255600D41A8E /* GetCardsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459DB2B63255600D41A8E /* GetCardsUseCase.swift */; };
 		B49459DF2B63268200D41A8E /* ViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459DE2B63268200D41A8E /* ViewModelDelegate.swift */; };
+		B49459E52B63583300D41A8E /* GetCardsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459E42B63583300D41A8E /* GetCardsUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,8 +114,8 @@
 		B49459CA2B6321A900D41A8E /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Card.swift; path = Domain/Card/Card.swift; sourceTree = "<group>"; };
 		B49459CF2B63222400D41A8E /* Transfer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Transfer.swift; path = Domain/Transfer/Transfer.swift; sourceTree = "<group>"; };
 		B49459D72B63250100D41A8E /* GetTransfersUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetTransfersUseCase.swift; path = iACC/Transfers/GetTransfersUseCase.swift; sourceTree = SOURCE_ROOT; };
-		B49459DB2B63255600D41A8E /* GetCardsUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetCardsUseCase.swift; path = "iACC/Use Cases/Cards/GetCards/GetCardsUseCase.swift"; sourceTree = SOURCE_ROOT; };
 		B49459DE2B63268200D41A8E /* ViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelDelegate.swift; sourceTree = "<group>"; };
+		B49459E42B63583300D41A8E /* GetCardsUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetCardsUseCase.swift; path = iACC/Cards/GetCardsUseCase.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -361,7 +361,7 @@
 		B49459852B630F1800D41A8E /* Use Cases */ = {
 			isa = PBXGroup;
 			children = (
-				B49459D92B63253000D41A8E /* Cards */,
+				B49459E22B6357F700D41A8E /* Cards */,
 				B49459D52B6324D600D41A8E /* Transfers */,
 				B49459862B630F2D00D41A8E /* Friends */,
 			);
@@ -456,28 +456,28 @@
 			path = GetTransfers;
 			sourceTree = "<group>";
 		};
-		B49459D92B63253000D41A8E /* Cards */ = {
-			isa = PBXGroup;
-			children = (
-				B49459DA2B63254000D41A8E /* GetCards */,
-			);
-			path = Cards;
-			sourceTree = "<group>";
-		};
-		B49459DA2B63254000D41A8E /* GetCards */ = {
-			isa = PBXGroup;
-			children = (
-				B49459DB2B63255600D41A8E /* GetCardsUseCase.swift */,
-			);
-			path = GetCards;
-			sourceTree = "<group>";
-		};
 		B49459DD2B63265E00D41A8E /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
 				B49459DE2B63268200D41A8E /* ViewModelDelegate.swift */,
 			);
 			name = Protocols;
+			sourceTree = "<group>";
+		};
+		B49459E22B6357F700D41A8E /* Cards */ = {
+			isa = PBXGroup;
+			children = (
+				B49459E32B6357FF00D41A8E /* GetCards */,
+			);
+			path = Cards;
+			sourceTree = "<group>";
+		};
+		B49459E32B6357FF00D41A8E /* GetCards */ = {
+			isa = PBXGroup;
+			children = (
+				B49459E42B63583300D41A8E /* GetCardsUseCase.swift */,
+			);
+			path = GetCards;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -588,7 +588,6 @@
 				08927B932686183A009195BD /* AppDelegate.swift in Sources */,
 				B494598F2B630FE000D41A8E /* CardRepo.swift in Sources */,
 				B49459922B63101200D41A8E /* FriendsCache.swift in Sources */,
-				B49459DC2B63255600D41A8E /* GetCardsUseCase.swift in Sources */,
 				B49459A62B631A2400D41A8E /* ListItemViewModel.swift in Sources */,
 				B49459AD2B631A4600D41A8E /* ListViewController.swift in Sources */,
 				B494599C2B63121B00D41A8E /* FriendsViewModel.swift in Sources */,
@@ -601,6 +600,7 @@
 				B49459AF2B631A4600D41A8E /* MainTabBarController.swift in Sources */,
 				08927B952686183A009195BD /* SceneDelegate.swift in Sources */,
 				B49459CB2B6321A900D41A8E /* Card.swift in Sources */,
+				B49459E52B63583300D41A8E /* GetCardsUseCase.swift in Sources */,
 				B49459AE2B631A4600D41A8E /* SegmentNavigationViewController.swift in Sources */,
 				B49459C12B63200500D41A8E /* User.swift in Sources */,
 				B49459D02B63222400D41A8E /* Transfer.swift in Sources */,
