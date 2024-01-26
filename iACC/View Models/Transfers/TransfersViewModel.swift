@@ -6,16 +6,6 @@ import Foundation
 
 class TransfersViewModel {
     static var shared = TransfersViewModel()
-    var getTransfersUseCase: GetTransfersUseCase
-    var transfersAPI: TransfersAPI = TransfersAPI()
-    
-    init() {
-        self.getTransfersUseCase = GetTransfersUseCase(transfersAPI: TransfersAPI())
-    }
-    
-    init(getTransfersUseCase: GetTransfersUseCase) {
-        self.getTransfersUseCase = getTransfersUseCase
-    }
     
     func loadTransfers(transfers: [Transfer] = [
         Transfer(
@@ -51,7 +41,18 @@ class TransfersViewModel {
         ],
         completion: @escaping (Result<[Transfer], Error>) -> Void) {
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
-            self.getTransfersUseCase.loadTransfers(result: .success(transfers), completion: completion)
+            if let useCase = self.useCase as? GetTransfersUseCase {
+                useCase.loadTransfers(result: .success(transfers), completion: completion)
+            }
         }
+    }
+}
+
+extension TransfersViewModel: ViewModelDelegate {
+    var useCase: UseCaseDelegate? {
+        get {
+            return GetFriendsUseCase()
+        }
+        set {}
     }
 }

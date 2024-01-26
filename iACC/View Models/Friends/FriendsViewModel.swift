@@ -6,15 +6,6 @@ import Foundation
 
 class FriendsViewModel {
     static var shared = FriendsViewModel()
-    var getFriendsUseCase: GetFriendsUseCase
-    
-    init() {
-        self.getFriendsUseCase = GetFriendsUseCase(friendsAPI: FriendsAPI())
-    }
-    
-    init(getFriendsUseCase: GetFriendsUseCase) {
-        self.getFriendsUseCase = getFriendsUseCase
-    }
     
     func loadFriends(friends: [Friend] = [
         Friend(id: UUID(), name: "Bob", phone: "9999-9999"),
@@ -22,7 +13,16 @@ class FriendsViewModel {
         ],
         completion: @escaping (Result<[Friend], Error>) -> Void) {
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
-            self.getFriendsUseCase.loadFriends(result: .success(friends), completion: completion)
+            self.useCase?.load(repoType: .friends)
         }
+    }
+}
+
+extension FriendsViewModel: ViewModelDelegate {
+    var useCase: UseCaseDelegate? {
+        get {
+            return GetFriendsUseCase()
+        }
+        set {}
     }
 }

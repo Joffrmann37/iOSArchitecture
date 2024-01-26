@@ -4,12 +4,11 @@
 
 import Foundation
 
-protocol CardRepo: AnyObject {
-    func loadCards(result: (Result<[Card], Error>), completion: @escaping (Result<[Card], Error>) -> Void)
-}
 
-class CardAPI: CardRepo {
-	static var shared = CardAPI()
+class CardRepo {
+	static var shared = CardRepo()
+    var result: (Result<[Card], Error>)?
+    var completion: ((Result<[Card], Error>) -> Void)?
 	
 	/// For demo purposes, this method simulates an API request with a pre-defined response and delay.
 	func loadCards(result: (Result<[Card], Error>), completion: @escaping (Result<[Card], Error>) -> Void) {
@@ -20,4 +19,14 @@ class CardAPI: CardRepo {
 			]))
 		}
 	}
+}
+
+extension CardRepo: Repo {
+    func load(repoType: RepoType) {
+        if repoType == .cards {
+            if let result = result, let completion = completion {
+                loadCards(result: result, completion: completion)
+            }
+        }
+    }
 }

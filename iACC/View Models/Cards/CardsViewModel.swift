@@ -6,16 +6,6 @@ import Foundation
 
 class CardsViewModel {
     static var shared = CardsViewModel()
-    var getCardsUseCase: GetCardsUseCase
-    var cardsAPI: CardAPI = CardAPI()
-    
-    init() {
-        self.getCardsUseCase = GetCardsUseCase(cardAPI: CardAPI())
-    }
-    
-    init(getCardsUseCase: GetCardsUseCase) {
-        self.getCardsUseCase = getCardsUseCase
-    }
     
     func loadCards(cards: [Card] = [
         Card(id: 1, number: "****-0899", holder: "J. DOE"),
@@ -23,7 +13,18 @@ class CardsViewModel {
         ],
         completion: @escaping (Result<[Card], Error>) -> Void) {
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
-            self.getCardsUseCase.loadCards(result: .success(cards), completion: completion)
+            if let useCase = self.useCase {
+                useCase.load(repoType: .cards)
+            }
         }
+    }
+}
+
+extension CardsViewModel: ViewModelDelegate {
+    var useCase: UseCaseDelegate? {
+        get {
+            return GetCardsUseCase()
+        }
+        set {}
     }
 }
