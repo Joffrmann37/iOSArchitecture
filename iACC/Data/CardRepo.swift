@@ -29,4 +29,8 @@ extension CardRepo: Repo {
             }
         }
     }
+    
+    func load<T>(_ result: (Result<[T], Error>), _ completion: @escaping (Result<[T], Error>) -> Void) {
+        completion(result)
+    }
 }

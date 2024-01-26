@@ -16,11 +16,7 @@ class TransfersRepo {
 }
 
 extension TransfersRepo: Repo {
-    func load(repoType: RepoType) {
-        if repoType == .transfers {
-            if let result = result, let completion = completion {
-                loadTransfers(result: result, completion: completion)
-            }
-        }
+    func load<T>(_ result: (Result<[T], Error>), _ completion: @escaping (Result<[T], Error>) -> Void) {
+        completion(result)
     }
 }

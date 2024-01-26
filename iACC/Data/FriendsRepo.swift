@@ -8,10 +8,11 @@ enum RepoType: String {
     case friends
     case cards
     case transfers
+    case articles
 }
 
 protocol Repo: AnyObject {
-    func load(repoType: RepoType)
+    func load<T>(_ result: (Result<[T], Error>), _ completion: @escaping (Result<[T], Error>) -> Void)
 }
 
 class FriendsRepo {
@@ -26,11 +27,7 @@ class FriendsRepo {
 }
 
 extension FriendsRepo: Repo {
-    func load(repoType: RepoType) {
-        if repoType == .friends {
-            if let result = result, let completion = completion {
-                loadFriends(result: result, completion: completion)
-            }
-        }
+    func load<T>(_ result: (Result<[T], Error>), _ completion: @escaping (Result<[T], Error>) -> Void) {
+        completion(result)
     }
 }

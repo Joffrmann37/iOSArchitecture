@@ -13,7 +13,7 @@ class FriendsViewModel {
         ],
         completion: @escaping (Result<[Friend], Error>) -> Void) {
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
-            self.useCase?.load(repoType: .friends)
+            self.useCase?.load(.success(friends), completion)
         }
     }
 }
