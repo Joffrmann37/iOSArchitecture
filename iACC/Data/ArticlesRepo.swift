@@ -10,11 +10,13 @@ struct Article: Equatable {
 	let author: String
 }
 
-class ArticlesAPI {
-	static var shared = ArticlesAPI()
+class ArticlesRepo {
+	static var shared = ArticlesRepo()
+    var result: (Result<[Article], Error>)?
+    var completion: ((Result<[Article], Error>) -> Void)?
 	
 	/// For demo purposes, this method simulates an API request with a pre-defined response and delay.
-	func loadCards(completion: @escaping (Result<[Article], Error>) -> Void) {
+	func loadArticles(result: (Result<[Article], Error>), completion: @escaping (Result<[Article], Error>) -> Void) {
 		DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
 			completion(.success([
 				Article(id: UUID(), title: "iOS Architecture 101", author: "Mike A."),
@@ -22,4 +24,10 @@ class ArticlesAPI {
 			]))
 		}
 	}
+}
+
+extension ArticlesRepo: Repo {
+    func load<T>(_ result: (Result<[T], Error>), _ completion: @escaping (Result<[T], Error>) -> Void) {
+        completion(result)
+    }
 }

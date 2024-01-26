@@ -4,10 +4,10 @@
 
 import Foundation
 
-class GetTransfersUseCase: UseCaseDelegate {
+class GetArticlesUseCase: UseCaseDelegate {
     var repo: Repo? {
         get {
-            return CardRepo()
+            return ArticlesRepo()
         }
         set {}
     }

@@ -41,9 +41,7 @@ class TransfersViewModel {
         ],
         completion: @escaping (Result<[Transfer], Error>) -> Void) {
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
-            if let useCase = self.useCase as? GetTransfersUseCase {
-                useCase.loadTransfers(result: .success(transfers), completion: completion)
-            }
+            self.useCase?.load(.success(transfers), completion)
         }
     }
 }

@@ -13,9 +13,7 @@ class CardsViewModel {
         ],
         completion: @escaping (Result<[Card], Error>) -> Void) {
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
-            if let useCase = self.useCase {
-                useCase.load(repoType: .cards)
-            }
+            self.useCase?.load(.success(cards), completion)
         }
     }
 }
