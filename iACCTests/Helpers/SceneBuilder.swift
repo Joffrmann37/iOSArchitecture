@@ -35,8 +35,8 @@ struct SceneBuilder {
 		
         FriendsViewModel.shared = FriendsViewModel()
 		SceneDelegate.main.cache = FriendsCache()
-		TransfersAPI.shared = TransfersAPI()
-		CardAPI.shared = CardAPI()
+		TransfersViewModel.shared = TransfersViewModel()
+		CardsViewModel.shared = CardsViewModel()
 		
 		Formatters.date.locale = .autoupdatingCurrent
 		Formatters.date.timeZone = .autoupdatingCurrent

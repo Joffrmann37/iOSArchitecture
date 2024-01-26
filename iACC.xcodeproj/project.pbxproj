@@ -31,10 +31,10 @@
 		08927B952686183A009195BD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08927B942686183A009195BD /* SceneDelegate.swift */; };
 		08927B9C2686183B009195BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08927B9B2686183B009195BD /* Assets.xcassets */; };
 		08927B9F2686183B009195BD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08927B9D2686183B009195BD /* LaunchScreen.storyboard */; };
-		B494598D2B630FE000D41A8E /* FriendsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459892B630FE000D41A8E /* FriendsAPI.swift */; };
+		B494598D2B630FE000D41A8E /* FriendsRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459892B630FE000D41A8E /* FriendsRepo.swift */; };
 		B494598E2B630FE000D41A8E /* ArticlesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B494598A2B630FE000D41A8E /* ArticlesAPI.swift */; };
-		B494598F2B630FE000D41A8E /* CardAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B494598B2B630FE000D41A8E /* CardAPI.swift */; };
-		B49459902B630FE000D41A8E /* TransfersAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B494598C2B630FE000D41A8E /* TransfersAPI.swift */; };
+		B494598F2B630FE000D41A8E /* CardRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B494598B2B630FE000D41A8E /* CardRepo.swift */; };
+		B49459902B630FE000D41A8E /* TransfersRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B494598C2B630FE000D41A8E /* TransfersRepo.swift */; };
 		B49459922B63101200D41A8E /* FriendsCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459912B63101200D41A8E /* FriendsCache.swift */; };
 		B49459942B63106900D41A8E /* GetFriendsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459932B63106900D41A8E /* GetFriendsUseCase.swift */; };
 		B494599C2B63121B00D41A8E /* FriendsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B494599B2B63121B00D41A8E /* FriendsViewModel.swift */; };
@@ -46,12 +46,13 @@
 		B49459AE2B631A4600D41A8E /* SegmentNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459AA2B631A4600D41A8E /* SegmentNavigationViewController.swift */; };
 		B49459AF2B631A4600D41A8E /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459AB2B631A4600D41A8E /* MainTabBarController.swift */; };
 		B49459B02B631A4600D41A8E /* NotImplementedViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459AC2B631A4600D41A8E /* NotImplementedViewControllers.swift */; };
-		B49459B62B631C3700D41A8E /* GetCardsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459B52B631C3700D41A8E /* GetCardsUseCase.swift */; };
 		B49459C12B63200500D41A8E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459C02B63200500D41A8E /* User.swift */; };
 		B49459C62B63207C00D41A8E /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459C52B63207C00D41A8E /* Friend.swift */; };
 		B49459CB2B6321A900D41A8E /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459CA2B6321A900D41A8E /* Card.swift */; };
 		B49459D02B63222400D41A8E /* Transfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459CF2B63222400D41A8E /* Transfer.swift */; };
-		B49459D22B63223700D41A8E /* GetTransfersUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459D12B63223700D41A8E /* GetTransfersUseCase.swift */; };
+		B49459D82B63250100D41A8E /* GetTransfersUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459D72B63250100D41A8E /* GetTransfersUseCase.swift */; };
+		B49459DC2B63255600D41A8E /* GetCardsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459DB2B63255600D41A8E /* GetCardsUseCase.swift */; };
+		B49459DF2B63268200D41A8E /* ViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459DE2B63268200D41A8E /* ViewModelDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,10 +94,10 @@
 		08927BA02686183B009195BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		08927BA52686183B009195BD /* iACCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iACCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		08927BAB2686183B009195BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B49459892B630FE000D41A8E /* FriendsAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendsAPI.swift; path = Data/FriendsAPI.swift; sourceTree = "<group>"; };
+		B49459892B630FE000D41A8E /* FriendsRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendsRepo.swift; path = Data/FriendsRepo.swift; sourceTree = "<group>"; };
 		B494598A2B630FE000D41A8E /* ArticlesAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticlesAPI.swift; path = Data/ArticlesAPI.swift; sourceTree = "<group>"; };
-		B494598B2B630FE000D41A8E /* CardAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CardAPI.swift; path = Data/CardAPI.swift; sourceTree = "<group>"; };
-		B494598C2B630FE000D41A8E /* TransfersAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransfersAPI.swift; path = Data/TransfersAPI.swift; sourceTree = "<group>"; };
+		B494598B2B630FE000D41A8E /* CardRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CardRepo.swift; path = Data/CardRepo.swift; sourceTree = "<group>"; };
+		B494598C2B630FE000D41A8E /* TransfersRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransfersRepo.swift; path = Data/TransfersRepo.swift; sourceTree = "<group>"; };
 		B49459912B63101200D41A8E /* FriendsCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendsCache.swift; path = Cache/FriendsCache.swift; sourceTree = "<group>"; };
 		B49459932B63106900D41A8E /* GetFriendsUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetFriendsUseCase.swift; path = "Use Cases/Friends/GetFriends/GetFriendsUseCase.swift"; sourceTree = "<group>"; };
 		B494599B2B63121B00D41A8E /* FriendsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendsViewModel.swift; path = "View Models/Friends/FriendsViewModel.swift"; sourceTree = "<group>"; };
@@ -108,12 +109,13 @@
 		B49459AA2B631A4600D41A8E /* SegmentNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SegmentNavigationViewController.swift; path = "View Controllers/SegmentNavigationViewController.swift"; sourceTree = "<group>"; };
 		B49459AB2B631A4600D41A8E /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainTabBarController.swift; path = "View Controllers/MainTabBarController.swift"; sourceTree = "<group>"; };
 		B49459AC2B631A4600D41A8E /* NotImplementedViewControllers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotImplementedViewControllers.swift; path = "View Controllers/NotImplementedViewControllers.swift"; sourceTree = "<group>"; };
-		B49459B52B631C3700D41A8E /* GetCardsUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetCardsUseCase.swift; path = "iACC/Use Cases/Cards/GetCards/GetCardsUseCase.swift"; sourceTree = SOURCE_ROOT; };
 		B49459C02B63200500D41A8E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Domain/User/User.swift; sourceTree = "<group>"; };
 		B49459C52B63207C00D41A8E /* Friend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Friend.swift; path = Domain/Friend/Friend.swift; sourceTree = "<group>"; };
 		B49459CA2B6321A900D41A8E /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Card.swift; path = Domain/Card/Card.swift; sourceTree = "<group>"; };
 		B49459CF2B63222400D41A8E /* Transfer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Transfer.swift; path = Domain/Transfer/Transfer.swift; sourceTree = "<group>"; };
-		B49459D12B63223700D41A8E /* GetTransfersUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetTransfersUseCase.swift; path = "iACC/Use Cases/Transfers/GetTransfersUseCase.swift"; sourceTree = SOURCE_ROOT; };
+		B49459D72B63250100D41A8E /* GetTransfersUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetTransfersUseCase.swift; path = iACC/Transfers/GetTransfersUseCase.swift; sourceTree = SOURCE_ROOT; };
+		B49459DB2B63255600D41A8E /* GetCardsUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetCardsUseCase.swift; path = "iACC/Use Cases/Cards/GetCards/GetCardsUseCase.swift"; sourceTree = SOURCE_ROOT; };
+		B49459DE2B63268200D41A8E /* ViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +237,7 @@
 		08927B912686183A009195BD /* iACC */ = {
 			isa = PBXGroup;
 			children = (
+				B49459DD2B63265E00D41A8E /* Protocols */,
 				B44AACCC2B6305F00089B7E2 /* App Delegate */,
 				B44AACCD2B6306000089B7E2 /* Scene Delegate */,
 				B44AACCA2B63058D0089B7E2 /* View Controllers */,
@@ -294,9 +297,9 @@
 			isa = PBXGroup;
 			children = (
 				B494598A2B630FE000D41A8E /* ArticlesAPI.swift */,
-				B494598B2B630FE000D41A8E /* CardAPI.swift */,
-				B49459892B630FE000D41A8E /* FriendsAPI.swift */,
-				B494598C2B630FE000D41A8E /* TransfersAPI.swift */,
+				B494598B2B630FE000D41A8E /* CardRepo.swift */,
+				B49459892B630FE000D41A8E /* FriendsRepo.swift */,
+				B494598C2B630FE000D41A8E /* TransfersRepo.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -358,8 +361,8 @@
 		B49459852B630F1800D41A8E /* Use Cases */ = {
 			isa = PBXGroup;
 			children = (
-				B49459BE2B631DEA00D41A8E /* Transfers */,
-				B49459B12B631B9000D41A8E /* Cards */,
+				B49459D92B63253000D41A8E /* Cards */,
+				B49459D52B6324D600D41A8E /* Transfers */,
 				B49459862B630F2D00D41A8E /* Friends */,
 			);
 			name = "Use Cases";
@@ -405,30 +408,6 @@
 			name = Transfers;
 			sourceTree = "<group>";
 		};
-		B49459B12B631B9000D41A8E /* Cards */ = {
-			isa = PBXGroup;
-			children = (
-				B49459B42B631BB100D41A8E /* GetCards */,
-			);
-			path = Cards;
-			sourceTree = "<group>";
-		};
-		B49459B42B631BB100D41A8E /* GetCards */ = {
-			isa = PBXGroup;
-			children = (
-				B49459B52B631C3700D41A8E /* GetCardsUseCase.swift */,
-			);
-			path = GetCards;
-			sourceTree = "<group>";
-		};
-		B49459BE2B631DEA00D41A8E /* Transfers */ = {
-			isa = PBXGroup;
-			children = (
-				B49459D12B63223700D41A8E /* GetTransfersUseCase.swift */,
-			);
-			path = Transfers;
-			sourceTree = "<group>";
-		};
 		B49459BF2B631FCE00D41A8E /* User */ = {
 			isa = PBXGroup;
 			children = (
@@ -459,6 +438,46 @@
 				B49459CF2B63222400D41A8E /* Transfer.swift */,
 			);
 			name = Transfer;
+			sourceTree = "<group>";
+		};
+		B49459D52B6324D600D41A8E /* Transfers */ = {
+			isa = PBXGroup;
+			children = (
+				B49459D62B6324EC00D41A8E /* GetTransfers */,
+			);
+			path = Transfers;
+			sourceTree = "<group>";
+		};
+		B49459D62B6324EC00D41A8E /* GetTransfers */ = {
+			isa = PBXGroup;
+			children = (
+				B49459D72B63250100D41A8E /* GetTransfersUseCase.swift */,
+			);
+			path = GetTransfers;
+			sourceTree = "<group>";
+		};
+		B49459D92B63253000D41A8E /* Cards */ = {
+			isa = PBXGroup;
+			children = (
+				B49459DA2B63254000D41A8E /* GetCards */,
+			);
+			path = Cards;
+			sourceTree = "<group>";
+		};
+		B49459DA2B63254000D41A8E /* GetCards */ = {
+			isa = PBXGroup;
+			children = (
+				B49459DB2B63255600D41A8E /* GetCardsUseCase.swift */,
+			);
+			path = GetCards;
+			sourceTree = "<group>";
+		};
+		B49459DD2B63265E00D41A8E /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				B49459DE2B63268200D41A8E /* ViewModelDelegate.swift */,
+			);
+			name = Protocols;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -563,19 +582,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				B49459942B63106900D41A8E /* GetFriendsUseCase.swift in Sources */,
+				B49459DF2B63268200D41A8E /* ViewModelDelegate.swift in Sources */,
 				B49459B02B631A4600D41A8E /* NotImplementedViewControllers.swift in Sources */,
 				B49459A82B631A3300D41A8E /* Helpers.swift in Sources */,
 				08927B932686183A009195BD /* AppDelegate.swift in Sources */,
-				B494598F2B630FE000D41A8E /* CardAPI.swift in Sources */,
+				B494598F2B630FE000D41A8E /* CardRepo.swift in Sources */,
 				B49459922B63101200D41A8E /* FriendsCache.swift in Sources */,
+				B49459DC2B63255600D41A8E /* GetCardsUseCase.swift in Sources */,
 				B49459A62B631A2400D41A8E /* ListItemViewModel.swift in Sources */,
 				B49459AD2B631A4600D41A8E /* ListViewController.swift in Sources */,
 				B494599C2B63121B00D41A8E /* FriendsViewModel.swift in Sources */,
-				B494598D2B630FE000D41A8E /* FriendsAPI.swift in Sources */,
-				B49459B62B631C3700D41A8E /* GetCardsUseCase.swift in Sources */,
+				B494598D2B630FE000D41A8E /* FriendsRepo.swift in Sources */,
 				B49459A42B63199A00D41A8E /* TransfersViewModel.swift in Sources */,
-				B49459D22B63223700D41A8E /* GetTransfersUseCase.swift in Sources */,
-				B49459902B630FE000D41A8E /* TransfersAPI.swift in Sources */,
+				B49459D82B63250100D41A8E /* GetTransfersUseCase.swift in Sources */,
+				B49459902B630FE000D41A8E /* TransfersRepo.swift in Sources */,
 				B494599F2B63123100D41A8E /* CardsViewModel.swift in Sources */,
 				B494598E2B630FE000D41A8E /* ArticlesAPI.swift in Sources */,
 				B49459AF2B631A4600D41A8E /* MainTabBarController.swift in Sources */,
