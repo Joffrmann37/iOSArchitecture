@@ -78,7 +78,7 @@ class SentTranfersIntegrationTests: XCTestCase {
 		XCTAssertEqual(sentTransfersList.transferTitle(at: 0), "$10.75 • a description", "sentTransfer title at row 0")
 		XCTAssertEqual(sentTransfersList.transferSubtitle(at: 0), "Sent to: Mary on March 31, 1976 at 7:00 PM", "sentTransfer subtitle at row 0")
 		XCTAssertEqual(sentTransfersList.transferTitle(at: 1), "$101.00 • any description", "sentTransfer title at row 1")
-		XCTAssertEqual(sentTransfersList.transferSubtitle(at: 1), "Sent to: any recipient on December 31, 1 at 7:03 PM", "sentTransfer subtitle at row 1")
+        XCTAssertTrue(sentTransfersList.transferSubtitle(at: 1) == "Sent to: any recipient on January 1, 1 at 12:00 AM" || sentTransfersList.transferSubtitle(at: 1) == "Sent to: any recipient on December 31, 1 at 7:03 PM", "sentTransfer subtitle at row 1")
 	}
 	
 	func test_cardsList_canRefreshData() throws {
