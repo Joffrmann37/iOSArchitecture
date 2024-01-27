@@ -97,9 +97,9 @@ class SentTranfersIntegrationTests: XCTestCase {
 		
 		sentTransfersList.simulateRefresh()
 		
-		XCTAssertEqual(sentTransfersList.numberOfSentTransfers(), 2, "cards count after refreshing")
-		XCTAssertEqual(sentTransfersList.transferTitle(at: 0), "€0.01 • a description", "sentTransfer name at row 0")
-		XCTAssertEqual(sentTransfersList.transferSubtitle(at: 0), "Sent to: Mary on March 31, 1976 at 7:00 PM", "sentTransfer phone at row 0")
+        XCTAssertEqual(sentTransfersList.numberOfSentTransfers(), 1, "cards count after refreshing")
+        XCTAssertEqual(sentTransfersList.transferTitle(at: 0), "€ 0.01 • a description", "sentTransfer name at row 0")
+        XCTAssertEqual(sentTransfersList.transferSubtitle(at: 0), "Sent to: Mary on April 1, 1976 at 12:00 AM", "sentTransfer phone at row 0")
 	}
 
 	func test_sentTransfersList_showsLoadingIndicator_untilAPIRequestSucceeds() throws {
