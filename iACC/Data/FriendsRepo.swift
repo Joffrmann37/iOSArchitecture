@@ -4,30 +4,43 @@
 
 import Foundation
 
-enum RepoType: String {
-    case friends
-    case cards
-    case transfers
-    case articles
+protocol ItemsService {
+    func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void)
 }
 
-protocol Repo: AnyObject {
-    func load<T>(_ result: (Result<[T], Error>), _ completion: @escaping (Result<[T], Error>) -> Void)
+struct FriendsRepoAdapter: ItemsService {
+    let repo: FriendsRepo
+    let cache: FriendsCache
+    let isPremium: Bool
+    let select: (Friend) -> Void
+    
+    func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+        repo.loadFriends { res in
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
+                completion(res.map { items in
+                    if isPremium {
+                        cache.save(items)
+                    }
+                    return items.map { item in
+                        ViewModel(friend: item) {
+                            select(item)
+                        }
+                    }
+                })
+            }
+        }
+    }
 }
 
 class FriendsRepo {
     static var shared = FriendsRepo()
-    var result: (Result<[Friend], Error>)?
-    var completion: ((Result<[Friend], Error>) -> Void)?
-    
 	/// For demo purposes, this method simulates an API request with a pre-defined response and delay.
-    func loadFriends(result: (Result<[Friend], Error>), completion: @escaping (Result<[Friend], Error>) -> Void) {
-        completion(result)
+    func loadFriends(friends: [Friend] = [
+        Friend(id: UUID(), name: "Bob", phone: "9999-9999"),
+        Friend(id: UUID(), name: "Mary", phone: "1111-1111")
+        ], completion: @escaping (Result<[Friend], Error>) -> Void) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
+            completion(.success(friends))
+        }
 	}
-}
-
-extension FriendsRepo: Repo {
-    func load<T>(_ result: (Result<[T], Error>), _ completion: @escaping (Result<[T], Error>) -> Void) {
-        completion(result)
-    }
 }

@@ -4,6 +4,24 @@
 
 import Foundation
 
+struct CardRepoAdapter: ItemsService {
+    let repo: CardRepo
+    let select: (Card) -> Void
+    
+    func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+        repo.loadCards { res in
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
+                completion(res.map { items in
+                    return items.map { item in
+                        ViewModel(card: item) {
+                            select(item)
+                        }
+                    }
+                })
+            }
+        }
+    }
+}
 
 class CardRepo {
 	static var shared = CardRepo()
@@ -11,26 +29,12 @@ class CardRepo {
     var completion: ((Result<[Card], Error>) -> Void)?
 	
 	/// For demo purposes, this method simulates an API request with a pre-defined response and delay.
-	func loadCards(result: (Result<[Card], Error>), completion: @escaping (Result<[Card], Error>) -> Void) {
-		DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
-			completion(.success([
-				Card(id: 1, number: "****-0899", holder: "J. DOE"),
-				Card(id: 2, number: "****-6544", holder: "DOE J.")
-			]))
-		}
-	}
-}
-
-extension CardRepo: Repo {
-    func load(repoType: RepoType) {
-        if repoType == .cards {
-            if let result = result, let completion = completion {
-                loadCards(result: result, completion: completion)
-            }
+    func loadCards(cards: [Card] = [
+        Card(id: 1, number: "****-0899", holder: "J. DOE"),
+        Card(id: 2, number: "****-6544", holder: "DOE J.")
+    ], completion: @escaping (Result<[Card], Error>) -> Void) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
+            completion(.success(cards))
         }
-    }
-    
-    func load<T>(_ result: (Result<[T], Error>), _ completion: @escaping (Result<[T], Error>) -> Void) {
-        completion(result)
-    }
+	}
 }

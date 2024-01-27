@@ -6,6 +6,33 @@ import Foundation
 
 class TransfersViewModel {
     static var shared = TransfersViewModel()
+    let repo: TransfersRepo
+    var select: (Transfer) -> Void
+    let longDateStyle: Bool
+    var useCase: UseCaseDelegate? {
+        get {
+            return GetTransfersUseCase(transfersRepo: repo, select: select, longDateStyle: longDateStyle)
+        }
+        set {}
+    }
+    
+    init() {
+        self.repo = TransfersRepo()
+        self.select = { _ in }
+        self.longDateStyle = false
+    }
+    
+    init(select: @escaping (Transfer) -> Void) {
+        self.repo = TransfersRepo()
+        self.select = select
+        self.longDateStyle = false
+    }
+    
+    init(repo: TransfersRepo, select: @escaping (Transfer) -> Void, longDateStyle: Bool) {
+        self.repo = repo
+        self.select = select
+        self.longDateStyle = longDateStyle
+    }
     
     func loadTransfers(transfers: [Transfer] = [
         Transfer(
@@ -39,18 +66,7 @@ class TransfersViewModel {
             date: Date(timeIntervalSince1970: 1690373492)
         )
         ],
-        completion: @escaping (Result<[Transfer], Error>) -> Void) {
-        DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
-            self.useCase?.load(.success(transfers), completion)
-        }
-    }
-}
-
-extension TransfersViewModel: ViewModelDelegate {
-    var useCase: UseCaseDelegate? {
-        get {
-            return GetFriendsUseCase()
-        }
-        set {}
+        completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+        useCase?.service?.load(transfers, completion)
     }
 }

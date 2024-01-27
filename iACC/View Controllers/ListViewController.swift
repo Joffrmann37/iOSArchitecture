@@ -5,8 +5,6 @@
 import UIKit
 
 class ListViewController: UITableViewController {
-    var mockFriendsVM: FriendsViewModel?
-    var friendsVM: FriendsViewModel!
 	var items = [ViewModel]()
 
 	var retryCount = 0
@@ -70,48 +68,20 @@ class ListViewController: UITableViewController {
 	@objc private func refresh() {
 		refreshControl?.beginRefreshing()
 		if fromFriendsScreen {
-            FriendsViewModel.shared.loadFriends { [weak self] result in
-                DispatchQueue.mainAsyncIfNeeded {
-                    self?.handleAPIResult(result.map { [weak self] items in
-                        if User.shared?.isPremium == true {
-                            (UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate).cache.save(items)
-                        }
-                        return items.map { item in
-                            ViewModel(friend: item) {
-                                self?.select(item)
-                            }
-                        }
-                    })
-                }
+            FriendsViewModel.shared.select = { [weak self] item in
+                self?.select(item)
             }
+            FriendsViewModel.shared.loadFriends(completion: handleAPIResult)
 		} else if fromCardsScreen {
-            CardsViewModel.shared.loadCards { [weak self] result in
-				DispatchQueue.mainAsyncIfNeeded {
-                    self?.handleAPIResult(result.map { [weak self] items in
-                        items.map { item in
-                            ViewModel(card: item) {
-                                self?.select(item)
-                            }
-                        }
-                    })
-				}
-			}
+            CardsViewModel.shared.select = { [weak self] item in
+                self?.select(item)
+            }
+            CardsViewModel.shared.loadCards(completion: handleAPIResult)
 		} else if fromSentTransfersScreen || fromReceivedTransfersScreen {
-            TransfersViewModel.shared.loadTransfers { [weak self, longDateStyle, fromSentTransfersScreen] result in
-				DispatchQueue.mainAsyncIfNeeded {
-                    self?.handleAPIResult(result.map { [weak self] items in
-                        return items
-                                .filter {
-                                    return fromSentTransfersScreen ? $0.isSender : !$0.isSender
-                                }
-                                .map { item in
-                                    ViewModel(transfer: item, longDateStyle: longDateStyle) {
-                                        self?.select(item)
-                                    }
-                        }
-                    })
-				}
-			}
+            TransfersViewModel.shared.select = { [weak self] item in
+                self?.select(item)
+            }
+            TransfersViewModel.shared.loadTransfers(completion: handleAPIResult)
 		}
 	}
 	
@@ -142,6 +112,7 @@ class ListViewController: UITableViewController {
 						case let .success(items):
                             self.items = items.map { item in
                                 ViewModel(friend: item) {
+                                    FriendsViewModel.shared.select(item)
                                     self.select(item)
                                 }
                             }

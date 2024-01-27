@@ -4,15 +4,16 @@
 
 import Foundation
 
-class GetFriendsUseCase: UseCaseDelegate {
-    var repo: Repo? {
+struct GetFriendsUseCase: UseCaseDelegate {
+    var friendsRepo: FriendsRepo
+    let cache: FriendsCache
+    let isPremium: Bool
+    let select: (Friend) -> Void
+    
+    var service: ItemsService? {
         get {
-            return FriendsRepo()
+            return FriendsRepoAdapter(repo: friendsRepo, cache: cache, isPremium: isPremium, select: select)
         }
         set {}
-    }
-    
-    func load<T>(_ result: (Result<[T], Error>), _ completion: @escaping (Result<[T], Error>) -> Void) {
-        repo?.load(result, completion)
     }
 }

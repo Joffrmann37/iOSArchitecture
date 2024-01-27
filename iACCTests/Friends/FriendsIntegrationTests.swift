@@ -70,7 +70,7 @@ class FriendsIntegrationTests: XCTestCase {
 		let friendsList = try SceneBuilder()
 			.build(
 				user: nonPremiumUser(),
-				friendsViewModel: .once([friend0, friend1]),
+                friendsViewModel: .once(FriendsViewModel.shared.getMappedViewModels(friends: [friend0, friend1])),
 				friendsCache: .never
 			)
 			.friendsList()
@@ -88,7 +88,7 @@ class FriendsIntegrationTests: XCTestCase {
                 friendsViewModel: .resultBuilder { 
 					let friendsList = try? ContainerViewControllerSpy.current.friendsList()
 					XCTAssertEqual(friendsList?.isShowingLoadingIndicator(), true, "should show loading indicator until API request completes")
-					return .success([aFriend()])
+                    return .success(FriendsViewModel.shared.getMappedViewModels(friends: [aFriend()]))
 				},
 				friendsCache: .never
 			)
@@ -206,14 +206,14 @@ class FriendsIntegrationTests: XCTestCase {
 	
 	func test_friendsList_canRefreshData() throws {
         let refreshedFriend = aFriend(name: "refreshed name", phone: "refreshed phone")
-        let friendsVM: [Result<[Friend], Error>] = ([
+        let friendsVM: [Result<[ViewModel], Error>] = ([
             .success([]),
-            .success([refreshedFriend])
+            .success(FriendsViewModel.shared.getMappedViewModels(friends: [refreshedFriend]))
         ])
-		
+        		
 		let friendsList = try SceneBuilder()
 			.build(
-				friendsViewModel: .results(friendsVM)
+                friendsViewModel: .results(friendsVM)
 			)
 			.friendsList()
 		
@@ -227,7 +227,7 @@ class FriendsIntegrationTests: XCTestCase {
 	}
 	
 	func test_friendsList_refreshData_retriesTwiceOnAPIFailure() throws {
-        let friendsVM: [Result<[Friend], Error>] = ([
+        let friendsVM: [Result<[ViewModel], Error>] = ([
             .failure(NSError(localizedDescription: "1st request error")),
             .failure(NSError(localizedDescription: "1st retry error")),
             .failure(NSError(localizedDescription: "2nd retry error")),
@@ -286,12 +286,15 @@ class FriendsIntegrationTests: XCTestCase {
 		let friend0 = aFriend()
 		let friend1 = aFriend()
 		var cachedItems = [[Friend]]()
+        let vms = FriendsViewModel.shared.getMappedViewModels(friends: [friend0, friend1])
 		
 		_ = try SceneBuilder()
 			.build(
 				user: nonPremiumUser(),
-				friendsViewModel: .once([friend0, friend1]),
-				friendsCache: .saveCallback { cachedItems.append($0) }
+                friendsViewModel: .once(FriendsViewModel.shared.getMappedViewModels(friends: [friend0, friend1])),
+                friendsCache: .saveCallback(vms, { friends in
+                    cachedItems.append(friends)
+                })
 			)
 			.friendsList()
 		
@@ -302,12 +305,15 @@ class FriendsIntegrationTests: XCTestCase {
 		let friend0 = aFriend()
 		let friend1 = aFriend()
 		var cachedItems = [[Friend]]()
+        let vms = FriendsViewModel.shared.getMappedViewModels(friends: [friend0, friend1])
 		
 		_ = try SceneBuilder()
 			.build(
 				user: premiumUser(),
-				friendsViewModel: .once([friend0, friend1]),
-				friendsCache: .saveCallback { cachedItems.append($0) }
+                friendsViewModel: .once(vms),
+                friendsCache: .saveCallback(uuids: [friend0.id, friend1.id], vms, { friends in
+                    cachedItems.append(friends)
+                })
 			)
 			.friendsList()
 		
@@ -317,18 +323,21 @@ class FriendsIntegrationTests: XCTestCase {
 	func test_friendsList_canSelectAPIFriend() throws {
 		let friend0 = aFriend(name: "a name", phone: "a phone")
 		let friend1 = aFriend(name: "another name", phone: "another phone")
-		
-		let friendsList = try SceneBuilder()
+        let friendsVM: FriendsViewModel = .results([
+            .success(FriendsViewModel.shared.getMappedViewModels(friends: [friend0, friend1])),
+        ])
+        let friendsList = try SceneBuilder()
 			.build(
 				user: premiumUser(),
-				friendsViewModel: .once([friend0, friend1]),
+                friendsViewModel: friendsVM,
 				friendsCache: .never
 			)
 			.friendsList()
-		
-		friendsList.selectFriend(at: 0)
+        friendsVM.select(friend0)
+        friendsList.selectFriend(at: 0)
 		XCTAssertTrue(friendsList.isShowingDetails(for: friend0), "should show friend details at row 0")
 		
+        friendsVM.select(friend1)
 		friendsList.selectFriend(at: 1)
 		XCTAssertTrue(friendsList.isShowingDetails(for: friend1), "should show friend details at row 1")
 	}
