@@ -8,12 +8,11 @@ import UIKit
 class FriendsViewModel: ViewModelDelegate {
     static var shared = FriendsViewModel()
     let repo: FriendsRepo
-    let cache: FriendsCache
-    var isPremium: Bool
+    var cache: FriendsCache
     var select: (Friend) -> Void
     var useCase: UseCaseDelegate? {
         get {
-            return GetFriendsUseCase(friendsRepo: repo, cache: cache, isPremium: isPremium, select: select)
+            return GetFriendsUseCase(friendsRepo: repo, cache: cache, select: select)
         }
         set {}
     }
@@ -21,21 +20,18 @@ class FriendsViewModel: ViewModelDelegate {
     init() {
         self.repo = FriendsRepo()
         self.cache = FriendsCache()
-        self.isPremium = false
         self.select = { _ in }
     }
     
     init(select: @escaping (Friend) -> Void) {
         self.repo = FriendsRepo()
-        self.cache = (UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate).cache
-        self.isPremium = false
+        self.cache = FriendsCache()
         self.select = select
     }
     
     init(repo: FriendsRepo, cache: FriendsCache, isPremium: Bool, select: @escaping (Friend) -> Void) {
         self.repo = repo
         self.cache = cache
-        self.isPremium = isPremium
         self.select = select
     }
     

@@ -6,6 +6,7 @@ import UIKit
 
 class ListViewController: UITableViewController {
 	var items = [ViewModel]()
+    var friendsCache: FriendsCache!
 
 	var retryCount = 0
 	var maxRetryCount = 0
@@ -61,7 +62,7 @@ class ListViewController: UITableViewController {
 		refreshControl?.beginRefreshing()
 		if fromFriendsScreen {
             let isPremium = User.shared?.isPremium ?? false
-            FriendsViewModel.shared.isPremium = isPremium
+            FriendsViewModel.shared.cache = isPremium ?  friendsCache : NullFriendsCache()
             FriendsViewModel.shared.select = { [weak self] item in
                 self?.select(item)
             }

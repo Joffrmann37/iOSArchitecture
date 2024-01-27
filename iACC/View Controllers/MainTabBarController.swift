@@ -5,9 +5,11 @@
 import UIKit
 
 class MainTabBarController: UITabBarController {
-	
-	convenience init() {
+    private var friendsCache: FriendsCache!
+    
+    convenience init(friendsCache: FriendsCache) {
 		self.init(nibName: nil, bundle: nil)
+        self.friendsCache = friendsCache
 		self.setupViewController()
 	}
 
@@ -56,6 +58,7 @@ class MainTabBarController: UITabBarController {
 		vc.fromFriendsScreen = true
         vc.shouldRetry = true
         vc.maxRetryCount = 2
+        vc.friendsCache = friendsCache
         vc.title = "Friends"
         vc.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: vc, action: #selector(addFriend))
 		return vc

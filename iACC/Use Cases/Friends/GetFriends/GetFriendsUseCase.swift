@@ -7,7 +7,6 @@ import Foundation
 struct GetFriendsUseCase: UseCaseDelegate {
     var friendsRepo: FriendsRepo
     let cache: FriendsCache
-    let isPremium: Bool
     let select: (Friend) -> Void
     
     var service: ItemsService? {
