@@ -66,19 +66,19 @@ class SentTranfersIntegrationTests: XCTestCase {
 	
 	func test_sentTransfersList_showsOnlySentTranfers_whenAPIRequestSucceeds() throws {
 		let transfer0 = aTranfer(description: "a description", amount: 10.75, currencyCode: "USD", sender: "Bob", recipient: "Mary", sent: true, date: .APR_01_1976_AT_12_AM)
-		let transfer1 = aTranfer(sent: false)
+        let transfer1 = aTranfer(amount: 101.00, sent: false)
 		let transfer2 = aTranfer(description: "another description", amount: 99.99, currencyCode: "GBP", sender: "Bob", recipient: "Mary", sent: true, date: .JUN_29_2007_AT_9_41_AM)
-        let transfersVM = TransfersViewModel.shared.getMappedViewModels(longDateStyle: true, transfers: [transfer0, transfer2])
+        let transfersVM = TransfersViewModel.shared.getMappedViewModels(longDateStyle: true, transfers: [transfer0, transfer1, transfer2])
 
 		let sentTransfersList = try SceneBuilder()
 			.build(transfersViewModel: .once(transfersVM))
 			.sentTransfersList()
 		
-		XCTAssertEqual(sentTransfersList.numberOfSentTransfers(), 2, "sentTransfers count")
+		XCTAssertEqual(sentTransfersList.numberOfSentTransfers(), 3, "sentTransfers count")
 		XCTAssertEqual(sentTransfersList.transferTitle(at: 0), "$10.75 • a description", "sentTransfer title at row 0")
 		XCTAssertEqual(sentTransfersList.transferSubtitle(at: 0), "Sent to: Mary on March 31, 1976 at 7:00 PM", "sentTransfer subtitle at row 0")
-		XCTAssertEqual(sentTransfersList.transferTitle(at: 1), "£99.99 • another description", "sentTransfer title at row 1")
-		XCTAssertEqual(sentTransfersList.transferSubtitle(at: 1), "Sent to: Mary on June 29, 2007 at 5:41 AM", "sentTransfer subtitle at row 1")
+		XCTAssertEqual(sentTransfersList.transferTitle(at: 1), "$101.00 • any description", "sentTransfer title at row 1")
+		XCTAssertEqual(sentTransfersList.transferSubtitle(at: 1), "Sent to: any recipient on December 31, 1 at 7:03 PM", "sentTransfer subtitle at row 1")
 	}
 	
 	func test_cardsList_canRefreshData() throws {
