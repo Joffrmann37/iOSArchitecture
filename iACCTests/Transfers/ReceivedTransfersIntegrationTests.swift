@@ -67,7 +67,6 @@ class ReceivedTransfersIntegrationTests: XCTestCase {
 	func test_receivedTransfersList_showsOnlyReceivedTranfers_whenAPIRequestSucceeds() throws {
 		let transfer0 = aTranfer(description: "a description", amount: 10.75, currencyCode: "USD", sender: "Bob", recipient: "Mary", sent: false, date: .APR_01_1976_AT_12_AM)
 		let transfer1 = aTranfer(amount: 99.99, sent: true, date: .APR_01_1976_AT_12_AM)
-		let transfer2 = aTranfer(description: "another description", amount: 99.99, currencyCode: "GBP", sender: "Bob", recipient: "Mary", sent: false, date: .JUN_29_2007_AT_9_41_AM)
         let transfersVM = TransfersViewModel.shared.getMappedViewModels(longDateStyle: false, transfers: [transfer0, transfer1])
 		
 		let receivedTransfersList = try SceneBuilder()

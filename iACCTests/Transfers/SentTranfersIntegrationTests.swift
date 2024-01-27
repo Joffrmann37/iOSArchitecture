@@ -82,7 +82,6 @@ class SentTranfersIntegrationTests: XCTestCase {
 	
 	func test_cardsList_canRefreshData() throws {
 		let refreshedTransfer0 = aTranfer(description: "a description", amount: 0.01, currencyCode: "EUR", sender: "Bob", recipient: "Mary", sent: true, date: .APR_01_1976_AT_12_AM)
-		let refreshedTransfer1 = aTranfer(sent: false)
         let transfersVM: [Result<[ViewModel], Error>] = ([
             .success([]),
             .success(TransfersViewModel.shared.getMappedViewModels(longDateStyle: true, transfers: [refreshedTransfer0]))

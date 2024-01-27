@@ -143,7 +143,6 @@ class CardsIntegrationTests: XCTestCase {
 	func test_cardsList_canSelectCard() throws {
 		let card0 = aCard(number: "a number", holder: "a holder")
 		let card1 = aCard(number: "another number", holder: "another holder")
-        let vms = CardsViewModel.shared.getMappedViewModels(cards: [card0, card1])
         let cardsVM: CardsViewModel = .results([
             .success(CardsViewModel.shared.getMappedViewModels(cards: [card0, card1])),
         ])
