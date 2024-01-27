@@ -11,13 +11,15 @@ struct CardRepoAdapter: ItemsService {
     func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
         repo.loadCards { res in
             DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
-                completion(res.map { items in
-                    return items.map { item in
-                        ViewModel(card: item) {
-                            select(item)
+                DispatchQueue.main.async {
+                    completion(res.map { items in
+                        return items.map { item in
+                            ViewModel(card: item) {
+                                select(item)
+                            }
                         }
-                    }
-                })
+                    })
+                }
             }
         }
     }

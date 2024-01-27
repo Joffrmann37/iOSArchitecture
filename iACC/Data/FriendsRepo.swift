@@ -16,18 +16,17 @@ struct FriendsRepoAdapter: ItemsService {
     
     func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
         repo.loadFriends { res in
-            DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
-                completion(res.map { items in
-                    if isPremium {
-                        cache.save(items)
+            completion(res.map { items in
+                if isPremium {
+                    cache.save(items)
+                }
+                return items.map { item in
+                    ViewModel(friend: item) {
+                        select(item)
                     }
-                    return items.map { item in
-                        ViewModel(friend: item) {
-                            select(item)
-                        }
-                    }
-                })
-            }
+                }
+            })
+
         }
     }
 }
@@ -40,7 +39,9 @@ class FriendsRepo {
         Friend(id: UUID(), name: "Mary", phone: "1111-1111")
         ], completion: @escaping (Result<[Friend], Error>) -> Void) {
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
-            completion(.success(friends))
+            DispatchQueue.main.async {
+                completion(.success(friends))
+            }
         }
 	}
 }
