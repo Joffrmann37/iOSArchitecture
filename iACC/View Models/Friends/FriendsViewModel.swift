@@ -9,7 +9,7 @@ class FriendsViewModel: ViewModelDelegate {
     static var shared = FriendsViewModel()
     let repo: FriendsRepo
     let cache: FriendsCache
-    let isPremium: Bool
+    var isPremium: Bool
     var select: (Friend) -> Void
     var useCase: UseCaseDelegate? {
         get {

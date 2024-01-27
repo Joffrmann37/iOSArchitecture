@@ -12,7 +12,7 @@ struct GetFriendsUseCase: UseCaseDelegate {
     
     var service: ItemsService? {
         get {
-            return FriendsRepoAdapter(repo: friendsRepo, cache: cache, isPremium: isPremium, select: select)
+            return FriendsRepoAdapter(repo: friendsRepo, cache: cache, select: select)
         }
         set {}
     }

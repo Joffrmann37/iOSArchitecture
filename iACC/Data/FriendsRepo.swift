@@ -11,15 +11,12 @@ protocol ItemsService {
 struct FriendsRepoAdapter: ItemsService {
     let repo: FriendsRepo
     let cache: FriendsCache
-    let isPremium: Bool
     let select: (Friend) -> Void
     
     func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
         repo.loadFriends { res in
             completion(res.map { items in
-                if isPremium {
-                    cache.save(items)
-                }
+                cache.save(items)
                 return items.map { item in
                     ViewModel(friend: item) {
                         select(item)

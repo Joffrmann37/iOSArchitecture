@@ -84,7 +84,7 @@ class SentTranfersIntegrationTests: XCTestCase {
 	func test_cardsList_canRefreshData() throws {
 		let refreshedTransfer0 = aTranfer(description: "a description", amount: 0.01, currencyCode: "EUR", sender: "Bob", recipient: "Mary", sent: true, date: .APR_01_1976_AT_12_AM)
 		let refreshedTransfer1 = aTranfer(sent: false)
-        let transfersVM = TransfersViewModel.shared.getMappedViewModels(longDateStyle: true, transfers: [refreshedTransfer0])
+        let transfersVM = TransfersViewModel.shared.getMappedViewModels(longDateStyle: true, transfers: [refreshedTransfer0, refreshedTransfer1])
 
 		let sentTransfersList = try SceneBuilder()
 			.build(transfersViewModel: .results([
@@ -97,7 +97,7 @@ class SentTranfersIntegrationTests: XCTestCase {
 		
 		sentTransfersList.simulateRefresh()
 		
-		XCTAssertEqual(sentTransfersList.numberOfSentTransfers(), 1, "cards count after refreshing")
+		XCTAssertEqual(sentTransfersList.numberOfSentTransfers(), 2, "cards count after refreshing")
 		XCTAssertEqual(sentTransfersList.transferTitle(at: 0), "€0.01 • a description", "sentTransfer name at row 0")
 		XCTAssertEqual(sentTransfersList.transferSubtitle(at: 0), "Sent to: Mary on March 31, 1976 at 7:00 PM", "sentTransfer phone at row 0")
 	}

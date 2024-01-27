@@ -24,15 +24,7 @@ class ListViewController: UITableViewController {
 		refreshControl = UIRefreshControl()
 		refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
 		
-		if fromFriendsScreen {
-			shouldRetry = true
-			maxRetryCount = 2
-			
-			title = "Friends"
-			
-			navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFriend))
-			
-		} else if fromCardsScreen {
+		if fromCardsScreen {
 			shouldRetry = false
 			
 			title = "Cards"
@@ -68,6 +60,8 @@ class ListViewController: UITableViewController {
 	@objc private func refresh() {
 		refreshControl?.beginRefreshing()
 		if fromFriendsScreen {
+            let isPremium = User.shared?.isPremium ?? false
+            FriendsViewModel.shared.isPremium = isPremium
             FriendsViewModel.shared.select = { [weak self] item in
                 self?.select(item)
             }
