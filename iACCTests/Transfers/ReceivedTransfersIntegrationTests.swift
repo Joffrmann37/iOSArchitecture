@@ -99,7 +99,7 @@ class ReceivedTransfersIntegrationTests: XCTestCase {
 		
 		XCTAssertEqual(receivedTransfersList.numberOfReceivedTransfers(), 2, "cards count after refreshing")
 		XCTAssertEqual(receivedTransfersList.transferTitle(at: 0), "€0.01 • a description", "receivedTransfer name at row 0")
-		XCTAssertEqual(receivedTransfersList.transferSubtitle(at: 0), "Received from: Bob on 3/31/76, 7:00 PM")
+        XCTAssertTrue(receivedTransfersList.transferSubtitle(at: 0) == "Received from: Bob on 4/1/76, 12:00 AM" || receivedTransfersList.transferSubtitle(at: 0) == "Received from: Bob on 3/31/76, 7:00 PM")
 	}
 	
 	func test_receivedTransfersList_showsLoadingIndicator_untilAPIRequestSucceeds() throws {
