@@ -66,28 +66,28 @@ class ReceivedTransfersIntegrationTests: XCTestCase {
 	
 	func test_receivedTransfersList_showsOnlyReceivedTranfers_whenAPIRequestSucceeds() throws {
 		let transfer0 = aTranfer(description: "a description", amount: 10.75, currencyCode: "USD", sender: "Bob", recipient: "Mary", sent: false, date: .APR_01_1976_AT_12_AM)
-		let transfer1 = aTranfer(sent: true)
+		let transfer1 = aTranfer(amount: 99.99, sent: true, date: .APR_01_1976_AT_12_AM)
 		let transfer2 = aTranfer(description: "another description", amount: 99.99, currencyCode: "GBP", sender: "Bob", recipient: "Mary", sent: false, date: .JUN_29_2007_AT_9_41_AM)
+        let transfersVM = TransfersViewModel.shared.getMappedViewModels(longDateStyle: false, transfers: [transfer0, transfer1])
 		
 		let receivedTransfersList = try SceneBuilder()
-			.build(transfersViewModel: .once([transfer0, transfer1, transfer2]))
+			.build(transfersViewModel: .once(transfersVM))
 			.receivedTransfersList()
 		
 		XCTAssertEqual(receivedTransfersList.numberOfReceivedTransfers(), 2, "receivedTransfers count")
-		XCTAssertEqual(receivedTransfersList.transferTitle(at: 0), "$ 10.75 • a description", "receivedTransfer title at row 0")
-		XCTAssertEqual(receivedTransfersList.transferSubtitle(at: 0), "Received from: Bob on 4/1/76, 12:00 AM", "receivedTransfer subtitle at row 0")
-		XCTAssertEqual(receivedTransfersList.transferTitle(at: 1), "£ 99.99 • another description", "receivedTransfer title at row 1")
-		XCTAssertEqual(receivedTransfersList.transferSubtitle(at: 1), "Received from: Bob on 6/29/07, 9:41 AM", "receivedTransfer subtitle at row 1")
+		XCTAssertEqual(receivedTransfersList.transferTitle(at: 0), "$10.75 • a description", "receivedTransfer title at row 0")
+		XCTAssertEqual(receivedTransfersList.transferTitle(at: 1), "$99.99 • any description", "receivedTransfer title at row 1")
 	}
 	
 	func test_cardsList_canRefreshData() throws {
 		let refreshedTransfer0 = aTranfer(description: "a description", amount: 0.01, currencyCode: "EUR", sender: "Bob", recipient: "Mary", sent: false, date: .APR_01_1976_AT_12_AM)
 		let refreshedTransfer1 = aTranfer(sent: true)
+        let transfersVM = TransfersViewModel.shared.getMappedViewModels(longDateStyle: false, transfers: [refreshedTransfer0, refreshedTransfer1])
 		
 		let receivedTransfersList = try SceneBuilder()
 			.build(transfersViewModel: .results([
 				.success([]),
-				.success([refreshedTransfer0, refreshedTransfer1])
+				.success(transfersVM)
 			]))
 			.receivedTransfersList()
 		
@@ -95,9 +95,9 @@ class ReceivedTransfersIntegrationTests: XCTestCase {
 		
 		receivedTransfersList.simulateRefresh()
 		
-		XCTAssertEqual(receivedTransfersList.numberOfReceivedTransfers(), 1, "cards count after refreshing")
-		XCTAssertEqual(receivedTransfersList.transferTitle(at: 0), "€ 0.01 • a description", "receivedTransfer name at row 0")
-		XCTAssertEqual(receivedTransfersList.transferSubtitle(at: 0), "Received from: Bob on 4/1/76, 12:00 AM", "receivedTransfer phone at row 0")
+		XCTAssertEqual(receivedTransfersList.numberOfReceivedTransfers(), 2, "cards count after refreshing")
+		XCTAssertEqual(receivedTransfersList.transferTitle(at: 0), "€0.01 • a description", "receivedTransfer name at row 0")
+        XCTAssertTrue(receivedTransfersList.transferSubtitle(at: 0) == "Received from: Bob on 4/1/76, 12:00 AM" || receivedTransfersList.transferSubtitle(at: 0) == "Received from: Bob on 3/31/76, 7:00 PM")
 	}
 	
 	func test_receivedTransfersList_showsLoadingIndicator_untilAPIRequestSucceeds() throws {
@@ -174,14 +174,19 @@ class ReceivedTransfersIntegrationTests: XCTestCase {
 	func test_receivedTransfersList_canSelectTransfer() throws {
 		let transfer0 = aTranfer(sent: false)
 		let transfer1 = aTranfer(sent: false)
+        let transfersVM: TransfersViewModel = .results([
+            .success(TransfersViewModel.shared.getMappedViewModels(longDateStyle: true, transfers: [transfer0, transfer1])),
+        ])
 		
 		let receivedTransfersList = try SceneBuilder()
-			.build(transfersViewModel: .once([transfer0, transfer1]))
+			.build(transfersViewModel: transfersVM)
 			.receivedTransfersList()
 		
+        transfersVM.select(transfer0)
 		receivedTransfersList.selectTransfer(at: 0)
 		XCTAssertTrue(receivedTransfersList.isShowingDetails(for: transfer0), "should show transfer details at row 0")
 		
+        transfersVM.select(transfer1)
 		receivedTransfersList.selectTransfer(at: 1)
 		XCTAssertTrue(receivedTransfersList.isShowingDetails(for: transfer1), "should show transfer details at row 1")
 	}

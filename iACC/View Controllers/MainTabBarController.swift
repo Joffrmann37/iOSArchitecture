@@ -54,6 +54,10 @@ class MainTabBarController: UITabBarController {
 	private func makeFriendsList() -> ListViewController {
 		let vc = ListViewController()
 		vc.fromFriendsScreen = true
+        vc.shouldRetry = true
+        vc.maxRetryCount = 2
+        vc.title = "Friends"
+        vc.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: vc, action: #selector(addFriend))
 		return vc
 	}
 	
@@ -75,4 +79,10 @@ class MainTabBarController: UITabBarController {
 		return vc
 	}
 	
+}
+
+// Null Object Pattern
+
+class NullFriendsCache: FriendsCache {
+    override func save(_ newFriends: [Friend]) {}
 }

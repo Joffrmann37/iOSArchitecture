@@ -10,7 +10,11 @@ protocol ListItemViewModel {
     var select: () -> Void { get set }
 }
 
-struct ViewModel: ListItemViewModel {
+struct ViewModel: ListItemViewModel, Equatable {
+    static func == (lhs: ViewModel, rhs: ViewModel) -> Bool {
+        return lhs.title == rhs.title
+    }
+    
     var title: String
     var subtitle: String
     var select: () -> Void

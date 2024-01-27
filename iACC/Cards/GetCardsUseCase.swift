@@ -4,15 +4,14 @@
 
 import Foundation
 
-class GetCardsUseCase: UseCaseDelegate {
-    var repo: Repo? {
+struct GetCardsUseCase: UseCaseDelegate {
+    var cardRepo: CardRepo
+    let select: (Card) -> Void
+
+    var service: ItemsService? {
         get {
-            return CardRepo()
+            return CardRepoAdapter(repo: cardRepo, select: select)
         }
         set {}
-    }
-    
-    func load<T>(_ result: (Result<[T], Error>), _ completion: @escaping (Result<[T], Error>) -> Void) {
-        repo?.load(result, completion)
     }
 }

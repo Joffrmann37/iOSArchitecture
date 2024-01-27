@@ -67,8 +67,9 @@ class CardsIntegrationTests: XCTestCase {
 	func test_cardsList_showsCards_whenAPIRequestSucceeds() throws {
 		let card0 = aCard(number: "a number", holder: "a holder")
 		let card1 = aCard(number: "another number", holder: "another holder")
+        let cardsViewModel = CardsViewModel.shared.getMappedViewModels(cards: [card0, card1])
 		let cardsList = try SceneBuilder()
-			.build(cardsViewModel: .once([card0, card1]))
+			.build(cardsViewModel: .once(cardsViewModel))
 			.cardsList()
 		
 		XCTAssertEqual(cardsList.numberOfCards(), 2, "cards count")
@@ -88,11 +89,12 @@ class CardsIntegrationTests: XCTestCase {
 	
 	func test_cardsList_canRefreshData() throws {
 		let refreshedCard = aCard(number: "refreshed number", holder: "refreshed holder")
+        let cardsViewModel = CardsViewModel.shared.getMappedViewModels(cards: [refreshedCard])
 		
 		let cardsList = try SceneBuilder()
 			.build(cardsViewModel: .results([
 				.success([]),
-				.success([refreshedCard])
+				.success(cardsViewModel)
 			]))
 			.cardsList()
 		
@@ -106,11 +108,12 @@ class CardsIntegrationTests: XCTestCase {
 	}
 	
 	func test_cardsList_showsLoadingIndicator_untilAPIRequestSucceeds() throws {
+        let vms = CardsViewModel.shared.getMappedViewModels(cards: [aCard()])
 		let cardsList = try SceneBuilder()
 			.build(cardsViewModel: .resultBuilder {
 				let cardsList = try? ContainerViewControllerSpy.current.cardsList()
 				XCTAssertEqual(cardsList?.isShowingLoadingIndicator(), true, "should show loading indicator until API request completes")
-				return .success([aCard()])
+				return .success(vms)
 			})
 			.cardsList()
 		
@@ -140,13 +143,19 @@ class CardsIntegrationTests: XCTestCase {
 	func test_cardsList_canSelectCard() throws {
 		let card0 = aCard(number: "a number", holder: "a holder")
 		let card1 = aCard(number: "another number", holder: "another holder")
+        let vms = CardsViewModel.shared.getMappedViewModels(cards: [card0, card1])
+        let cardsVM: CardsViewModel = .results([
+            .success(CardsViewModel.shared.getMappedViewModels(cards: [card0, card1])),
+        ])
 		let cardsList = try SceneBuilder()
-			.build(cardsViewModel: .once([card0, card1]))
+			.build(cardsViewModel: cardsVM)
 			.cardsList()
 
+        cardsVM.select(card0)
 		cardsList.selectCard(at: 0)
 		XCTAssertTrue(cardsList.isShowingDetails(for: card0), "should show card details at row 0")
 
+        cardsVM.select(card1)
 		cardsList.selectCard(at: 1)
 		XCTAssertTrue(cardsList.isShowingDetails(for: card1), "should show card details at row 1")
 	}

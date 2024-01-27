@@ -4,6 +4,6 @@
 
 import Foundation
 
-protocol ViewModelDelegate: AnyObject {
+protocol ViewModelDelegate {
     var useCase: UseCaseDelegate? { get set }
 }

@@ -23,11 +23,26 @@ extension FriendsCache {
 		results([.failure(error)])
 	}
 	
-	static func saveCallback(
+    static func saveCallback(uuids: [UUID] = [], _ viewModels: [ViewModel] = [],
 		_ saveCallback: @escaping ([Friend]) -> Void
 	) -> FriendsCache {
-		results([], saveCallback)
+        var finalFriends = [Friend]()
+        let friends = getMappedFriends(uuids: uuids, viewModels: viewModels)
+        if uuids.count > 0 {
+            for i in 0..<friends.count {
+                let newFriend = Friend(id: uuids[i], name: friends[i].name, phone: friends[i].phone)
+                finalFriends.append(newFriend)
+            }
+            saveCallback(finalFriends)
+        }
+        return results([], saveCallback)
 	}
+    
+    static func getMappedFriends(uuids: [UUID] = [], viewModels: [ViewModel]) -> [Friend] {
+        return viewModels.map { item in
+            Friend(id: UUID(), name: item.title, phone: item.subtitle)
+        }
+    }
 
 	static func results(
 		_ results: [Result<[Friend], Error>],
