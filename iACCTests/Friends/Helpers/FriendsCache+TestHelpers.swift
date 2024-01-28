@@ -15,8 +15,8 @@ extension FriendsCache {
 		results([])
 	}
 	
-	static func once(_ friends: [Friend]) -> FriendsCache {
-		results([.success(friends)])
+	static func once(_ friends: [ViewModel]) -> FriendsCache {
+        results([.success(friends)], { _ in }, friends)
 	}
 	
 	static func once(_ error: Error) -> FriendsCache {
@@ -24,7 +24,7 @@ extension FriendsCache {
 	}
 	
     static func saveCallback(uuids: [UUID] = [], _ viewModels: [ViewModel] = [],
-		_ saveCallback: @escaping ([Friend]) -> Void
+		_ saveCallback: @escaping ([ViewModel]) -> Void
 	) -> FriendsCache {
         var finalFriends = [Friend]()
         let friends = getMappedFriends(uuids: uuids, viewModels: viewModels)
@@ -33,7 +33,7 @@ extension FriendsCache {
                 let newFriend = Friend(id: uuids[i], name: friends[i].name, phone: friends[i].phone)
                 finalFriends.append(newFriend)
             }
-            saveCallback(finalFriends)
+            saveCallback(getMappedViewModels(friends: finalFriends))
         }
         return results([], saveCallback)
 	}
@@ -43,40 +43,57 @@ extension FriendsCache {
             Friend(id: UUID(), name: item.title, phone: item.subtitle)
         }
     }
+    
+    static func getMappedViewModels(friends: [Friend]) -> [ViewModel] {
+        return friends.map { friend in
+            ViewModel(friend: friend) {
+                
+            }
+        }
+    }
 
 	static func results(
-		_ results: [Result<[Friend], Error>],
-		_ saveCallback: @escaping ([Friend]) -> Void = { _ in }
+		_ results: [Result<[ViewModel], Error>],
+		_ saveCallback: @escaping ([ViewModel]) -> Void = { _ in },
+        _ vms: [ViewModel] = []
 	) -> FriendsCache {
 		var results = results
-		return resultBuilder({ results.removeFirst() }, saveCallback)
+		return resultBuilder({ results.removeFirst() }, saveCallback, vms)
 	}
 		
 	static func resultBuilder(
-		_ resultBuilder: @escaping () -> Result<[Friend], Error>,
-		_ saveCallback: @escaping ([Friend]) -> Void = { _ in }
+		_ resultBuilder: @escaping () -> Result<[ViewModel], Error>,
+		_ saveCallback: @escaping ([ViewModel]) -> Void = { _ in },
+        _ vms: [ViewModel] = []
 	) -> FriendsCache {
-		FriendsCacheSpy(resultBuilder: resultBuilder, saveCallback: saveCallback)
+		FriendsCacheSpy(resultBuilder: resultBuilder, saveCallback: saveCallback, vms: vms)
 	}
 		
 	private class FriendsCacheSpy: FriendsCache {
-		private let nextResult: () -> Result<[Friend], Error>
-		private let saveCallback: ([Friend]) -> Void
+		private let nextResult: () -> Result<[ViewModel], Error>
+		private let saveCallback: ([ViewModel]) -> Void
+        private var friendVMs: [ViewModel]?
 		
 		init(
-			resultBuilder: @escaping () -> Result<[Friend], Error>,
-			saveCallback save: @escaping ([Friend]) -> Void
+			resultBuilder: @escaping () -> Result<[ViewModel], Error>,
+			saveCallback save: @escaping ([ViewModel]) -> Void,
+            vms: [ViewModel] = []
 		) {
 			nextResult = resultBuilder
 			saveCallback = save
+            friendVMs = vms
 		}
 		
-		override func loadFriends(completion: @escaping (Result<[Friend], Error>) -> Void) {
-			completion(nextResult())
+		override func loadFriends(completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+            completion(nextResult())
 		}
 		
-		override func save(_ newFriends: [Friend]) {
-			saveCallback(newFriends)
-		}
+        override func save(_ newFriends: [ViewModel]) {
+            saveCallback(newFriends)
+        }
+        
+        override func getFriends() -> [ViewModel]? {
+            return friendVMs
+        }
 	}
 }

@@ -6,10 +6,14 @@ import UIKit
 
 class MainTabBarController: UITabBarController {
     private var friendsCache: FriendsCache!
+    private var isSentFromTransfers: Bool = false
+    private var shouldLoadFriendsFromCache: Bool = false
     
-    convenience init(friendsCache: FriendsCache) {
+    convenience init(friendsCache: FriendsCache, isSentFromTransfers: Bool, shouldLoadFriendsFromCache: Bool) {
 		self.init(nibName: nil, bundle: nil)
         self.friendsCache = friendsCache
+        self.isSentFromTransfers = isSentFromTransfers
+        self.shouldLoadFriendsFromCache = shouldLoadFriendsFromCache
 		self.setupViewController()
 	}
 
@@ -61,24 +65,64 @@ class MainTabBarController: UITabBarController {
         vc.friendsCache = friendsCache
         vc.title = "Friends"
         vc.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: vc, action: #selector(addFriend))
+        let isPremium = User.shared?.isPremium ?? false
+        let cache = isPremium ? self.friendsCache : NullFriendsCache()
+        FriendsViewModel.shared.select = { item in
+            vc.select(item)
+        }
+        vc.itemsVMAdapter = FriendsViewModelAdapter(cache: cache ?? FriendsCache(), select: { friend in
+            vc.select(friend)
+        }, viewModel: FriendsViewModel.shared, shouldLoadFromCache: isPremium && shouldLoadFriendsFromCache)
 		return vc
 	}
 	
 	private func makeSentTransfersList() -> ListViewController {
 		let vc = ListViewController()
 		vc.fromSentTransfersScreen = true
+        vc.shouldRetry = true
+        vc.maxRetryCount = 1
+        vc.longDateStyle = true
+        vc.navigationItem.title = "Sent"
+        vc.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Send", style: .done, target: vc, action: #selector(sendMoney))
+        TransfersViewModel.shared.select = { item in
+            vc.select(item)
+        }
+        vc.itemsVMAdapter = TransfersViewModelAdapter(longDateStyle: true, select: { transfer in
+            vc.select(transfer)
+        }, viewModel: TransfersViewModel.shared)
 		return vc
 	}
 	
 	private func makeReceivedTransfersList() -> ListViewController {
 		let vc = ListViewController()
 		vc.fromReceivedTransfersScreen = true
+        vc.shouldRetry = true
+        vc.maxRetryCount = 1
+        vc.longDateStyle = false
+        vc.navigationItem.title = "Received"
+        vc.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Request", style: .done, target: vc, action: #selector(requestMoney))
+        if !isSentFromTransfers {
+            TransfersViewModel.shared.select = { item in
+                vc.select(item)
+            }
+        }
+        vc.itemsVMAdapter = TransfersViewModelAdapter(longDateStyle: false, select: { transfer in
+            vc.select(transfer)
+        }, viewModel: TransfersViewModel.shared)
 		return vc
 	}
 	
 	private func makeCardsList() -> ListViewController {
 		let vc = ListViewController()
-		vc.fromCardsScreen = true
+        vc.shouldRetry = false
+        vc.title = "Cards"
+        vc.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: vc, action: #selector(addCard))
+        CardsViewModel.shared.select = { item in
+            vc.select(item)
+        }
+        vc.itemsVMAdapter = CardsViewModelAdapter(select: { card in
+            vc.select(card)
+        }, viewModel: CardsViewModel.shared)
 		return vc
 	}
 	
@@ -87,5 +131,5 @@ class MainTabBarController: UITabBarController {
 // Null Object Pattern
 
 class NullFriendsCache: FriendsCache {
-    override func save(_ newFriends: [Friend]) {}
+    override func save(_ newFriends: [ViewModel]) {}
 }

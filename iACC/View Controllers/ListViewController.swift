@@ -7,7 +7,8 @@ import UIKit
 class ListViewController: UITableViewController {
 	var items = [ViewModel]()
     var friendsCache: FriendsCache!
-
+    var friendsDidComplete: (() -> Void)!
+    var itemsVMAdapter: ItemsViewModelAdapter?
 	var retryCount = 0
 	var maxRetryCount = 0
 	var shouldRetry = false
@@ -16,38 +17,12 @@ class ListViewController: UITableViewController {
 	
 	var fromReceivedTransfersScreen = false
 	var fromSentTransfersScreen = false
-	var fromCardsScreen = false
 	var fromFriendsScreen = false
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
 		refreshControl = UIRefreshControl()
 		refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
-		
-		if fromCardsScreen {
-			shouldRetry = false
-			
-			title = "Cards"
-			
-			navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addCard))
-			
-		} else if fromSentTransfersScreen {
-			shouldRetry = true
-			maxRetryCount = 1
-			longDateStyle = true
-
-			navigationItem.title = "Sent"
-			navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Send", style: .done, target: self, action: #selector(sendMoney))
-
-		} else if fromReceivedTransfersScreen {
-			shouldRetry = true
-			maxRetryCount = 1
-			longDateStyle = false
-			
-			navigationItem.title = "Received"
-			navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Request", style: .done, target: self, action: #selector(requestMoney))
-		}
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
@@ -60,24 +35,7 @@ class ListViewController: UITableViewController {
 	
 	@objc private func refresh() {
 		refreshControl?.beginRefreshing()
-		if fromFriendsScreen {
-            let isPremium = User.shared?.isPremium ?? false
-            FriendsViewModel.shared.cache = isPremium ?  friendsCache : NullFriendsCache()
-            FriendsViewModel.shared.select = { [weak self] item in
-                self?.select(item)
-            }
-            FriendsViewModel.shared.loadFriends(completion: handleAPIResult)
-		} else if fromCardsScreen {
-            CardsViewModel.shared.select = { [weak self] item in
-                self?.select(item)
-            }
-            CardsViewModel.shared.loadCards(completion: handleAPIResult)
-		} else if fromSentTransfersScreen || fromReceivedTransfersScreen {
-            TransfersViewModel.shared.select = { [weak self] item in
-                self?.select(item)
-            }
-            TransfersViewModel.shared.loadTransfers(completion: handleAPIResult)
-		}
+        itemsVMAdapter?.load([], handleAPIResult)
 	}
 	
 	private func handleAPIResult(_ result: Result<[ViewModel], Error>) {
@@ -99,26 +57,21 @@ class ListViewController: UITableViewController {
 			
 			retryCount = 0
 			
-			if fromFriendsScreen && User.shared?.isPremium == true {
-				(UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate).cache.loadFriends { [weak self] result in
+            if let adapter = itemsVMAdapter as? FriendsViewModelAdapter, adapter.shouldLoadFromCache {
+                adapter.load([]) { [weak self] result in
                     guard let self = self else { return }
-					DispatchQueue.mainAsyncIfNeeded {
-						switch result {
-						case let .success(items):
-                            self.items = items.map { item in
-                                ViewModel(friend: item) {
-                                    FriendsViewModel.shared.select(item)
-                                    self.select(item)
-                                }
-                            }
-							self.tableView.reloadData()
-							
-						case let .failure(error):
+                    DispatchQueue.mainAsyncIfNeeded {
+                        switch result {
+                        case let .success(items):
+                            self.items = items
+                            self.tableView.reloadData()
+                            
+                        case let .failure(error):
                             self.show(error: error)
                         }
-						self.refreshControl?.endRefreshing()
-					}
-				}
+                        self.refreshControl?.endRefreshing()
+                    }
+                }
 			} else {
                 self.show(error: error)
 				self.refreshControl?.endRefreshing()

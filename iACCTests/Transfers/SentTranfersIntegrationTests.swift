@@ -182,7 +182,7 @@ class SentTranfersIntegrationTests: XCTestCase {
         ])
 		
 		let sentTransfersList = try SceneBuilder()
-			.build(transfersViewModel: transfersVM)
+            .build(isSentFromTransfersScreen: true, transfersViewModel: transfersVM)
 			.sentTransfersList()
 		
         transfersVM.select(transfer0)
