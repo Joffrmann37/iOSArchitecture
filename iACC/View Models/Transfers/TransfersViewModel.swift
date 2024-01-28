@@ -4,7 +4,17 @@
 
 import Foundation
 
-class TransfersViewModel {
+struct TransfersViewModelAdapter: ItemsViewModelAdapter {
+    let longDateStyle: Bool
+    let select: (Transfer) -> Void
+    var viewModel: TransfersViewModel
+    
+    func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+        viewModel.loadTransfers(completion: completion)
+    }
+}
+
+class TransfersViewModel: ViewModelDelegate {
     static var shared = TransfersViewModel()
     let repo: TransfersRepo
     var select: (Transfer) -> Void
@@ -68,5 +78,9 @@ class TransfersViewModel {
         ],
         completion: @escaping (Result<[ViewModel], Error>) -> Void) {
         useCase?.service?.load(transfers, completion)
+    }
+    
+    func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+        useCase?.service?.load(items, completion)
     }
 }

@@ -7,7 +7,8 @@ import UIKit
 class ListViewController: UITableViewController {
 	var items = [ViewModel]()
     var friendsCache: FriendsCache!
-
+    var friendsDidComplete: (() -> Void)!
+    var itemsVMAdapter: ItemsViewModelAdapter?
 	var retryCount = 0
 	var maxRetryCount = 0
 	var shouldRetry = false
@@ -21,33 +22,8 @@ class ListViewController: UITableViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
 		refreshControl = UIRefreshControl()
 		refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
-		
-		if fromCardsScreen {
-			shouldRetry = false
-			
-			title = "Cards"
-			
-			navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addCard))
-			
-		} else if fromSentTransfersScreen {
-			shouldRetry = true
-			maxRetryCount = 1
-			longDateStyle = true
-
-			navigationItem.title = "Sent"
-			navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Send", style: .done, target: self, action: #selector(sendMoney))
-
-		} else if fromReceivedTransfersScreen {
-			shouldRetry = true
-			maxRetryCount = 1
-			longDateStyle = false
-			
-			navigationItem.title = "Received"
-			navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Request", style: .done, target: self, action: #selector(requestMoney))
-		}
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
@@ -60,24 +36,20 @@ class ListViewController: UITableViewController {
 	
 	@objc private func refresh() {
 		refreshControl?.beginRefreshing()
-		if fromFriendsScreen {
-            let isPremium = User.shared?.isPremium ?? false
-            FriendsViewModel.shared.cache = isPremium ?  friendsCache : NullFriendsCache()
-            FriendsViewModel.shared.select = { [weak self] item in
-                self?.select(item)
-            }
-            FriendsViewModel.shared.loadFriends(completion: handleAPIResult)
-		} else if fromCardsScreen {
-            CardsViewModel.shared.select = { [weak self] item in
-                self?.select(item)
-            }
-            CardsViewModel.shared.loadCards(completion: handleAPIResult)
-		} else if fromSentTransfersScreen || fromReceivedTransfersScreen {
-            TransfersViewModel.shared.select = { [weak self] item in
-                self?.select(item)
-            }
-            TransfersViewModel.shared.loadTransfers(completion: handleAPIResult)
-		}
+        itemsVMAdapter?.load([], handleAPIResult)
+//        if fromFriendsScreen {
+//            friendsDidComplete()
+//        } else if fromCardsScreen {
+//            CardsViewModel.shared.select = { [weak self] item in
+//                self?.select(item)
+//            }
+//            CardsViewModel.shared.loadCards(completion: handleAPIResult)
+//		} else if fromSentTransfersScreen || fromReceivedTransfersScreen {
+//            TransfersViewModel.shared.select = { [weak self] item in
+//                self?.select(item)
+//            }
+//            TransfersViewModel.shared.loadTransfers(completion: handleAPIResult)
+//		}
 	}
 	
 	private func handleAPIResult(_ result: Result<[ViewModel], Error>) {

@@ -45,6 +45,7 @@ struct SceneBuilder {
 	
 	func build(
 		user: User? = nil,
+        isSentFromTransfersScreen: Bool = false,
 		friendsViewModel: FriendsViewModel = .once([]),
 		friendsCache: FriendsCache = .never,
 		transfersViewModel: TransfersViewModel = .once([]),
@@ -54,6 +55,7 @@ struct SceneBuilder {
 	) throws -> ContainerViewControllerSpy {
         SceneDelegate.main.window?.rootViewController = nil
         SceneDelegate.main.cache = friendsCache
+        SceneDelegate.main.isFromSentTransfersScreen = isSentFromTransfersScreen
         
         User.shared = user
         FriendsViewModel.shared = friendsViewModel

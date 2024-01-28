@@ -4,6 +4,14 @@
 
 import Foundation
 
+struct CardsViewModelAdapter: ItemsViewModelAdapter {
+    let select: (Card) -> Void
+    var viewModel: CardsViewModel
+    func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+        viewModel.loadCards(completion: completion)
+    }
+}
+
 class CardsViewModel {
     static var shared = CardsViewModel()
     var repo: CardRepo
@@ -30,6 +38,10 @@ class CardsViewModel {
         ],
         completion: @escaping (Result<[ViewModel], Error>) -> Void) {
         useCase?.service?.load(cards, completion)
+    }
+    
+    func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+        useCase?.service?.load(items, completion)
     }
 }
 

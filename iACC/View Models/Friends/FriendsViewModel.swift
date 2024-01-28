@@ -5,6 +5,21 @@
 import Foundation
 import UIKit
 
+protocol ItemsViewModelAdapter {
+    func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void)
+}
+
+
+struct FriendsViewModelAdapter: ItemsViewModelAdapter {
+    let cache: FriendsCache
+    let select: (Friend) -> Void
+    var viewModel: FriendsViewModel
+    
+    func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+        viewModel.loadFriends(completion: completion)
+    }
+}
+
 class FriendsViewModel: ViewModelDelegate {
     static var shared = FriendsViewModel()
     let repo: FriendsRepo
