@@ -5,23 +5,29 @@
 import Foundation
 
 class FriendsCache {	
-	private var friends: [Friend]?
+	private var friendVMs: [ViewModel]?
+    private var result: (Result<[ViewModel], Error>)!
 	
 	private struct NoFriendsFound: Error {}
 	
 	/// For demo purposes, this method simulates an database lookup with a pre-defined in-memory response and delay.
-	func loadFriends(completion: @escaping (Result<[Friend], Error>) -> Void) {
+	func loadFriends(completion: @escaping (Result<[ViewModel], Error>) -> Void) {
 		DispatchQueue.global().asyncAfter(deadline: .now() + 0.25) {
-			if let friends = self.friends {
-				completion(.success(friends))
+			if let friends = self.friendVMs {
+                self.result = .success(friends)
 			} else {
-				completion(.failure(NoFriendsFound()))
+                self.result = .failure(NoFriendsFound())
 			}
+            completion(self.result)
 		}
 	}
 	
 	/// For demo purposes, this method simulates a cache with an in-memory reference to the provided friends.
-	func save(_ newFriends: [Friend]) {
-		friends = newFriends
+	func save(_ newFriends: [ViewModel]) {
+		friendVMs = newFriends
 	}
+    
+    func getFriends() -> [ViewModel]? {
+        return friendVMs
+    }
 }

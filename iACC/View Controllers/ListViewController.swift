@@ -17,7 +17,6 @@ class ListViewController: UITableViewController {
 	
 	var fromReceivedTransfersScreen = false
 	var fromSentTransfersScreen = false
-	var fromCardsScreen = false
 	var fromFriendsScreen = false
 	
 	override func viewDidLoad() {
@@ -37,19 +36,6 @@ class ListViewController: UITableViewController {
 	@objc private func refresh() {
 		refreshControl?.beginRefreshing()
         itemsVMAdapter?.load([], handleAPIResult)
-//        if fromFriendsScreen {
-//            friendsDidComplete()
-//        } else if fromCardsScreen {
-//            CardsViewModel.shared.select = { [weak self] item in
-//                self?.select(item)
-//            }
-//            CardsViewModel.shared.loadCards(completion: handleAPIResult)
-//		} else if fromSentTransfersScreen || fromReceivedTransfersScreen {
-//            TransfersViewModel.shared.select = { [weak self] item in
-//                self?.select(item)
-//            }
-//            TransfersViewModel.shared.loadTransfers(completion: handleAPIResult)
-//		}
 	}
 	
 	private func handleAPIResult(_ result: Result<[ViewModel], Error>) {
@@ -71,26 +57,21 @@ class ListViewController: UITableViewController {
 			
 			retryCount = 0
 			
-			if fromFriendsScreen && User.shared?.isPremium == true {
-				(UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate).cache.loadFriends { [weak self] result in
+            if let adapter = itemsVMAdapter as? FriendsViewModelAdapter, adapter.shouldLoadFromCache {
+                adapter.load([]) { [weak self] result in
                     guard let self = self else { return }
-					DispatchQueue.mainAsyncIfNeeded {
-						switch result {
-						case let .success(items):
-                            self.items = items.map { item in
-                                ViewModel(friend: item) {
-                                    FriendsViewModel.shared.select(item)
-                                    self.select(item)
-                                }
-                            }
-							self.tableView.reloadData()
-							
-						case let .failure(error):
+                    DispatchQueue.mainAsyncIfNeeded {
+                        switch result {
+                        case let .success(items):
+                            self.items = items
+                            self.tableView.reloadData()
+                            
+                        case let .failure(error):
                             self.show(error: error)
                         }
-						self.refreshControl?.endRefreshing()
-					}
-				}
+                        self.refreshControl?.endRefreshing()
+                    }
+                }
 			} else {
                 self.show(error: error)
 				self.refreshControl?.endRefreshing()

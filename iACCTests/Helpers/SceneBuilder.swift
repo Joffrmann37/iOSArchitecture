@@ -56,6 +56,11 @@ struct SceneBuilder {
         SceneDelegate.main.window?.rootViewController = nil
         SceneDelegate.main.cache = friendsCache
         SceneDelegate.main.isFromSentTransfersScreen = isSentFromTransfersScreen
+        if let friendsFromCache = friendsCache.getFriends(), !friendsFromCache.isEmpty {
+            SceneDelegate.main.shouldLoadFriendsFromCache = true
+        } else {
+            SceneDelegate.main.shouldLoadFriendsFromCache = false
+        }
         
         User.shared = user
         FriendsViewModel.shared = friendsViewModel

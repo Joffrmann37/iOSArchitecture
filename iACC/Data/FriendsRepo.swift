@@ -16,12 +16,13 @@ struct FriendsRepoAdapter: ItemsService {
     func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
         repo.loadFriends { res in
             completion(res.map { items in
-                cache.save(items)
-                return items.map { item in
+                let itemsToSave = items.map { item in
                     ViewModel(friend: item) {
                         select(item)
                     }
                 }
+                cache.save(itemsToSave)
+                return itemsToSave
             })
         }
     }

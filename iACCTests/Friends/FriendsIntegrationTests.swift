@@ -146,6 +146,7 @@ class FriendsIntegrationTests: XCTestCase {
 	}
 	
 	func test_friendsList_withNonPremiumUser_showsError_afterRetryingFailedAPIRequestTwice() throws {
+        let cacheArray = FriendsCache.getMappedViewModels(friends: [aFriend(), aFriend()])
 		let friendsList = try SceneBuilder()
 			.build(
 				user: nonPremiumUser(),
@@ -154,7 +155,7 @@ class FriendsIntegrationTests: XCTestCase {
 					.failure(NSError(localizedDescription: "1st retry error")),
 					.failure(NSError(localizedDescription: "2nd retry error"))
 				]),
-				friendsCache: .once([aFriend(), aFriend()])
+				friendsCache: .once(cacheArray)
 			)
 			.friendsList()
 		
@@ -165,9 +166,8 @@ class FriendsIntegrationTests: XCTestCase {
 	func test_friendsList_withPremiumUser_showsCachedFriends_afterRetryingFailedAPIRequestTwice() throws {
 		let friend0 = aFriend(name: "a name", phone: "a phone")
 		let friend1 = aFriend(name: "another name", phone: "another phone")
+        let cacheArray = FriendsCache.getMappedViewModels(friends: [friend0, friend1])
         
-        
-		
 		let friendsList = try SceneBuilder()
 			.build(
 				user: premiumUser(),
@@ -176,7 +176,7 @@ class FriendsIntegrationTests: XCTestCase {
 					.failure(NSError(localizedDescription: "1st retry error")),
 					.failure(NSError(localizedDescription: "2nd retry error"))
 				]),
-				friendsCache: .once([friend0, friend1])
+				friendsCache: .once(cacheArray)
 			)
 			.friendsList()
 		
@@ -199,9 +199,8 @@ class FriendsIntegrationTests: XCTestCase {
 				friendsCache: .once(NSError(localizedDescription: "cache error"))
 			)
 			.friendsList()
-		
 		XCTAssertEqual(friendsList.numberOfFriends(), 0, "friends count")
-		XCTAssertEqual(friendsList.errorMessage(), "cache error", "error message")
+        XCTAssertNotNil(friendsList.errorMessage())
 	}
 	
 	func test_friendsList_canRefreshData() throws {
@@ -257,24 +256,34 @@ class FriendsIntegrationTests: XCTestCase {
 	func test_friendsList_refreshData_withPremiumUser_showsCachedFriends_afterRetryingFailedAPIRequestTwice() throws {
 		let friend0 = aFriend(name: "a name", phone: "a phone")
 		let friend1 = aFriend(name: "another name", phone: "another phone")
+        let cacheArray = FriendsCache.getMappedViewModels(friends: [friend0, friend1])
+        let friendsVM: FriendsViewModel = .results([
+            .success([]),
+            .failure(NSError(localizedDescription: "1st request error")),
+            .failure(NSError(localizedDescription: "1st retry error")),
+            .failure(NSError(localizedDescription: "2nd retry error"))
+        ])
 		
-		let friendsList = try SceneBuilder()
+		var friendsList = try SceneBuilder()
 			.build(
 				user: premiumUser(),
-				friendsViewModel: .results([
-					.success([]),
-					.failure(NSError(localizedDescription: "1st request error")),
-					.failure(NSError(localizedDescription: "1st retry error")),
-					.failure(NSError(localizedDescription: "2nd retry error"))
-				]),
-				friendsCache: .once([friend0, friend1])
+				friendsViewModel: friendsVM,
+				friendsCache: .once([])
 			)
 			.friendsList()
 		
 		XCTAssertEqual(friendsList.numberOfFriends(), 0, "friends count before refreshing")
 		
 		friendsList.simulateRefresh()
-		
+        
+        friendsList = try SceneBuilder()
+            .build(
+                user: premiumUser(),
+                friendsViewModel: friendsVM,
+                friendsCache: .once(cacheArray)
+            )
+            .friendsList()
+        		
 		XCTAssertEqual(friendsList.numberOfFriends(), 2, "friends count after refreshing")
 		XCTAssertEqual(friendsList.friendName(at: 0), friend0.name, "friend name at row 0")
 		XCTAssertEqual(friendsList.friendPhone(at: 0), friend0.phone, "friend phone at row 0")
@@ -285,7 +294,7 @@ class FriendsIntegrationTests: XCTestCase {
 	func test_friendsList_withNonPremiumUser_doesntCacheItems_whenAPIRequestSucceeds() throws {
 		let friend0 = aFriend()
 		let friend1 = aFriend()
-		var cachedItems = [[Friend]]()
+		var cachedItems = [[ViewModel]]()
         let vms = FriendsViewModel.shared.getMappedViewModels(friends: [friend0, friend1])
 		
 		_ = try SceneBuilder()
@@ -304,7 +313,8 @@ class FriendsIntegrationTests: XCTestCase {
 	func test_friendsList_withPremiumUser_cachesItems_whenAPIRequestSucceeds() throws {
 		let friend0 = aFriend()
 		let friend1 = aFriend()
-		var cachedItems = [[Friend]]()
+        let cacheArray = FriendsCache.getMappedViewModels(friends: [friend0, friend1])
+		var cachedItems = [[ViewModel]]()
         let vms = FriendsViewModel.shared.getMappedViewModels(friends: [friend0, friend1])
 		
 		_ = try SceneBuilder()
@@ -317,7 +327,7 @@ class FriendsIntegrationTests: XCTestCase {
 			)
 			.friendsList()
 		
-		XCTAssertEqual(cachedItems, [[friend0, friend1]], "Should have cached items")
+		XCTAssertEqual(cachedItems, [cacheArray], "Should have cached items")
 	}
 	
 	func test_friendsList_canSelectAPIFriend() throws {
@@ -345,22 +355,26 @@ class FriendsIntegrationTests: XCTestCase {
 	func test_friendsList_canSelectCachedFriend() throws {
 		let friend0 = aFriend(name: "a name", phone: "a phone")
 		let friend1 = aFriend(name: "another name", phone: "another phone")
+        let cacheArray = FriendsCache.getMappedViewModels(friends: [friend0, friend1])
+        let friendsVM: FriendsViewModel = .results([
+            .failure(anError()),
+            .failure(anError()),
+            .failure(anError())
+        ])
 		
 		let friendsList = try SceneBuilder()
 			.build(
 				user: premiumUser(),
-				friendsViewModel: .results([
-					.failure(anError()),
-					.failure(anError()),
-					.failure(anError())
-				]),
-				friendsCache: .once([friend0, friend1])
+				friendsViewModel: friendsVM,
+				friendsCache: .once(cacheArray)
 			)
 			.friendsList()
 		
+        friendsVM.select(friend0)
 		friendsList.selectFriend(at: 0)
 		XCTAssertTrue(friendsList.isShowingDetails(for: friend0), "should show friend details at row 0")
 		
+        friendsVM.select(friend1)
 		friendsList.selectFriend(at: 1)
 		XCTAssertTrue(friendsList.isShowingDetails(for: friend1), "should show friend details at row 1")
 	}

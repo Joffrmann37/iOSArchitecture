@@ -8,6 +8,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	var window: UIWindow?
 	var cache = FriendsCache()
     var isFromSentTransfersScreen = false
+    var shouldLoadFriendsFromCache = false
     var result: ((Result<[ViewModel], Error>) -> Void)!
 	
 	func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -19,6 +20,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	}
 	
 	func makeRootViewController() -> MainTabBarController {
-        MainTabBarController(friendsCache: cache, isSentFromTransfers: isFromSentTransfersScreen)
+        MainTabBarController(friendsCache: cache, isSentFromTransfers: isFromSentTransfersScreen, shouldLoadFriendsFromCache: shouldLoadFriendsFromCache)
 	}
 }

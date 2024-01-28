@@ -7,11 +7,13 @@ import UIKit
 class MainTabBarController: UITabBarController {
     private var friendsCache: FriendsCache!
     private var isSentFromTransfers: Bool = false
+    private var shouldLoadFriendsFromCache: Bool = false
     
-    convenience init(friendsCache: FriendsCache, isSentFromTransfers: Bool) {
+    convenience init(friendsCache: FriendsCache, isSentFromTransfers: Bool, shouldLoadFriendsFromCache: Bool) {
 		self.init(nibName: nil, bundle: nil)
         self.friendsCache = friendsCache
         self.isSentFromTransfers = isSentFromTransfers
+        self.shouldLoadFriendsFromCache = shouldLoadFriendsFromCache
 		self.setupViewController()
 	}
 
@@ -70,7 +72,7 @@ class MainTabBarController: UITabBarController {
         }
         vc.itemsVMAdapter = FriendsViewModelAdapter(cache: cache ?? FriendsCache(), select: { friend in
             vc.select(friend)
-        }, viewModel: FriendsViewModel.shared)
+        }, viewModel: FriendsViewModel.shared, shouldLoadFromCache: isPremium && shouldLoadFriendsFromCache)
 		return vc
 	}
 	
@@ -112,7 +114,6 @@ class MainTabBarController: UITabBarController {
 	
 	private func makeCardsList() -> ListViewController {
 		let vc = ListViewController()
-		vc.fromCardsScreen = true
         vc.shouldRetry = false
         vc.title = "Cards"
         vc.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: vc, action: #selector(addCard))
@@ -130,5 +131,5 @@ class MainTabBarController: UITabBarController {
 // Null Object Pattern
 
 class NullFriendsCache: FriendsCache {
-    override func save(_ newFriends: [Friend]) {}
+    override func save(_ newFriends: [ViewModel]) {}
 }

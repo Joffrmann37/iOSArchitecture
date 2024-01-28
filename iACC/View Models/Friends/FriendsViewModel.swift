@@ -14,14 +14,20 @@ struct FriendsViewModelAdapter: ItemsViewModelAdapter {
     let cache: FriendsCache
     let select: (Friend) -> Void
     var viewModel: FriendsViewModel
+    let shouldLoadFromCache: Bool
     
     func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
-        viewModel.loadFriends(completion: completion)
+        if shouldLoadFromCache {
+            cache.loadFriends(completion: completion)
+        } else {
+            viewModel.loadFriends(completion: completion)
+        }
     }
 }
 
 class FriendsViewModel: ViewModelDelegate {
     static var shared = FriendsViewModel()
+    let shouldLoadFromCache: Bool
     let repo: FriendsRepo
     var cache: FriendsCache
     var select: (Friend) -> Void
@@ -33,18 +39,21 @@ class FriendsViewModel: ViewModelDelegate {
     }
     
     init() {
+        self.shouldLoadFromCache = false
         self.repo = FriendsRepo()
         self.cache = FriendsCache()
         self.select = { _ in }
     }
     
     init(select: @escaping (Friend) -> Void) {
+        self.shouldLoadFromCache = false
         self.repo = FriendsRepo()
         self.cache = FriendsCache()
         self.select = select
     }
     
-    init(repo: FriendsRepo, cache: FriendsCache, isPremium: Bool, select: @escaping (Friend) -> Void) {
+    init(shouldLoadFromCache: Bool, repo: FriendsRepo, cache: FriendsCache, isPremium: Bool, select: @escaping (Friend) -> Void) {
+        self.shouldLoadFromCache = shouldLoadFromCache
         self.repo = repo
         self.cache = cache
         self.select = select
