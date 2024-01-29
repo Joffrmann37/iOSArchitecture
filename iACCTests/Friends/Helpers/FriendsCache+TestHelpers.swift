@@ -15,7 +15,7 @@ extension FriendsCache {
 		results([])
 	}
 	
-	static func once(_ friends: [ViewModel]) -> FriendsCache {
+	static func once(_ friends: [ItemViewModel]) -> FriendsCache {
         results([.success(friends)], { _ in }, friends)
 	}
 	
@@ -23,76 +23,76 @@ extension FriendsCache {
 		results([.failure(error)])
 	}
 	
-    static func saveCallback(uuids: [UUID] = [], _ viewModels: [ViewModel] = [],
-		_ saveCallback: @escaping ([ViewModel]) -> Void
+    static func saveCallback(uuids: [UUID] = [], _ ItemViewModels: [ItemViewModel] = [],
+		_ saveCallback: @escaping ([ItemViewModel]) -> Void
 	) -> FriendsCache {
         var finalFriends = [Friend]()
-        let friends = getMappedFriends(uuids: uuids, viewModels: viewModels)
+        let friends = getMappedFriends(uuids: uuids, ItemViewModels: ItemViewModels)
         if uuids.count > 0 {
             for i in 0..<friends.count {
                 let newFriend = Friend(id: uuids[i], name: friends[i].name, phone: friends[i].phone)
                 finalFriends.append(newFriend)
             }
-            saveCallback(getMappedViewModels(friends: finalFriends))
+            saveCallback(getMappedItemViewModels(friends: finalFriends))
         }
         return results([], saveCallback)
 	}
     
-    static func getMappedFriends(uuids: [UUID] = [], viewModels: [ViewModel]) -> [Friend] {
-        return viewModels.map { item in
+    static func getMappedFriends(uuids: [UUID] = [], ItemViewModels: [ItemViewModel]) -> [Friend] {
+        return ItemViewModels.map { item in
             Friend(id: UUID(), name: item.title, phone: item.subtitle)
         }
     }
     
-    static func getMappedViewModels(friends: [Friend]) -> [ViewModel] {
+    static func getMappedItemViewModels(friends: [Friend]) -> [ItemViewModel] {
         return friends.map { friend in
-            ViewModel(friend: friend) {
+            ItemViewModel(friend: friend) {
                 
             }
         }
     }
 
 	static func results(
-		_ results: [Result<[ViewModel], Error>],
-		_ saveCallback: @escaping ([ViewModel]) -> Void = { _ in },
-        _ vms: [ViewModel] = []
+		_ results: [Result<[ItemViewModel], Error>],
+		_ saveCallback: @escaping ([ItemViewModel]) -> Void = { _ in },
+        _ vms: [ItemViewModel] = []
 	) -> FriendsCache {
 		var results = results
 		return resultBuilder({ results.removeFirst() }, saveCallback, vms)
 	}
 		
 	static func resultBuilder(
-		_ resultBuilder: @escaping () -> Result<[ViewModel], Error>,
-		_ saveCallback: @escaping ([ViewModel]) -> Void = { _ in },
-        _ vms: [ViewModel] = []
+		_ resultBuilder: @escaping () -> Result<[ItemViewModel], Error>,
+		_ saveCallback: @escaping ([ItemViewModel]) -> Void = { _ in },
+        _ vms: [ItemViewModel] = []
 	) -> FriendsCache {
 		FriendsCacheSpy(resultBuilder: resultBuilder, saveCallback: saveCallback, vms: vms)
 	}
 		
 	private class FriendsCacheSpy: FriendsCache {
-		private let nextResult: () -> Result<[ViewModel], Error>
-		private let saveCallback: ([ViewModel]) -> Void
-        private var friendVMs: [ViewModel]?
+		private let nextResult: () -> Result<[ItemViewModel], Error>
+		private let saveCallback: ([ItemViewModel]) -> Void
+        private var friendVMs: [ItemViewModel]?
 		
 		init(
-			resultBuilder: @escaping () -> Result<[ViewModel], Error>,
-			saveCallback save: @escaping ([ViewModel]) -> Void,
-            vms: [ViewModel] = []
+			resultBuilder: @escaping () -> Result<[ItemViewModel], Error>,
+			saveCallback save: @escaping ([ItemViewModel]) -> Void,
+            vms: [ItemViewModel] = []
 		) {
 			nextResult = resultBuilder
 			saveCallback = save
             friendVMs = vms
 		}
 		
-		override func loadFriends(completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+		override func loadFriends(completion: @escaping (Result<[ItemViewModel], Error>) -> Void) {
             completion(nextResult())
 		}
 		
-        override func save(_ newFriends: [ViewModel]) {
+        override func save(_ newFriends: [ItemViewModel]) {
             saveCallback(newFriends)
         }
         
-        override func getFriends() -> [ViewModel]? {
+        override func getFriends() -> [ItemViewModel]? {
             return friendVMs
         }
 	}

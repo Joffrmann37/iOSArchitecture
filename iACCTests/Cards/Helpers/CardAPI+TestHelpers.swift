@@ -9,38 +9,38 @@ import Foundation
 /// This `CardAPI` test helper extension provides fast and reliable ways of stubbing
 /// network requests with canned results to prevent making real network requests during tests.
 ///
-extension CardsViewModel {
-	static func once(_ cards: [ViewModel]) -> CardsViewModel {
+extension GetCardsUseCase {
+	static func once(_ cards: [ItemViewModel]) -> GetCardsUseCase {
 		results([.success(cards)])
 	}
 	
-	static func once(_ error: Error) -> CardsViewModel {
+	static func once(_ error: Error) -> GetCardsUseCase {
 		results([.failure(error)])
 	}
 	
-	static func results(_ results: [Result<[ViewModel], Error>]) -> CardsViewModel {
+	static func results(_ results: [Result<[ItemViewModel], Error>]) -> GetCardsUseCase {
 		var results = results
 		return resultBuilder { results.removeFirst() }
 	}
 	
-	static func resultBuilder(_ resultBuilder: @escaping () -> Result<[ViewModel], Error>) -> CardsViewModel {
-        CardViewModelStub(resultBuilder: resultBuilder)
+	static func resultBuilder(_ resultBuilder: @escaping () -> Result<[ItemViewModel], Error>) -> GetCardsUseCase {
+        GetCardsUseCaseModelStub(resultBuilder: resultBuilder)
 	}
     
-    func getMappedViewModels(cards: [Card]) -> [ViewModel] {
+    func getMappedItemViewModels(cards: [Card]) -> [ItemViewModel] {
         return cards.map { item in
-            ViewModel(card: item) {
+            ItemViewModel(card: item) {
                 
             }
         }
     }
     
-    func getMappedResults(_ results: [Result<[Card], Error>]) -> [Result<[ViewModel], Error>] {
+    func getMappedResults(_ results: [Result<[Card], Error>]) -> [Result<[ItemViewModel], Error>] {
         return results.map { result in
             switch result {
             case let .success(items):
                 let vms = items.map { item in
-                    ViewModel(card: item) {
+                    ItemViewModel(card: item) {
                         
                     }
                 }
@@ -51,15 +51,15 @@ extension CardsViewModel {
         }
     }
 	
-	private class CardViewModelStub: CardsViewModel {
-		private let nextResult: () -> Result<[ViewModel], Error>
+	private class GetCardsUseCaseModelStub: GetCardsUseCase {
+		private let nextResult: () -> Result<[ItemViewModel], Error>
 		
-		init(resultBuilder: @escaping () -> Result<[ViewModel], Error>) {
+		init(resultBuilder: @escaping () -> Result<[ItemViewModel], Error>) {
 			nextResult = resultBuilder
             super.init()
 		}
         
-        override func loadCards(cards: [Card], completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+        override func loadCards(cards: [Card], completion: @escaping (Result<[ItemViewModel], Error>) -> Void) {
             completion(nextResult())
         }
 	}

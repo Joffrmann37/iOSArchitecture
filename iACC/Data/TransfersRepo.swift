@@ -4,28 +4,6 @@
 
 import Foundation
 
-struct TransfersRepoAdapter: ItemsService {
-    let repo: TransfersRepo
-    let select: (Transfer) -> Void
-    let longDateStyle: Bool
-    
-    func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
-        repo.loadTransfers { res in
-            DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
-                DispatchQueue.main.async {
-                    completion(res.map { items in
-                        return items.map { item in
-                            ViewModel(transfer: item, longDateStyle: longDateStyle) {
-                                select(item)
-                            }
-                        }
-                    })
-                }
-            }
-        }
-    }
-}
-
 class TransfersRepo {
 	static var shared = TransfersRepo()
     var result: (Result<[Transfer], Error>)?

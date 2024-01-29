@@ -4,6 +4,6 @@
 
 import Foundation
 
-class GetArticlesUseCase: UseCaseDelegate {
-    var service: ItemsService?
-}
+//class GetArticlesUseCase: UseCaseDelegate {
+//    var service: ItemsService?
+//}
