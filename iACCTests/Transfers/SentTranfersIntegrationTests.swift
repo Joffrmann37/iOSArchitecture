@@ -68,7 +68,7 @@ class SentTranfersIntegrationTests: XCTestCase {
 		let transfer0 = aTranfer(description: "a description", amount: 10.75, currencyCode: "USD", sender: "Bob", recipient: "Mary", sent: true, date: .APR_01_1976_AT_12_AM)
         let transfer1 = aTranfer(amount: 101.00, sent: false)
 		let transfer2 = aTranfer(description: "another description", amount: 99.99, currencyCode: "GBP", sender: "Bob", recipient: "Mary", sent: true, date: .JUN_29_2007_AT_9_41_AM)
-        let getTransfersUseCase = GetTransfersUseCase.shared.getMappedViewModels(longDateStyle: true, transfers: [transfer0, transfer1, transfer2])
+        let getTransfersUseCase = GetTransfersUseCase.shared.getMappedItemViewModels(longDateStyle: true, transfers: [transfer0, transfer1, transfer2])
 
 		let sentTransfersList = try SceneBuilder()
 			.build(getTransfersUseCase: .once(getTransfersUseCase))
@@ -82,9 +82,9 @@ class SentTranfersIntegrationTests: XCTestCase {
 	
 	func test_cardsList_canRefreshData() throws {
 		let refreshedTransfer0 = aTranfer(description: "a description", amount: 0.01, currencyCode: "EUR", sender: "Bob", recipient: "Mary", sent: true, date: .APR_01_1976_AT_12_AM)
-        let getTransfersUseCase: [Result<[ViewModel], Error>] = ([
+        let getTransfersUseCase: [Result<[ItemViewModel], Error>] = ([
             .success([]),
-            .success(GetTransfersUseCase.shared.getMappedViewModels(longDateStyle: true, transfers: [refreshedTransfer0]))
+            .success(GetTransfersUseCase.shared.getMappedItemViewModels(longDateStyle: true, transfers: [refreshedTransfer0]))
         ])
 
 		let sentTransfersList = try SceneBuilder()
@@ -178,7 +178,7 @@ class SentTranfersIntegrationTests: XCTestCase {
 		let transfer0 = aTranfer(sent: true)
 		let transfer1 = aTranfer(sent: true)
         let getTransfersUseCase: GetTransfersUseCase = .results([
-            .success(GetTransfersUseCase.shared.getMappedViewModels(longDateStyle: true, transfers: [transfer0, transfer1])),
+            .success(GetTransfersUseCase.shared.getMappedItemViewModels(longDateStyle: true, transfers: [transfer0, transfer1])),
         ])
 		
 		let sentTransfersList = try SceneBuilder()

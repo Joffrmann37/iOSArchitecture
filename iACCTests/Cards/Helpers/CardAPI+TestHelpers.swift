@@ -10,7 +10,7 @@ import Foundation
 /// network requests with canned results to prevent making real network requests during tests.
 ///
 extension GetCardsUseCase {
-	static func once(_ cards: [ViewModel]) -> GetCardsUseCase {
+	static func once(_ cards: [ItemViewModel]) -> GetCardsUseCase {
 		results([.success(cards)])
 	}
 	
@@ -18,29 +18,29 @@ extension GetCardsUseCase {
 		results([.failure(error)])
 	}
 	
-	static func results(_ results: [Result<[ViewModel], Error>]) -> GetCardsUseCase {
+	static func results(_ results: [Result<[ItemViewModel], Error>]) -> GetCardsUseCase {
 		var results = results
 		return resultBuilder { results.removeFirst() }
 	}
 	
-	static func resultBuilder(_ resultBuilder: @escaping () -> Result<[ViewModel], Error>) -> GetCardsUseCase {
+	static func resultBuilder(_ resultBuilder: @escaping () -> Result<[ItemViewModel], Error>) -> GetCardsUseCase {
         GetCardsUseCaseModelStub(resultBuilder: resultBuilder)
 	}
     
-    func getMappedViewModels(cards: [Card]) -> [ViewModel] {
+    func getMappedItemViewModels(cards: [Card]) -> [ItemViewModel] {
         return cards.map { item in
-            ViewModel(card: item) {
+            ItemViewModel(card: item) {
                 
             }
         }
     }
     
-    func getMappedResults(_ results: [Result<[Card], Error>]) -> [Result<[ViewModel], Error>] {
+    func getMappedResults(_ results: [Result<[Card], Error>]) -> [Result<[ItemViewModel], Error>] {
         return results.map { result in
             switch result {
             case let .success(items):
                 let vms = items.map { item in
-                    ViewModel(card: item) {
+                    ItemViewModel(card: item) {
                         
                     }
                 }
@@ -52,14 +52,14 @@ extension GetCardsUseCase {
     }
 	
 	private class GetCardsUseCaseModelStub: GetCardsUseCase {
-		private let nextResult: () -> Result<[ViewModel], Error>
+		private let nextResult: () -> Result<[ItemViewModel], Error>
 		
-		init(resultBuilder: @escaping () -> Result<[ViewModel], Error>) {
+		init(resultBuilder: @escaping () -> Result<[ItemViewModel], Error>) {
 			nextResult = resultBuilder
             super.init()
 		}
         
-        override func loadCards(cards: [Card], completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+        override func loadCards(cards: [Card], completion: @escaping (Result<[ItemViewModel], Error>) -> Void) {
             completion(nextResult())
         }
 	}

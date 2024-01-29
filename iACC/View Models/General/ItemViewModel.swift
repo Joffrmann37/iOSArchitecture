@@ -4,7 +4,12 @@
 
 import Foundation
 
-struct ItemViewModel {
+struct ItemViewModel: Equatable {
+    
+    static func == (lhs: ItemViewModel, rhs: ItemViewModel) -> Bool {
+        return lhs.title == rhs.title
+    }
+    
     var title: String
     var subtitle: String
     var select: () -> Void

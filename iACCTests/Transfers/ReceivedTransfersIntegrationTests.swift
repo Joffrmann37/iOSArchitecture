@@ -67,7 +67,7 @@ class ReceivedTransfersIntegrationTests: XCTestCase {
 	func test_receivedTransfersList_showsOnlyReceivedTranfers_whenAPIRequestSucceeds() throws {
 		let transfer0 = aTranfer(description: "a description", amount: 10.75, currencyCode: "USD", sender: "Bob", recipient: "Mary", sent: false, date: .APR_01_1976_AT_12_AM)
 		let transfer1 = aTranfer(amount: 99.99, sent: true, date: .APR_01_1976_AT_12_AM)
-        let transfersVM = GetTransfersUseCase.shared.getMappedViewModels(longDateStyle: false, transfers: [transfer0, transfer1])
+        let transfersVM = GetTransfersUseCase.shared.getMappedItemViewModels(longDateStyle: false, transfers: [transfer0, transfer1])
 		
 		let receivedTransfersList = try SceneBuilder()
 			.build(getTransfersUseCase: .once(transfersVM))
@@ -81,7 +81,7 @@ class ReceivedTransfersIntegrationTests: XCTestCase {
 	func test_cardsList_canRefreshData() throws {
 		let refreshedTransfer0 = aTranfer(description: "a description", amount: 0.01, currencyCode: "EUR", sender: "Bob", recipient: "Mary", sent: false, date: .APR_01_1976_AT_12_AM)
 		let refreshedTransfer1 = aTranfer(sent: true)
-        let transfersVM = GetTransfersUseCase.shared.getMappedViewModels(longDateStyle: false, transfers: [refreshedTransfer0, refreshedTransfer1])
+        let transfersVM = GetTransfersUseCase.shared.getMappedItemViewModels(longDateStyle: false, transfers: [refreshedTransfer0, refreshedTransfer1])
 		
 		let receivedTransfersList = try SceneBuilder()
 			.build(getTransfersUseCase: .results([
@@ -174,7 +174,7 @@ class ReceivedTransfersIntegrationTests: XCTestCase {
 		let transfer0 = aTranfer(sent: false)
 		let transfer1 = aTranfer(sent: false)
         let transfersVM: GetTransfersUseCase = .results([
-            .success(GetTransfersUseCase.shared.getMappedViewModels(longDateStyle: true, transfers: [transfer0, transfer1])),
+            .success(GetTransfersUseCase.shared.getMappedItemViewModels(longDateStyle: true, transfers: [transfer0, transfer1])),
         ])
 		
 		let receivedTransfersList = try SceneBuilder()

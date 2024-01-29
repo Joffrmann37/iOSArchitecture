@@ -9,7 +9,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	var cache = FriendsCache()
     var isFromSentTransfersScreen = false
     var shouldLoadFriendsFromCache = false
-    var result: ((Result<[ViewModel], Error>) -> Void)!
+    var result: ((Result<[ItemViewModel], Error>) -> Void)!
 	
 	func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 		guard let windowScene = scene as? UIWindowScene else { return }

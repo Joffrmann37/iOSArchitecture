@@ -6,7 +6,7 @@ import Foundation
 import UIKit
 
 protocol ItemsUseCaseAdapter {
-    func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void)
+    func load(_ completion: @escaping (Result<[ItemViewModel], Error>) -> Void)
 }
 
 
@@ -14,7 +14,7 @@ struct GetFriendsUseCaseAdapter: ItemsUseCaseAdapter {
     let select: (Friend) -> Void
     var useCase: GetFriendsUseCase
     
-    func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+    func load(_ completion: @escaping (Result<[ItemViewModel], Error>) -> Void) {
         useCase.loadFriends(completion: completion)
     }
 }
@@ -24,7 +24,7 @@ struct GetFriendsUseCaseCacheAdapter: ItemsUseCaseAdapter {
     let select: (Friend) -> Void
     let useCase: GetFriendsUseCase
     
-    func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+    func load(_ completion: @escaping (Result<[ItemViewModel], Error>) -> Void) {
         cache.loadFriends(completion: completion)
     }
 }
@@ -33,13 +33,13 @@ struct ItemsUseCaseAdapterWithFallback: ItemsUseCaseAdapter {
     let primary: ItemsUseCaseAdapter
     let fallback: ItemsUseCaseAdapter
     
-    func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
-        primary.load(items) { result in
+    func load(_ completion: @escaping (Result<[ItemViewModel], Error>) -> Void) {
+        primary.load { result in
             switch result {
             case .success:
                 completion(result)
             case .failure:
-                fallback.load(items, completion)
+                fallback.load(completion)
             }
         }
     }

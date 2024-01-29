@@ -54,13 +54,13 @@ class GetTransfersUseCase {
             date: Date(timeIntervalSince1970: 1690373492)
         )
         ],
-        completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+        completion: @escaping (Result<[ItemViewModel], Error>) -> Void) {
         repo.loadTransfers { res in
             DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
                 DispatchQueue.main.async {
                     completion(res.map { items in
                         return items.map { item in
-                            ViewModel(transfer: item, longDateStyle: self.longDateStyle) {
+                            ItemViewModel(transfer: item, longDateStyle: self.longDateStyle) {
                                 self.select(item)
                             }
                         }

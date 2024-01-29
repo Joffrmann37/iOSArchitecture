@@ -28,13 +28,13 @@ class GetCardsUseCase {
         Card(id: 1, number: "****-0899", holder: "J. DOE"),
         Card(id: 2, number: "****-6544", holder: "DOE J.")
         ],
-        completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+        completion: @escaping (Result<[ItemViewModel], Error>) -> Void) {
         repo.loadCards { res in
             DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
                 DispatchQueue.main.async {
                     completion(res.map { items in
                         return items.map { item in
-                            ViewModel(card: item) {
+                            ItemViewModel(card: item) {
                                 self.select(item)
                             }
                         }

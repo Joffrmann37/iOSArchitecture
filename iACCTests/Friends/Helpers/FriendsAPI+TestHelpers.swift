@@ -14,37 +14,37 @@ extension GetFriendsUseCase {
         results([])
     }
     
-    static func once(_ friends: [ViewModel]) -> GetFriendsUseCase {
+    static func once(_ friends: [ItemViewModel]) -> GetFriendsUseCase {
         results([.success(friends)])
     }
     
-    static func results(_ results: [Result<[ViewModel], Error>]) -> GetFriendsUseCase {
+    static func results(_ results: [Result<[ItemViewModel], Error>]) -> GetFriendsUseCase {
         var results = results
-        var currentResult: Result<[ViewModel], Error> = results.removeFirst()
+        var currentResult: Result<[ItemViewModel], Error> = results.removeFirst()
         for result in results {
             currentResult = result
         }
         return resultBuilder(currentResult)
     }
     
-    static func resultBuilder(_ resultBuilder: Result<[ViewModel], Error>) -> GetFriendsUseCase {
+    static func resultBuilder(_ resultBuilder: Result<[ItemViewModel], Error>) -> GetFriendsUseCase {
         return GetFriendsUseCaseStub(resultBuilder: resultBuilder)
     }
     
-    func getMappedViewModels(friends: [Friend]) -> [ViewModel] {
+    func getMappedItemViewModels(friends: [Friend]) -> [ItemViewModel] {
         return friends.map { item in
-            ViewModel(friend: item) {
+            ItemViewModel(friend: item) {
                 
             }
         }
     }
     
-    func getMappedResults(_ results: [Result<[Friend], Error>]) -> [Result<[ViewModel], Error>] {
+    func getMappedResults(_ results: [Result<[Friend], Error>]) -> [Result<[ItemViewModel], Error>] {
         return results.map { result in
             switch result {
             case let .success(items):
                 let vms = items.map { item in
-                    ViewModel(friend: item) {
+                    ItemViewModel(friend: item) {
                         
                     }
                 }
@@ -56,14 +56,14 @@ extension GetFriendsUseCase {
     }
 	
 	private class GetFriendsUseCaseStub: GetFriendsUseCase {
-		private let nextResult: Result<[ViewModel], Error>
+		private let nextResult: Result<[ItemViewModel], Error>
 		
-		init(resultBuilder: Result<[ViewModel], Error>) {
+		init(resultBuilder: Result<[ItemViewModel], Error>) {
 			nextResult = resultBuilder
             super.init()
 		}
         
-        override func loadFriends(friends: [Friend], completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+        override func loadFriends(friends: [Friend], completion: @escaping (Result<[ItemViewModel], Error>) -> Void) {
             completion(nextResult)
         }
 	}

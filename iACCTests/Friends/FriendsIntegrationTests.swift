@@ -70,7 +70,7 @@ class FriendsIntegrationTests: XCTestCase {
 		let friendsList = try SceneBuilder()
 			.build(
 				user: nonPremiumUser(),
-                getFriendsUseCase: .once(GetFriendsUseCase.shared.getMappedViewModels(friends: [friend0, friend1])),
+                getFriendsUseCase: .once(GetFriendsUseCase.shared.getMappedItemViewModels(friends: [friend0, friend1])),
 				friendsCache: .never
 			)
 			.friendsList()
@@ -85,7 +85,7 @@ class FriendsIntegrationTests: XCTestCase {
 	func test_friendsList_showsLoadingIndicator_untilAPIRequestSucceeds() throws {
 		let friendsList = try SceneBuilder()
 			.build(
-                getFriendsUseCase: GetFriendsUseCase.resultBuilder(.success(GetFriendsUseCase.shared.getMappedViewModels(friends: [aFriend()]))),
+                getFriendsUseCase: GetFriendsUseCase.resultBuilder(.success(GetFriendsUseCase.shared.getMappedItemViewModels(friends: [aFriend()]))),
 				friendsCache: .never
 			)
 			.friendsList()
@@ -132,7 +132,7 @@ class FriendsIntegrationTests: XCTestCase {
 	}
 	
 	func test_friendsList_withNonPremiumUser_showsError_afterRetryingFailedAPIRequestTwice() throws {
-        let cacheArray = FriendsCache.getMappedViewModels(friends: [aFriend(), aFriend()])
+        let cacheArray = FriendsCache.getMappedItemViewModels(friends: [aFriend(), aFriend()])
 		let friendsList = try SceneBuilder()
 			.build(
 				user: nonPremiumUser(),
@@ -152,7 +152,7 @@ class FriendsIntegrationTests: XCTestCase {
 	func test_friendsList_withPremiumUser_showsCachedFriends_afterRetryingFailedAPIRequestTwice() throws {
 		let friend0 = aFriend(name: "a name", phone: "a phone")
 		let friend1 = aFriend(name: "another name", phone: "another phone")
-        let cacheArray = FriendsCache.getMappedViewModels(friends: [friend0, friend1])
+        let cacheArray = FriendsCache.getMappedItemViewModels(friends: [friend0, friend1])
         
 		let friendsList = try SceneBuilder()
 			.build(
@@ -204,7 +204,7 @@ class FriendsIntegrationTests: XCTestCase {
         
         friendsList = try SceneBuilder()
             .build(
-                getFriendsUseCase: .results([.success(GetFriendsUseCase.shared.getMappedViewModels(friends: [refreshedFriend]))])
+                getFriendsUseCase: .results([.success(GetFriendsUseCase.shared.getMappedItemViewModels(friends: [refreshedFriend]))])
             )
             .friendsList()
 		
@@ -214,7 +214,7 @@ class FriendsIntegrationTests: XCTestCase {
 	}
 	
 	func test_friendsList_refreshData_retriesTwiceOnAPIFailure() throws {
-        var getTransfersUseCase: [Result<[ViewModel], Error>] = ([
+        var getTransfersUseCase: [Result<[ItemViewModel], Error>] = ([
             .failure(NSError(localizedDescription: "1st request error")),
             .failure(NSError(localizedDescription: "1st retry error")),
             .failure(NSError(localizedDescription: "2nd retry error")),
@@ -250,7 +250,7 @@ class FriendsIntegrationTests: XCTestCase {
 	func test_friendsList_refreshData_withPremiumUser_showsCachedFriends_afterRetryingFailedAPIRequestTwice() throws {
 		let friend0 = aFriend(name: "a name", phone: "a phone")
 		let friend1 = aFriend(name: "another name", phone: "another phone")
-        let cacheArray = FriendsCache.getMappedViewModels(friends: [friend0, friend1])
+        let cacheArray = FriendsCache.getMappedItemViewModels(friends: [friend0, friend1])
         let getTransfersUseCase: GetFriendsUseCase = .results([
             .success([]),
             .failure(NSError(localizedDescription: "1st request error")),
@@ -288,13 +288,13 @@ class FriendsIntegrationTests: XCTestCase {
 	func test_friendsList_withNonPremiumUser_doesntCacheItems_whenAPIRequestSucceeds() throws {
 		let friend0 = aFriend()
 		let friend1 = aFriend()
-		var cachedItems = [[ViewModel]]()
-        let vms = GetFriendsUseCase.shared.getMappedViewModels(friends: [friend0, friend1])
+		var cachedItems = [[ItemViewModel]]()
+        let vms = GetFriendsUseCase.shared.getMappedItemViewModels(friends: [friend0, friend1])
 		
 		_ = try SceneBuilder()
 			.build(
 				user: nonPremiumUser(),
-                getFriendsUseCase: .once(GetFriendsUseCase.shared.getMappedViewModels(friends: [friend0, friend1])),
+                getFriendsUseCase: .once(GetFriendsUseCase.shared.getMappedItemViewModels(friends: [friend0, friend1])),
                 friendsCache: .saveCallback(vms, { friends in
                     cachedItems.append(friends)
                 })
@@ -307,9 +307,9 @@ class FriendsIntegrationTests: XCTestCase {
 	func test_friendsList_withPremiumUser_cachesItems_whenAPIRequestSucceeds() throws {
 		let friend0 = aFriend()
 		let friend1 = aFriend()
-        let cacheArray = FriendsCache.getMappedViewModels(friends: [friend0, friend1])
-		var cachedItems = [[ViewModel]]()
-        let vms = GetFriendsUseCase.shared.getMappedViewModels(friends: [friend0, friend1])
+        let cacheArray = FriendsCache.getMappedItemViewModels(friends: [friend0, friend1])
+		var cachedItems = [[ItemViewModel]]()
+        let vms = GetFriendsUseCase.shared.getMappedItemViewModels(friends: [friend0, friend1])
 		
 		_ = try SceneBuilder()
 			.build(
@@ -328,7 +328,7 @@ class FriendsIntegrationTests: XCTestCase {
 		let friend0 = aFriend(name: "a name", phone: "a phone")
 		let friend1 = aFriend(name: "another name", phone: "another phone")
         let getTransfersUseCase: GetFriendsUseCase = .results([
-            .success(GetFriendsUseCase.shared.getMappedViewModels(friends: [friend0, friend1])),
+            .success(GetFriendsUseCase.shared.getMappedItemViewModels(friends: [friend0, friend1])),
         ])
         let friendsList = try SceneBuilder()
 			.build(
@@ -349,7 +349,7 @@ class FriendsIntegrationTests: XCTestCase {
 	func test_friendsList_canSelectCachedFriend() throws {
 		let friend0 = aFriend(name: "a name", phone: "a phone")
 		let friend1 = aFriend(name: "another name", phone: "another phone")
-        let cacheArray = FriendsCache.getMappedViewModels(friends: [friend0, friend1])
+        let cacheArray = FriendsCache.getMappedItemViewModels(friends: [friend0, friend1])
         let getTransfersUseCase: GetFriendsUseCase = .results([
             .failure(anError()),
             .failure(anError()),

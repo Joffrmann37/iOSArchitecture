@@ -36,11 +36,11 @@ class GetFriendsUseCase {
         Friend(id: UUID(), name: "Bob", phone: "9999-9999"),
         Friend(id: UUID(), name: "Mary", phone: "1111-1111")
         ],
-        completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+        completion: @escaping (Result<[ItemViewModel], Error>) -> Void) {
         repo.loadFriends { res in
             completion(res.map { items in
                 let itemsToSave = items.map { item in
-                    ViewModel(friend: item) {
+                    ItemViewModel(friend: item) {
                         self.select(item)
                     }
                 }

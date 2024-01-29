@@ -124,5 +124,5 @@ class MainTabBarController: UITabBarController {
 // Null Object Pattern
 
 class NullFriendsCache: FriendsCache {
-    override func save(_ newFriends: [ViewModel]) {}
+    override func save(_ newFriends: [ItemViewModel]) {}
 }

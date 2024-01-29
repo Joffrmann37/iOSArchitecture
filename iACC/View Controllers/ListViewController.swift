@@ -5,7 +5,7 @@
 import UIKit
 
 class ListViewController: UITableViewController {
-	var items = [ViewModel]()
+	var items = [ItemViewModel]()
     var friendsCache: FriendsCache!
     var friendsDidComplete: (() -> Void)!
     var itemsVMAdapter: ItemsUseCaseAdapter?
@@ -26,10 +26,10 @@ class ListViewController: UITableViewController {
 	
 	@objc private func refresh() {
 		refreshControl?.beginRefreshing()
-        itemsVMAdapter?.load([], handleAPIResult)
+        itemsVMAdapter?.load(handleAPIResult)
 	}
 	
-	private func handleAPIResult(_ result: Result<[ViewModel], Error>) {
+	private func handleAPIResult(_ result: Result<[ItemViewModel], Error>) {
 		switch result {
 		case let .success(items):
             self.items = items
@@ -63,7 +63,7 @@ class ListViewController: UITableViewController {
 }
 
 extension UITableViewCell {
-    func configure(_ vm: ViewModel) {
+    func configure(_ vm: ItemViewModel) {
         textLabel?.text = vm.title
         detailTextLabel?.text = vm.subtitle
 	}

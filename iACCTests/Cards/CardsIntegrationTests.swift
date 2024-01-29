@@ -67,7 +67,7 @@ class CardsIntegrationTests: XCTestCase {
 	func test_cardsList_showsCards_whenAPIRequestSucceeds() throws {
 		let card0 = aCard(number: "a number", holder: "a holder")
 		let card1 = aCard(number: "another number", holder: "another holder")
-        let getCardsUseCase = GetCardsUseCase.shared.getMappedViewModels(cards: [card0, card1])
+        let getCardsUseCase = GetCardsUseCase.shared.getMappedItemViewModels(cards: [card0, card1])
 		let cardsList = try SceneBuilder()
 			.build(getCardsUseCase: .once(getCardsUseCase))
 			.cardsList()
@@ -89,7 +89,7 @@ class CardsIntegrationTests: XCTestCase {
 	
 	func test_cardsList_canRefreshData() throws {
 		let refreshedCard = aCard(number: "refreshed number", holder: "refreshed holder")
-        let getCardsUseCase = GetCardsUseCase.shared.getMappedViewModels(cards: [refreshedCard])
+        let getCardsUseCase = GetCardsUseCase.shared.getMappedItemViewModels(cards: [refreshedCard])
 		
 		let cardsList = try SceneBuilder()
 			.build(getCardsUseCase: .results([
@@ -108,7 +108,7 @@ class CardsIntegrationTests: XCTestCase {
 	}
 	
 	func test_cardsList_showsLoadingIndicator_untilAPIRequestSucceeds() throws {
-        let vms = GetCardsUseCase.shared.getMappedViewModels(cards: [aCard()])
+        let vms = GetCardsUseCase.shared.getMappedItemViewModels(cards: [aCard()])
 		let cardsList = try SceneBuilder()
 			.build(getCardsUseCase: .resultBuilder {
 				let cardsList = try? ContainerViewControllerSpy.current.cardsList()
@@ -144,7 +144,7 @@ class CardsIntegrationTests: XCTestCase {
 		let card0 = aCard(number: "a number", holder: "a holder")
 		let card1 = aCard(number: "another number", holder: "another holder")
         let getCardsUseCase: GetCardsUseCase = .results([
-            .success(GetCardsUseCase.shared.getMappedViewModels(cards: [card0, card1])),
+            .success(GetCardsUseCase.shared.getMappedItemViewModels(cards: [card0, card1])),
         ])
 		let cardsList = try SceneBuilder()
 			.build(getCardsUseCase: getCardsUseCase)

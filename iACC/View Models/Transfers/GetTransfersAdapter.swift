@@ -16,7 +16,7 @@ struct GetTransfersUseCaseAdapter: ItemsUseCaseAdapter {
         self.useCase = useCase
     }
     
-    func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+    func load(_ completion: @escaping (Result<[ItemViewModel], Error>) -> Void) {
         useCase.loadTransfers(completion: completion)
     }
 }
