@@ -70,7 +70,7 @@ class FriendsIntegrationTests: XCTestCase {
 		let friendsList = try SceneBuilder()
 			.build(
 				user: nonPremiumUser(),
-                friendsViewModel: .once(FriendsViewModel.shared.getMappedViewModels(friends: [friend0, friend1])),
+                getFriendsUseCase: .once(GetFriendsUseCase.shared.getMappedViewModels(friends: [friend0, friend1])),
 				friendsCache: .never
 			)
 			.friendsList()
@@ -85,7 +85,7 @@ class FriendsIntegrationTests: XCTestCase {
 	func test_friendsList_showsLoadingIndicator_untilAPIRequestSucceeds() throws {
 		let friendsList = try SceneBuilder()
 			.build(
-                friendsViewModel: FriendsViewModel.resultBuilder(.success(FriendsViewModel.shared.getMappedViewModels(friends: [aFriend()]))),
+                getFriendsUseCase: GetFriendsUseCase.resultBuilder(.success(GetFriendsUseCase.shared.getMappedViewModels(friends: [aFriend()]))),
 				friendsCache: .never
 			)
 			.friendsList()
@@ -101,7 +101,7 @@ class FriendsIntegrationTests: XCTestCase {
 		let friendsList = try SceneBuilder()
 			.build(
 				user: nonPremiumUser(),
-                friendsViewModel: FriendsViewModel.resultBuilder(.failure(anError())),
+                getFriendsUseCase: GetFriendsUseCase.resultBuilder(.failure(anError())),
 				friendsCache: .never
 			)
 			.friendsList()
@@ -117,7 +117,7 @@ class FriendsIntegrationTests: XCTestCase {
 		let friendsList = try SceneBuilder()
 			.build(
 				user: premiumUser(),
-                friendsViewModel: FriendsViewModel.resultBuilder(.failure(anError())),
+                getFriendsUseCase: GetFriendsUseCase.resultBuilder(.failure(anError())),
 				friendsCache: .resultBuilder {
 					return .failure(anError())
 				}
@@ -136,7 +136,7 @@ class FriendsIntegrationTests: XCTestCase {
 		let friendsList = try SceneBuilder()
 			.build(
 				user: nonPremiumUser(),
-				friendsViewModel: .results([
+				getFriendsUseCase: .results([
 					.failure(NSError(localizedDescription: "1st request error")),
 					.failure(NSError(localizedDescription: "1st retry error")),
 					.failure(NSError(localizedDescription: "2nd retry error"))
@@ -157,7 +157,7 @@ class FriendsIntegrationTests: XCTestCase {
 		let friendsList = try SceneBuilder()
 			.build(
 				user: premiumUser(),
-				friendsViewModel: .results([
+				getFriendsUseCase: .results([
 					.failure(NSError(localizedDescription: "1st request error")),
 					.failure(NSError(localizedDescription: "1st retry error")),
 					.failure(NSError(localizedDescription: "2nd retry error"))
@@ -177,7 +177,7 @@ class FriendsIntegrationTests: XCTestCase {
 		let friendsList = try SceneBuilder()
 			.build(
 				user: premiumUser(),
-				friendsViewModel: .results([
+				getFriendsUseCase: .results([
 					.failure(NSError(localizedDescription: "1st request error")),
 					.failure(NSError(localizedDescription: "1st retry error")),
 					.failure(NSError(localizedDescription: "2nd retry error"))
@@ -191,14 +191,10 @@ class FriendsIntegrationTests: XCTestCase {
 	
 	func test_friendsList_canRefreshData() throws {
         let refreshedFriend = aFriend(name: "refreshed name", phone: "refreshed phone")
-        let friendsVM: [Result<[ViewModel], Error>] = ([
-            .success([]),
-            .success(FriendsViewModel.shared.getMappedViewModels(friends: [refreshedFriend]))
-        ])
         		
 		var friendsList = try SceneBuilder()
 			.build(
-                friendsViewModel: .results([.success([])])
+                getFriendsUseCase: .results([.success([])])
 			)
 			.friendsList()
 		
@@ -208,7 +204,7 @@ class FriendsIntegrationTests: XCTestCase {
         
         friendsList = try SceneBuilder()
             .build(
-                friendsViewModel: .results([.success(FriendsViewModel.shared.getMappedViewModels(friends: [refreshedFriend]))])
+                getFriendsUseCase: .results([.success(GetFriendsUseCase.shared.getMappedViewModels(friends: [refreshedFriend]))])
             )
             .friendsList()
 		
@@ -218,14 +214,14 @@ class FriendsIntegrationTests: XCTestCase {
 	}
 	
 	func test_friendsList_refreshData_retriesTwiceOnAPIFailure() throws {
-        var friendsVM: [Result<[ViewModel], Error>] = ([
+        var getTransfersUseCase: [Result<[ViewModel], Error>] = ([
             .failure(NSError(localizedDescription: "1st request error")),
             .failure(NSError(localizedDescription: "1st retry error")),
             .failure(NSError(localizedDescription: "2nd retry error")),
         ])
 		var friendsList = try SceneBuilder()
 			.build(
-				friendsViewModel: .results(friendsVM),
+				getFriendsUseCase: .results(getTransfersUseCase),
 				friendsCache: .never
 			)
 			.friendsList()
@@ -238,12 +234,12 @@ class FriendsIntegrationTests: XCTestCase {
 		
 		friendsList.simulateRefresh()
         
-        friendsVM.append(contentsOf: [.failure(NSError(localizedDescription: "1st refresh error")),
+        getTransfersUseCase.append(contentsOf: [.failure(NSError(localizedDescription: "1st refresh error")),
                          .failure(NSError(localizedDescription: "1st refresh retry error")),
                          .failure(NSError(localizedDescription: "2nd refresh retry error"))])
         friendsList = try SceneBuilder()
             .build(
-                friendsViewModel: .results(friendsVM),
+                getFriendsUseCase: .results(getTransfersUseCase),
                 friendsCache: .never
             )
             .friendsList()
@@ -255,7 +251,7 @@ class FriendsIntegrationTests: XCTestCase {
 		let friend0 = aFriend(name: "a name", phone: "a phone")
 		let friend1 = aFriend(name: "another name", phone: "another phone")
         let cacheArray = FriendsCache.getMappedViewModels(friends: [friend0, friend1])
-        let friendsVM: FriendsViewModel = .results([
+        let getTransfersUseCase: GetFriendsUseCase = .results([
             .success([]),
             .failure(NSError(localizedDescription: "1st request error")),
             .failure(NSError(localizedDescription: "1st retry error")),
@@ -265,7 +261,7 @@ class FriendsIntegrationTests: XCTestCase {
 		var friendsList = try SceneBuilder()
 			.build(
 				user: premiumUser(),
-				friendsViewModel: friendsVM,
+				getFriendsUseCase: getTransfersUseCase,
 				friendsCache: .once([])
 			)
 			.friendsList()
@@ -277,7 +273,7 @@ class FriendsIntegrationTests: XCTestCase {
         friendsList = try SceneBuilder()
             .build(
                 user: premiumUser(),
-                friendsViewModel: friendsVM,
+                getFriendsUseCase: getTransfersUseCase,
                 friendsCache: .once(cacheArray)
             )
             .friendsList()
@@ -293,12 +289,12 @@ class FriendsIntegrationTests: XCTestCase {
 		let friend0 = aFriend()
 		let friend1 = aFriend()
 		var cachedItems = [[ViewModel]]()
-        let vms = FriendsViewModel.shared.getMappedViewModels(friends: [friend0, friend1])
+        let vms = GetFriendsUseCase.shared.getMappedViewModels(friends: [friend0, friend1])
 		
 		_ = try SceneBuilder()
 			.build(
 				user: nonPremiumUser(),
-                friendsViewModel: .once(FriendsViewModel.shared.getMappedViewModels(friends: [friend0, friend1])),
+                getFriendsUseCase: .once(GetFriendsUseCase.shared.getMappedViewModels(friends: [friend0, friend1])),
                 friendsCache: .saveCallback(vms, { friends in
                     cachedItems.append(friends)
                 })
@@ -313,12 +309,12 @@ class FriendsIntegrationTests: XCTestCase {
 		let friend1 = aFriend()
         let cacheArray = FriendsCache.getMappedViewModels(friends: [friend0, friend1])
 		var cachedItems = [[ViewModel]]()
-        let vms = FriendsViewModel.shared.getMappedViewModels(friends: [friend0, friend1])
+        let vms = GetFriendsUseCase.shared.getMappedViewModels(friends: [friend0, friend1])
 		
 		_ = try SceneBuilder()
 			.build(
 				user: premiumUser(),
-                friendsViewModel: .once(vms),
+                getFriendsUseCase: .once(vms),
                 friendsCache: .saveCallback(uuids: [friend0.id, friend1.id], vms, { friends in
                     cachedItems.append(friends)
                 })
@@ -331,21 +327,21 @@ class FriendsIntegrationTests: XCTestCase {
 	func test_friendsList_canSelectAPIFriend() throws {
 		let friend0 = aFriend(name: "a name", phone: "a phone")
 		let friend1 = aFriend(name: "another name", phone: "another phone")
-        let friendsVM: FriendsViewModel = .results([
-            .success(FriendsViewModel.shared.getMappedViewModels(friends: [friend0, friend1])),
+        let getTransfersUseCase: GetFriendsUseCase = .results([
+            .success(GetFriendsUseCase.shared.getMappedViewModels(friends: [friend0, friend1])),
         ])
         let friendsList = try SceneBuilder()
 			.build(
 				user: premiumUser(),
-                friendsViewModel: friendsVM,
+                getFriendsUseCase: getTransfersUseCase,
 				friendsCache: .never
 			)
 			.friendsList()
-        friendsVM.select(friend0)
+        getTransfersUseCase.select(friend0)
         friendsList.selectFriend(at: 0)
 		XCTAssertTrue(friendsList.isShowingDetails(for: friend0), "should show friend details at row 0")
 		
-        friendsVM.select(friend1)
+        getTransfersUseCase.select(friend1)
 		friendsList.selectFriend(at: 1)
 		XCTAssertTrue(friendsList.isShowingDetails(for: friend1), "should show friend details at row 1")
 	}
@@ -354,7 +350,7 @@ class FriendsIntegrationTests: XCTestCase {
 		let friend0 = aFriend(name: "a name", phone: "a phone")
 		let friend1 = aFriend(name: "another name", phone: "another phone")
         let cacheArray = FriendsCache.getMappedViewModels(friends: [friend0, friend1])
-        let friendsVM: FriendsViewModel = .results([
+        let getTransfersUseCase: GetFriendsUseCase = .results([
             .failure(anError()),
             .failure(anError()),
             .failure(anError())
@@ -363,16 +359,16 @@ class FriendsIntegrationTests: XCTestCase {
 		let friendsList = try SceneBuilder()
 			.build(
 				user: premiumUser(),
-				friendsViewModel: friendsVM,
+				getFriendsUseCase: getTransfersUseCase,
 				friendsCache: .once(cacheArray)
 			)
 			.friendsList()
 		
-        friendsVM.select(friend0)
+        getTransfersUseCase.select(friend0)
 		friendsList.selectFriend(at: 0)
 		XCTAssertTrue(friendsList.isShowingDetails(for: friend0), "should show friend details at row 0")
 		
-        friendsVM.select(friend1)
+        getTransfersUseCase.select(friend1)
 		friendsList.selectFriend(at: 1)
 		XCTAssertTrue(friendsList.isShowingDetails(for: friend1), "should show friend details at row 1")
 	}

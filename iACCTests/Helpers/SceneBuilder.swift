@@ -33,10 +33,10 @@ struct SceneBuilder {
 	static func reset() {
 		User.shared = nil
 		
-        FriendsViewModel.shared = FriendsViewModel()
+        GetFriendsUseCase.shared = GetFriendsUseCase()
 		SceneDelegate.main.cache = FriendsCache()
-		TransfersViewModel.shared = TransfersViewModel()
-		CardsViewModel.shared = CardsViewModel()
+		GetTransfersUseCase.shared = GetTransfersUseCase()
+		GetCardsUseCase.shared = GetCardsUseCase()
 		
 		Formatters.date.locale = .autoupdatingCurrent
 		Formatters.date.timeZone = .autoupdatingCurrent
@@ -46,10 +46,10 @@ struct SceneBuilder {
 	func build(
 		user: User? = nil,
         isSentFromTransfersScreen: Bool = false,
-		friendsViewModel: FriendsViewModel = .once([]),
+		getFriendsUseCase: GetFriendsUseCase = .once([]),
 		friendsCache: FriendsCache = .never,
-		transfersViewModel: TransfersViewModel = .once([]),
-		cardsViewModel: CardsViewModel = .once([]),
+		getTransfersUseCase: GetTransfersUseCase = .once([]),
+		getCardsUseCase: GetCardsUseCase = .once([]),
 		timeZone: TimeZone = .GMT,
 		locale: Locale = .en_US_POSIX
 	) throws -> ContainerViewControllerSpy {
@@ -63,9 +63,9 @@ struct SceneBuilder {
         }
         
         User.shared = user
-        FriendsViewModel.shared = friendsViewModel
-        TransfersViewModel.shared = transfersViewModel
-        CardsViewModel.shared = cardsViewModel
+        GetFriendsUseCase.shared = getFriendsUseCase
+        GetTransfersUseCase.shared = getTransfersUseCase
+        GetCardsUseCase.shared = getCardsUseCase
 		
 		Formatters.date.locale = locale
 		Formatters.date.timeZone = timeZone

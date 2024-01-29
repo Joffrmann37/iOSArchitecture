@@ -67,9 +67,9 @@ class CardsIntegrationTests: XCTestCase {
 	func test_cardsList_showsCards_whenAPIRequestSucceeds() throws {
 		let card0 = aCard(number: "a number", holder: "a holder")
 		let card1 = aCard(number: "another number", holder: "another holder")
-        let cardsViewModel = CardsViewModel.shared.getMappedViewModels(cards: [card0, card1])
+        let getCardsUseCase = GetCardsUseCase.shared.getMappedViewModels(cards: [card0, card1])
 		let cardsList = try SceneBuilder()
-			.build(cardsViewModel: .once(cardsViewModel))
+			.build(getCardsUseCase: .once(getCardsUseCase))
 			.cardsList()
 		
 		XCTAssertEqual(cardsList.numberOfCards(), 2, "cards count")
@@ -81,7 +81,7 @@ class CardsIntegrationTests: XCTestCase {
 	
 	func test_cardsList_showsError_whenAPIRequestFails() throws {
 		let cardsList = try SceneBuilder()
-			.build(cardsViewModel: .once(NSError(localizedDescription: "an error")))
+			.build(getCardsUseCase: .once(NSError(localizedDescription: "an error")))
 			.cardsList()
 		
 		XCTAssertEqual(cardsList.errorMessage(), "an error")
@@ -89,12 +89,12 @@ class CardsIntegrationTests: XCTestCase {
 	
 	func test_cardsList_canRefreshData() throws {
 		let refreshedCard = aCard(number: "refreshed number", holder: "refreshed holder")
-        let cardsViewModel = CardsViewModel.shared.getMappedViewModels(cards: [refreshedCard])
+        let getCardsUseCase = GetCardsUseCase.shared.getMappedViewModels(cards: [refreshedCard])
 		
 		let cardsList = try SceneBuilder()
-			.build(cardsViewModel: .results([
+			.build(getCardsUseCase: .results([
 				.success([]),
-				.success(cardsViewModel)
+				.success(getCardsUseCase)
 			]))
 			.cardsList()
 		
@@ -108,9 +108,9 @@ class CardsIntegrationTests: XCTestCase {
 	}
 	
 	func test_cardsList_showsLoadingIndicator_untilAPIRequestSucceeds() throws {
-        let vms = CardsViewModel.shared.getMappedViewModels(cards: [aCard()])
+        let vms = GetCardsUseCase.shared.getMappedViewModels(cards: [aCard()])
 		let cardsList = try SceneBuilder()
-			.build(cardsViewModel: .resultBuilder {
+			.build(getCardsUseCase: .resultBuilder {
 				let cardsList = try? ContainerViewControllerSpy.current.cardsList()
 				XCTAssertEqual(cardsList?.isShowingLoadingIndicator(), true, "should show loading indicator until API request completes")
 				return .success(vms)
@@ -126,7 +126,7 @@ class CardsIntegrationTests: XCTestCase {
 	
 	func test_cardsList_showsLoadingIndicator_untilAPIRequestFails() throws {
 		let cardsList = try SceneBuilder()
-			.build(cardsViewModel: .resultBuilder {
+			.build(getCardsUseCase: .resultBuilder {
 				let cardsList = try? ContainerViewControllerSpy.current.cardsList()
 				XCTAssertEqual(cardsList?.isShowingLoadingIndicator(), true, "should show loading indicator until API request fails")
 				return .failure(anError())
@@ -143,18 +143,18 @@ class CardsIntegrationTests: XCTestCase {
 	func test_cardsList_canSelectCard() throws {
 		let card0 = aCard(number: "a number", holder: "a holder")
 		let card1 = aCard(number: "another number", holder: "another holder")
-        let cardsVM: CardsViewModel = .results([
-            .success(CardsViewModel.shared.getMappedViewModels(cards: [card0, card1])),
+        let getCardsUseCase: GetCardsUseCase = .results([
+            .success(GetCardsUseCase.shared.getMappedViewModels(cards: [card0, card1])),
         ])
 		let cardsList = try SceneBuilder()
-			.build(cardsViewModel: cardsVM)
+			.build(getCardsUseCase: getCardsUseCase)
 			.cardsList()
 
-        cardsVM.select(card0)
+        getCardsUseCase.select(card0)
 		cardsList.selectCard(at: 0)
 		XCTAssertTrue(cardsList.isShowingDetails(for: card0), "should show card details at row 0")
 
-        cardsVM.select(card1)
+        getCardsUseCase.select(card1)
 		cardsList.selectCard(at: 1)
 		XCTAssertTrue(cardsList.isShowingDetails(for: card1), "should show card details at row 1")
 	}

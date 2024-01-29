@@ -8,7 +8,7 @@ class ListViewController: UITableViewController {
 	var items = [ViewModel]()
     var friendsCache: FriendsCache!
     var friendsDidComplete: (() -> Void)!
-    var itemsVMAdapter: ItemsViewModelAdapter?
+    var itemsVMAdapter: ItemsUseCaseAdapter?
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()

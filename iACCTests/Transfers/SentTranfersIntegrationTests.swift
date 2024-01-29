@@ -68,10 +68,10 @@ class SentTranfersIntegrationTests: XCTestCase {
 		let transfer0 = aTranfer(description: "a description", amount: 10.75, currencyCode: "USD", sender: "Bob", recipient: "Mary", sent: true, date: .APR_01_1976_AT_12_AM)
         let transfer1 = aTranfer(amount: 101.00, sent: false)
 		let transfer2 = aTranfer(description: "another description", amount: 99.99, currencyCode: "GBP", sender: "Bob", recipient: "Mary", sent: true, date: .JUN_29_2007_AT_9_41_AM)
-        let transfersVM = TransfersViewModel.shared.getMappedViewModels(longDateStyle: true, transfers: [transfer0, transfer1, transfer2])
+        let getTransfersUseCase = GetTransfersUseCase.shared.getMappedViewModels(longDateStyle: true, transfers: [transfer0, transfer1, transfer2])
 
 		let sentTransfersList = try SceneBuilder()
-			.build(transfersViewModel: .once(transfersVM))
+			.build(getTransfersUseCase: .once(getTransfersUseCase))
 			.sentTransfersList()
 		
 		XCTAssertEqual(sentTransfersList.numberOfSentTransfers(), 3, "sentTransfers count")
@@ -82,13 +82,13 @@ class SentTranfersIntegrationTests: XCTestCase {
 	
 	func test_cardsList_canRefreshData() throws {
 		let refreshedTransfer0 = aTranfer(description: "a description", amount: 0.01, currencyCode: "EUR", sender: "Bob", recipient: "Mary", sent: true, date: .APR_01_1976_AT_12_AM)
-        let transfersVM: [Result<[ViewModel], Error>] = ([
+        let getTransfersUseCase: [Result<[ViewModel], Error>] = ([
             .success([]),
-            .success(TransfersViewModel.shared.getMappedViewModels(longDateStyle: true, transfers: [refreshedTransfer0]))
+            .success(GetTransfersUseCase.shared.getMappedViewModels(longDateStyle: true, transfers: [refreshedTransfer0]))
         ])
 
 		let sentTransfersList = try SceneBuilder()
-			.build(transfersViewModel: .results(transfersVM))
+			.build(getTransfersUseCase: .results(getTransfersUseCase))
 			.sentTransfersList()
 		
 		XCTAssertEqual(sentTransfersList.numberOfSentTransfers(), 0, "cards count before refreshing")
@@ -102,7 +102,7 @@ class SentTranfersIntegrationTests: XCTestCase {
 
 	func test_sentTransfersList_showsLoadingIndicator_untilAPIRequestSucceeds() throws {
 		let sentTransfersList = try SceneBuilder()
-			.build(transfersViewModel: .resultBuilder {
+			.build(getTransfersUseCase: .resultBuilder {
 				let sentTransfersList = try? ContainerViewControllerSpy.current.sentTransfersList()
 				XCTAssertEqual(sentTransfersList?.isShowingLoadingIndicator(), true, "should show loading indicator until API request completes")
 				return .success([])
@@ -119,7 +119,7 @@ class SentTranfersIntegrationTests: XCTestCase {
 	func test_sentTransfersList_showsLoadingIndicator_untilAPIRequestFails() throws {
 		let sentTransfersList = try SceneBuilder()
 			.build(
-				transfersViewModel: .resultBuilder {
+				getTransfersUseCase: .resultBuilder {
 					let sentTransfersList = try? ContainerViewControllerSpy.current.sentTransfersList()
 					XCTAssertEqual(sentTransfersList?.isShowingLoadingIndicator(), true, "should show loading indicator until API request fails")
 					return .failure(anError())
@@ -139,7 +139,7 @@ class SentTranfersIntegrationTests: XCTestCase {
 		let sentTransfersList = try SceneBuilder()
 			.build(
 				user: nonPremiumUser(),
-				transfersViewModel: .results([
+				getTransfersUseCase: .results([
 					.failure(NSError(localizedDescription: "request error")),
 					.failure(NSError(localizedDescription: "retry error")),
 				])
@@ -153,7 +153,7 @@ class SentTranfersIntegrationTests: XCTestCase {
 	func test_sentTransfersList_refreshData_retriesOnceOnAPIFailure() throws {
 		let sentTransfersList = try SceneBuilder()
 			.build(
-				transfersViewModel: .results([
+				getTransfersUseCase: .results([
 					.failure(NSError(localizedDescription: "request error")),
 					.failure(NSError(localizedDescription: "request retry error")),
 
@@ -177,19 +177,19 @@ class SentTranfersIntegrationTests: XCTestCase {
 	func test_sentTransfersList_canSelectTransfer() throws {
 		let transfer0 = aTranfer(sent: true)
 		let transfer1 = aTranfer(sent: true)
-        let transfersVM: TransfersViewModel = .results([
-            .success(TransfersViewModel.shared.getMappedViewModels(longDateStyle: true, transfers: [transfer0, transfer1])),
+        let getTransfersUseCase: GetTransfersUseCase = .results([
+            .success(GetTransfersUseCase.shared.getMappedViewModels(longDateStyle: true, transfers: [transfer0, transfer1])),
         ])
 		
 		let sentTransfersList = try SceneBuilder()
-            .build(isSentFromTransfersScreen: true, transfersViewModel: transfersVM)
+            .build(isSentFromTransfersScreen: true, getTransfersUseCase: getTransfersUseCase)
 			.sentTransfersList()
 		
-        transfersVM.select(transfer0)
+        getTransfersUseCase.select(transfer0)
 		sentTransfersList.selectTransfer(at: 0)
 		XCTAssertTrue(sentTransfersList.isShowingDetails(for: transfer0), "should show transfer details at row 0")
 		
-        transfersVM.select(transfer1)
+        getTransfersUseCase.select(transfer1)
 		sentTransfersList.selectTransfer(at: 1)
 		XCTAssertTrue(sentTransfersList.isShowingDetails(for: transfer1), "should show transfer details at row 1")
 	}

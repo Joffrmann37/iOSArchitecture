@@ -64,15 +64,15 @@ class MainTabBarController: UITabBarController {
         vc.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: vc, action: #selector(addFriend))
         let isPremium = User.shared?.isPremium ?? false
         let cache = isPremium ? self.friendsCache : NullFriendsCache()
-        FriendsViewModel.shared.select = { item in
+        GetFriendsUseCase.shared.select = { item in
             vc.select(item)
         }
-        let serviceAdapter = FriendsViewModelAdapter(select: { friend in
+        let serviceAdapter = GetFriendsUseCaseAdapter(select: { friend in
             vc.select(friend)
-        }, viewModel: FriendsViewModel.shared).retry(2)
-        let cacheAdapter = FriendsViewModelCacheAdapter(cache: cache ?? FriendsCache(), select: { friend in
+        }, useCase: GetFriendsUseCase.shared).retry(2)
+        let cacheAdapter = GetFriendsUseCaseCacheAdapter(cache: cache ?? FriendsCache(), select: { friend in
             vc.select(friend)
-        }, viewModel: FriendsViewModel.shared)
+        }, useCase: GetFriendsUseCase.shared)
         let shouldLoadCache = isPremium && shouldLoadFriendsFromCache
         vc.itemsVMAdapter = shouldLoadCache ? serviceAdapter.fallback(cacheAdapter) : serviceAdapter
 		return vc
@@ -82,12 +82,12 @@ class MainTabBarController: UITabBarController {
 		let vc = ListViewController()
         vc.navigationItem.title = "Sent"
         vc.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Send", style: .done, target: vc, action: #selector(sendMoney))
-        TransfersViewModel.shared.select = { item in
+        GetTransfersUseCase.shared.select = { item in
             vc.select(item)
         }
-        vc.itemsVMAdapter = TransfersViewModelAdapter(longDateStyle: true, select: { transfer in
+        vc.itemsVMAdapter = GetTransfersUseCaseAdapter(longDateStyle: true, select: { transfer in
             vc.select(transfer)
-        }, viewModel: TransfersViewModel.shared).retry(1)
+        }, useCase: GetTransfersUseCase.shared).retry(1)
 		return vc
 	}
 	
@@ -96,13 +96,13 @@ class MainTabBarController: UITabBarController {
         vc.navigationItem.title = "Received"
         vc.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Request", style: .done, target: vc, action: #selector(requestMoney))
         if !isSentFromTransfers {
-            TransfersViewModel.shared.select = { item in
+            GetTransfersUseCase.shared.select = { item in
                 vc.select(item)
             }
         }
-        vc.itemsVMAdapter = TransfersViewModelAdapter(longDateStyle: false, select: { transfer in
+        vc.itemsVMAdapter = GetTransfersUseCaseAdapter(longDateStyle: false, select: { transfer in
             vc.select(transfer)
-        }, viewModel: TransfersViewModel.shared).retry(1)
+        }, useCase: GetTransfersUseCase.shared).retry(1)
 		return vc
 	}
 	
@@ -110,12 +110,12 @@ class MainTabBarController: UITabBarController {
 		let vc = ListViewController()
         vc.title = "Cards"
         vc.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: vc, action: #selector(addCard))
-        CardsViewModel.shared.select = { item in
+        GetCardsUseCase.shared.select = { item in
             vc.select(item)
         }
-        vc.itemsVMAdapter = CardsViewModelAdapter(select: { card in
+        vc.itemsVMAdapter = GetCardsUseCaseAdapter(select: { card in
             vc.select(card)
-        }, viewModel: CardsViewModel.shared)
+        }, useCase: GetCardsUseCase.shared)
 		return vc
 	}
 	

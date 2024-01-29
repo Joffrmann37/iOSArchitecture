@@ -6,25 +6,25 @@ import Foundation
 @testable import iACC
 
 ///
-/// This `TransfersViewModel` test helper extension provides fast and reliable ways of stubbing
+/// This `GetTransfersUseCase` test helper extension provides fast and reliable ways of stubbing
 /// network requests with canned results to prevent making real network requests during tests.
 ///
-extension TransfersViewModel {
-	static func once(_ transfers: [ViewModel]) -> TransfersViewModel {
+extension GetTransfersUseCase {
+	static func once(_ transfers: [ViewModel]) -> GetTransfersUseCase {
 		results([.success(transfers)])
 	}
 	
-	static func once(_ error: Error) -> TransfersViewModel {
+	static func once(_ error: Error) -> GetTransfersUseCase {
 		results([.failure(error)])
 	}
 	
-	static func results(_ results: [Result<[ViewModel], Error>]) -> TransfersViewModel {
+	static func results(_ results: [Result<[ViewModel], Error>]) -> GetTransfersUseCase {
 		var mutableResults = results
 		return resultBuilder { mutableResults.removeFirst() }
 	}
 	
-	static func resultBuilder(_ resultBuilder: @escaping () -> Result<[ViewModel], Error>) -> TransfersViewModel {
-		TransfersViewModelStub(resultBuilder: resultBuilder)
+	static func resultBuilder(_ resultBuilder: @escaping () -> Result<[ViewModel], Error>) -> GetTransfersUseCase {
+		GetTransfersUseCaseStub(resultBuilder: resultBuilder)
 	}
     
     func getMappedViewModels(longDateStyle: Bool, transfers: [Transfer]) -> [ViewModel] {
@@ -51,7 +51,7 @@ extension TransfersViewModel {
         }
     }
 	
-	private class TransfersViewModelStub: TransfersViewModel {
+	private class GetTransfersUseCaseStub: GetTransfersUseCase {
 		private let nextResult: () -> Result<[ViewModel], Error>
 		
 		init(resultBuilder: @escaping () -> Result<[ViewModel], Error>) {

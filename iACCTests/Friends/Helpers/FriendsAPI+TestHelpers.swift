@@ -6,19 +6,19 @@ import Foundation
 @testable import iACC
 
 ///
-/// This `FriendsViewModel` test helper extension provides fast and reliable ways of stubbing
+/// This `GetFriendsUseCase` test helper extension provides fast and reliable ways of stubbing
 /// network requests with canned results to prevent making real network requests during tests.
 ///
-extension FriendsViewModel {
-    static var never: FriendsViewModel {
+extension GetFriendsUseCase {
+    static var never: GetFriendsUseCase {
         results([])
     }
     
-    static func once(_ friends: [ViewModel]) -> FriendsViewModel {
+    static func once(_ friends: [ViewModel]) -> GetFriendsUseCase {
         results([.success(friends)])
     }
     
-    static func results(_ results: [Result<[ViewModel], Error>]) -> FriendsViewModel {
+    static func results(_ results: [Result<[ViewModel], Error>]) -> GetFriendsUseCase {
         var results = results
         var currentResult: Result<[ViewModel], Error> = results.removeFirst()
         for result in results {
@@ -27,8 +27,8 @@ extension FriendsViewModel {
         return resultBuilder(currentResult)
     }
     
-    static func resultBuilder(_ resultBuilder: Result<[ViewModel], Error>) -> FriendsViewModel {
-        return FriendsViewModelStub(resultBuilder: resultBuilder)
+    static func resultBuilder(_ resultBuilder: Result<[ViewModel], Error>) -> GetFriendsUseCase {
+        return GetFriendsUseCaseStub(resultBuilder: resultBuilder)
     }
     
     func getMappedViewModels(friends: [Friend]) -> [ViewModel] {
@@ -55,7 +55,7 @@ extension FriendsViewModel {
         }
     }
 	
-	private class FriendsViewModelStub: FriendsViewModel {
+	private class GetFriendsUseCaseStub: GetFriendsUseCase {
 		private let nextResult: Result<[ViewModel], Error>
 		
 		init(resultBuilder: Result<[ViewModel], Error>) {

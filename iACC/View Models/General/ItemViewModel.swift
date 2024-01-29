@@ -4,23 +4,13 @@
 
 import Foundation
 
-protocol ListItemViewModel {
-    var title: String { get set }
-    var subtitle: String { get set }
-    var select: () -> Void { get set }
-}
-
-struct ViewModel: ListItemViewModel, Equatable {
-    static func == (lhs: ViewModel, rhs: ViewModel) -> Bool {
-        return lhs.title == rhs.title
-    }
-    
+struct ItemViewModel {
     var title: String
     var subtitle: String
     var select: () -> Void
 }
 
-extension ViewModel {
+extension ItemViewModel {
     init(friend: Friend, selection: @escaping () -> Void) {
         title = friend.name
         subtitle = friend.phone
@@ -28,7 +18,7 @@ extension ViewModel {
     }
 }
 
-extension ViewModel {
+extension ItemViewModel {
     init(card: Card, selection: @escaping () -> Void) {
         title = card.number
         subtitle = card.holder
@@ -36,7 +26,7 @@ extension ViewModel {
     }
 }
 
-extension ViewModel {
+extension ItemViewModel {
     init(transfer: Transfer, longDateStyle: Bool, selection: @escaping () -> Void) {
         let numberFormatter = Formatters.number
         numberFormatter.numberStyle = .currency

@@ -4,27 +4,6 @@
 
 import Foundation
 
-struct CardRepoAdapter: ItemsService {
-    let repo: CardRepo
-    let select: (Card) -> Void
-    
-    func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
-        repo.loadCards { res in
-            DispatchQueue.global().asyncAfter(deadline: .now() + 0.75) {
-                DispatchQueue.main.async {
-                    completion(res.map { items in
-                        return items.map { item in
-                            ViewModel(card: item) {
-                                select(item)
-                            }
-                        }
-                    })
-                }
-            }
-        }
-    }
-}
-
 class CardRepo {
 	static var shared = CardRepo()
     var result: (Result<[Card], Error>)?
