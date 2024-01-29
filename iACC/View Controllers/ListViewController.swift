@@ -9,15 +9,6 @@ class ListViewController: UITableViewController {
     var friendsCache: FriendsCache!
     var friendsDidComplete: (() -> Void)!
     var itemsVMAdapter: ItemsViewModelAdapter?
-	var retryCount = 0
-	var maxRetryCount = 0
-	var shouldRetry = false
-	
-	var longDateStyle = false
-	
-	var fromReceivedTransfersScreen = false
-	var fromSentTransfersScreen = false
-	var fromFriendsScreen = false
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -41,41 +32,13 @@ class ListViewController: UITableViewController {
 	private func handleAPIResult(_ result: Result<[ViewModel], Error>) {
 		switch result {
 		case let .success(items):
-			self.retryCount = 0
-			
             self.items = items
 			self.refreshControl?.endRefreshing()
 			self.tableView.reloadData()
 			
 		case let .failure(error):
-			if shouldRetry && retryCount < maxRetryCount {
-				retryCount += 1
-				
-				refresh()
-				return
-			}
-			
-			retryCount = 0
-			
-            if let adapter = itemsVMAdapter as? FriendsViewModelAdapter, adapter.shouldLoadFromCache {
-                adapter.load([]) { [weak self] result in
-                    guard let self = self else { return }
-                    DispatchQueue.mainAsyncIfNeeded {
-                        switch result {
-                        case let .success(items):
-                            self.items = items
-                            self.tableView.reloadData()
-                            
-                        case let .failure(error):
-                            self.show(error: error)
-                        }
-                        self.refreshControl?.endRefreshing()
-                    }
-                }
-			} else {
-                self.show(error: error)
-				self.refreshControl?.endRefreshing()
-			}
+            self.show(error: error)
+            self.refreshControl?.endRefreshing()
 		}
 	}
 	
@@ -90,7 +53,7 @@ class ListViewController: UITableViewController {
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let item = items[indexPath.row]
 		let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell") ?? UITableViewCell(style: .subtitle, reuseIdentifier: "ItemCell")
-		cell.configure(item, longDateStyle: longDateStyle)
+		cell.configure(item)
 		return cell
 	}
 	
@@ -100,7 +63,7 @@ class ListViewController: UITableViewController {
 }
 
 extension UITableViewCell {
-    func configure(_ vm: ViewModel, longDateStyle: Bool) {
+    func configure(_ vm: ViewModel) {
         textLabel?.text = vm.title
         detailTextLabel?.text = vm.subtitle
 	}

@@ -20,11 +20,15 @@ extension FriendsViewModel {
     
     static func results(_ results: [Result<[ViewModel], Error>]) -> FriendsViewModel {
         var results = results
-        return resultBuilder { results.removeFirst() }
+        var currentResult: Result<[ViewModel], Error> = results.removeFirst()
+        for result in results {
+            currentResult = result
+        }
+        return resultBuilder(currentResult)
     }
     
-    static func resultBuilder(_ resultBuilder: @escaping () -> Result<[ViewModel], Error>) -> FriendsViewModel {
-        FriendsViewModelStub(resultBuilder: resultBuilder)
+    static func resultBuilder(_ resultBuilder: Result<[ViewModel], Error>) -> FriendsViewModel {
+        return FriendsViewModelStub(resultBuilder: resultBuilder)
     }
     
     func getMappedViewModels(friends: [Friend]) -> [ViewModel] {
@@ -52,15 +56,15 @@ extension FriendsViewModel {
     }
 	
 	private class FriendsViewModelStub: FriendsViewModel {
-		private let nextResult: () -> Result<[ViewModel], Error>
+		private let nextResult: Result<[ViewModel], Error>
 		
-		init(resultBuilder: @escaping () -> Result<[ViewModel], Error>) {
+		init(resultBuilder: Result<[ViewModel], Error>) {
 			nextResult = resultBuilder
             super.init()
 		}
         
         override func loadFriends(friends: [Friend], completion: @escaping (Result<[ViewModel], Error>) -> Void) {
-            completion(nextResult())
+            completion(nextResult)
         }
 	}
 }

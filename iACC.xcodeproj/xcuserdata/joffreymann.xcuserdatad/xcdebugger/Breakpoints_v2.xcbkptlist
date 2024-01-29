@@ -55,86 +55,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B3363E5A-FB73-4A2E-8283-05D53EE89BE2"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "iACCTests/Friends/FriendsIntegrationTests.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "345"
-            endingLineNumber = "345"
-            landmarkName = "test_friendsList_canSelectAPIFriend()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "9F22C925-D294-4407-90F1-D5022606D768"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "iACC/View Controllers/MainTabBarController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
-            landmarkName = "makeFriendsList()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "087B9B67-08E5-41DB-B98D-D234B13B9479"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "iACC/View Models/Friends/FriendsViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "21"
-            endingLineNumber = "21"
-            landmarkName = "load(_:_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "087B9B67-08E5-41DB-B98D-D234B13B9479 - c8542a8738438d67"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "iACC.FriendsViewModelAdapter.load&lt;&#x3c4;_0_0&gt;(Swift.Array&lt;&#x3c4;_0_0&gt;, (Swift.Result&lt;Swift.Array&lt;iACC.ViewModel&gt;, Swift.Error&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "iACC"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joffreymann/Documents/ios-practice/iACC-Project-January-2024-e9e5/iACC/View%20Models/Friends/FriendsViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21"
-                  offsetFromSymbolStart = "133">
-               </Location>
-               <Location
-                  uuid = "087B9B67-08E5-41DB-B98D-D234B13B9479 - c8542a8738438d67"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "iACC.FriendsViewModelAdapter.load&lt;&#x3c4;_0_0&gt;(Swift.Array&lt;&#x3c4;_0_0&gt;, (Swift.Result&lt;Swift.Array&lt;iACC.ViewModel&gt;, Swift.Error&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "iACC"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joffreymann/Documents/ios-practice/iACC-Project-January-2024-e9e5/iACC/View%20Models/Friends/FriendsViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21"
-                  offsetFromSymbolStart = "226">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "73AE4A48-864B-4450-A476-DF9BA8BAFFD4"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -214,107 +134,47 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A03DB6CA-5B8B-4BCB-973E-CA2F0DBB7CD4"
+            uuid = "846CC896-E1DA-4DB1-A302-8E1647004E58"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "iACC/View Controllers/ListViewController.swift"
+            filePath = "iACC/Data/FriendsRepo.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "handleAPIResult(_:)"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "load(_:_:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "A03DB6CA-5B8B-4BCB-973E-CA2F0DBB7CD4 - b8d21effff363a85"
+                  uuid = "846CC896-E1DA-4DB1-A302-8E1647004E58 - bf977ccfa3e48ef9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "iACC.ListViewController.handleAPIResult(Swift.Result&lt;Swift.Array&lt;iACC.ViewModel&gt;, Swift.Error&gt;) -&gt; ()"
+                  symbolName = "iACC.FriendsRepoAdapter.load&lt;&#x3c4;_0_0&gt;(Swift.Array&lt;&#x3c4;_0_0&gt;, (Swift.Result&lt;Swift.Array&lt;iACC.ViewModel&gt;, Swift.Error&gt;) -&gt; ()) -&gt; ()"
                   moduleName = "iACC"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joffreymann/Documents/ios-practice/iACC-Project-January-2024-e9e5/iACC/View%20Controllers/ListViewController.swift"
+                  urlString = "file:///Users/joffreymann/Documents/ios-practice/iACC-Project-January-2024-e9e5/iACC/Data/FriendsRepo.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "50"
-                  endingLineNumber = "50"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "96">
+               </Location>
+               <Location
+                  uuid = "846CC896-E1DA-4DB1-A302-8E1647004E58 - 11b1e4d412466632"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.Array&lt;iACC.Friend&gt;, Swift.Error&gt;) -&gt; () in iACC.FriendsRepoAdapter.load&lt;&#x3c4;_0_0&gt;(Swift.Array&lt;&#x3c4;_0_0&gt;, (Swift.Result&lt;Swift.Array&lt;iACC.ViewModel&gt;, Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "iACC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joffreymann/Documents/ios-practice/iACC-Project-January-2024-e9e5/iACC/Data/FriendsRepo.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
                   offsetFromSymbolStart = "150">
-               </Location>
-               <Location
-                  uuid = "A03DB6CA-5B8B-4BCB-973E-CA2F0DBB7CD4 - b8d21effff363a85"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "iACC.ListViewController.handleAPIResult(Swift.Result&lt;Swift.Array&lt;iACC.ViewModel&gt;, Swift.Error&gt;) -&gt; ()"
-                  moduleName = "iACC"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joffreymann/Documents/ios-practice/iACC-Project-January-2024-e9e5/iACC/View%20Controllers/ListViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "50"
-                  endingLineNumber = "50"
-                  offsetFromSymbolStart = "192">
-               </Location>
-               <Location
-                  uuid = "A03DB6CA-5B8B-4BCB-973E-CA2F0DBB7CD4 - b8d21effff363aa4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "iACC.ListViewController.handleAPIResult(Swift.Result&lt;Swift.Array&lt;iACC.ViewModel&gt;, Swift.Error&gt;) -&gt; ()"
-                  moduleName = "iACC"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joffreymann/Documents/ios-practice/iACC-Project-January-2024-e9e5/iACC/View%20Controllers/ListViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "51"
-                  endingLineNumber = "51"
-                  offsetFromSymbolStart = "150">
-               </Location>
-               <Location
-                  uuid = "A03DB6CA-5B8B-4BCB-973E-CA2F0DBB7CD4 - b8d21effff363aa4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "iACC.ListViewController.handleAPIResult(Swift.Result&lt;Swift.Array&lt;iACC.ViewModel&gt;, Swift.Error&gt;) -&gt; ()"
-                  moduleName = "iACC"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joffreymann/Documents/ios-practice/iACC-Project-January-2024-e9e5/iACC/View%20Controllers/ListViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "51"
-                  endingLineNumber = "51"
-                  offsetFromSymbolStart = "192">
-               </Location>
-               <Location
-                  uuid = "A03DB6CA-5B8B-4BCB-973E-CA2F0DBB7CD4 - b8d21effff363bac"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "iACC.ListViewController.handleAPIResult(Swift.Result&lt;Swift.Array&lt;iACC.ViewModel&gt;, Swift.Error&gt;) -&gt; ()"
-                  moduleName = "iACC"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joffreymann/Documents/ios-practice/iACC-Project-January-2024-e9e5/iACC/View%20Controllers/ListViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "43"
-                  endingLineNumber = "43"
-                  offsetFromSymbolStart = "150">
-               </Location>
-               <Location
-                  uuid = "A03DB6CA-5B8B-4BCB-973E-CA2F0DBB7CD4 - b8d21effff363bac"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "iACC.ListViewController.handleAPIResult(Swift.Result&lt;Swift.Array&lt;iACC.ViewModel&gt;, Swift.Error&gt;) -&gt; ()"
-                  moduleName = "iACC"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joffreymann/Documents/ios-practice/iACC-Project-January-2024-e9e5/iACC/View%20Controllers/ListViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "43"
-                  endingLineNumber = "43"
-                  offsetFromSymbolStart = "192">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -322,96 +182,49 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "27301911-F37F-4367-8A67-BF9D9553CFE8"
+            uuid = "5D7D0BFC-2AD1-4505-82E2-FB144A43F109"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "iACCTests/Friends/Helpers/FriendsCache+TestHelpers.swift"
+            filePath = "iACC/Data/FriendsRepo.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "results(_:_:_:)"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
+            landmarkName = "load(_:_:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "27301911-F37F-4367-8A67-BF9D9553CFE8 - 803395ab384c0884"
+                  uuid = "5D7D0BFC-2AD1-4505-82E2-FB144A43F109 - eefb3e2265cf43c0"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "default argument 2 of static iACC.FriendsCache.results(Swift.Array&lt;Swift.Result&lt;Swift.Array&lt;iACC.ViewModel&gt;, Swift.Error&gt;&gt;, (Swift.Array&lt;iACC.ViewModel&gt;) -&gt; (), Swift.Array&lt;iACC.ViewModel&gt;) -&gt; iACC.FriendsCache"
-                  moduleName = "iACCTests"
+                  symbolName = "closure #1 (Swift.Array&lt;iACC.Friend&gt;) -&gt; Swift.Array&lt;iACC.ViewModel&gt; in closure #1 (Swift.Result&lt;Swift.Array&lt;iACC.Friend&gt;, Swift.Error&gt;) -&gt; () in iACC.FriendsRepoAdapter.load&lt;&#x3c4;_0_0&gt;(Swift.Array&lt;&#x3c4;_0_0&gt;, (Swift.Result&lt;Swift.Array&lt;iACC.ViewModel&gt;, Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "iACC"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joffreymann/Documents/ios-practice/iACC-Project-January-2024-e9e5/iACCTests/Friends/Helpers/FriendsCache+TestHelpers.swift"
+                  urlString = "file:///Users/joffreymann/Documents/ios-practice/iACC-Project-January-2024-e9e5/iACC/Data/FriendsRepo.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "58"
-                  endingLineNumber = "58"
-                  offsetFromSymbolStart = "4">
+                  startingLineNumber = "19"
+                  endingLineNumber = "19"
+                  offsetFromSymbolStart = "132">
                </Location>
                <Location
-                  uuid = "27301911-F37F-4367-8A67-BF9D9553CFE8 - 1b790b3c806f6ccb"
+                  uuid = "5D7D0BFC-2AD1-4505-82E2-FB144A43F109 - 3efda172c9f59b4e"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "static iACC.FriendsCache.results(Swift.Array&lt;Swift.Result&lt;Swift.Array&lt;iACC.ViewModel&gt;, Swift.Error&gt;&gt;, (Swift.Array&lt;iACC.ViewModel&gt;) -&gt; (), Swift.Array&lt;iACC.ViewModel&gt;) -&gt; iACC.FriendsCache"
-                  moduleName = "iACCTests"
+                  symbolName = "closure #1 (iACC.Friend) -&gt; iACC.ViewModel in closure #1 (Swift.Array&lt;iACC.Friend&gt;) -&gt; Swift.Array&lt;iACC.ViewModel&gt; in closure #1 (Swift.Result&lt;Swift.Array&lt;iACC.Friend&gt;, Swift.Error&gt;) -&gt; () in iACC.FriendsRepoAdapter.load&lt;&#x3c4;_0_0&gt;(Swift.Array&lt;&#x3c4;_0_0&gt;, (Swift.Result&lt;Swift.Array&lt;iACC.ViewModel&gt;, Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "iACC"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joffreymann/Documents/ios-practice/iACC-Project-January-2024-e9e5/iACCTests/Friends/Helpers/FriendsCache+TestHelpers.swift"
+                  urlString = "file:///Users/joffreymann/Documents/ios-practice/iACC-Project-January-2024-e9e5/iACC/Data/FriendsRepo.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "60"
-                  endingLineNumber = "60"
-                  offsetFromSymbolStart = "121">
-               </Location>
-               <Location
-                  uuid = "27301911-F37F-4367-8A67-BF9D9553CFE8 - 7f51c47b7312986b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; Swift.Result&lt;Swift.Array&lt;iACC.ViewModel&gt;, Swift.Error&gt; in static iACC.FriendsCache.results(Swift.Array&lt;Swift.Result&lt;Swift.Array&lt;iACC.ViewModel&gt;, Swift.Error&gt;&gt;, (Swift.Array&lt;iACC.ViewModel&gt;) -&gt; (), Swift.Array&lt;iACC.ViewModel&gt;) -&gt; iACC.FriendsCache"
-                  moduleName = "iACCTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joffreymann/Documents/ios-practice/iACC-Project-January-2024-e9e5/iACCTests/Friends/Helpers/FriendsCache+TestHelpers.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "60"
-                  endingLineNumber = "60"
-                  offsetFromSymbolStart = "21">
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "199">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C53D35A8-3FC5-43E6-B8C2-6BED56407D54"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "iACCTests/Friends/Helpers/FriendsCache+TestHelpers.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "loadFriends(completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D303A36A-1688-44DE-9C58-1F4434356053"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "iACCTests/Helpers/ListViewController+TestHelpers.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
-            landmarkName = "endRefreshing()"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
