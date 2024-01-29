@@ -31,16 +31,16 @@
 		08927B952686183A009195BD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08927B942686183A009195BD /* SceneDelegate.swift */; };
 		08927B9C2686183B009195BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08927B9B2686183B009195BD /* Assets.xcassets */; };
 		08927B9F2686183B009195BD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08927B9D2686183B009195BD /* LaunchScreen.storyboard */; };
+		B40AF0AB2B682C150058194C /* GetTransfersAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40AF0AA2B682C150058194C /* GetTransfersAdapter.swift */; };
+		B40AF0AD2B682C1E0058194C /* GetFriendsAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40AF0AC2B682C1E0058194C /* GetFriendsAdapter.swift */; };
+		B40AF0AF2B682C2B0058194C /* GetCardsAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40AF0AE2B682C2B0058194C /* GetCardsAdapter.swift */; };
+		B40AF0B12B682C370058194C /* ItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40AF0B02B682C370058194C /* ItemViewModel.swift */; };
 		B494598D2B630FE000D41A8E /* FriendsRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459892B630FE000D41A8E /* FriendsRepo.swift */; };
 		B494598E2B630FE000D41A8E /* ArticlesRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B494598A2B630FE000D41A8E /* ArticlesRepo.swift */; };
 		B494598F2B630FE000D41A8E /* CardRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B494598B2B630FE000D41A8E /* CardRepo.swift */; };
 		B49459902B630FE000D41A8E /* TransfersRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B494598C2B630FE000D41A8E /* TransfersRepo.swift */; };
 		B49459922B63101200D41A8E /* FriendsCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459912B63101200D41A8E /* FriendsCache.swift */; };
 		B49459942B63106900D41A8E /* GetFriendsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459932B63106900D41A8E /* GetFriendsUseCase.swift */; };
-		B494599C2B63121B00D41A8E /* GetFriendsAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B494599B2B63121B00D41A8E /* GetFriendsAdapter.swift */; };
-		B494599F2B63123100D41A8E /* GetCardsAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B494599E2B63123100D41A8E /* GetCardsAdapter.swift */; };
-		B49459A42B63199A00D41A8E /* GetTransfersAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459A32B63199A00D41A8E /* GetTransfersAdapter.swift */; };
-		B49459A62B631A2400D41A8E /* ItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459A52B631A2400D41A8E /* ItemViewModel.swift */; };
 		B49459A82B631A3300D41A8E /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459A72B631A3300D41A8E /* Helpers.swift */; };
 		B49459AD2B631A4600D41A8E /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459A92B631A4600D41A8E /* ListViewController.swift */; };
 		B49459AE2B631A4600D41A8E /* SegmentNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459AA2B631A4600D41A8E /* SegmentNavigationViewController.swift */; };
@@ -94,16 +94,16 @@
 		08927BA02686183B009195BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		08927BA52686183B009195BD /* iACCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iACCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		08927BAB2686183B009195BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B40AF0AA2B682C150058194C /* GetTransfersAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetTransfersAdapter.swift; path = Adapters/Transfers/GetTransfersAdapter.swift; sourceTree = "<group>"; };
+		B40AF0AC2B682C1E0058194C /* GetFriendsAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetFriendsAdapter.swift; path = Adapters/Friends/GetFriendsAdapter.swift; sourceTree = "<group>"; };
+		B40AF0AE2B682C2B0058194C /* GetCardsAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetCardsAdapter.swift; path = Adapters/Cards/GetCardsAdapter.swift; sourceTree = "<group>"; };
+		B40AF0B02B682C370058194C /* ItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ItemViewModel.swift; path = "View Models/ItemViewModel.swift"; sourceTree = "<group>"; };
 		B49459892B630FE000D41A8E /* FriendsRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendsRepo.swift; path = Data/FriendsRepo.swift; sourceTree = "<group>"; };
 		B494598A2B630FE000D41A8E /* ArticlesRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticlesRepo.swift; path = Data/ArticlesRepo.swift; sourceTree = "<group>"; };
 		B494598B2B630FE000D41A8E /* CardRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CardRepo.swift; path = Data/CardRepo.swift; sourceTree = "<group>"; };
 		B494598C2B630FE000D41A8E /* TransfersRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransfersRepo.swift; path = Data/TransfersRepo.swift; sourceTree = "<group>"; };
 		B49459912B63101200D41A8E /* FriendsCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendsCache.swift; path = Cache/FriendsCache.swift; sourceTree = "<group>"; };
 		B49459932B63106900D41A8E /* GetFriendsUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetFriendsUseCase.swift; path = "Use Cases/Friends/GetFriends/GetFriendsUseCase.swift"; sourceTree = "<group>"; };
-		B494599B2B63121B00D41A8E /* GetFriendsAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetFriendsAdapter.swift; path = "View Models/Friends/GetFriendsAdapter.swift"; sourceTree = "<group>"; };
-		B494599E2B63123100D41A8E /* GetCardsAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetCardsAdapter.swift; path = "View Models/Cards/GetCardsAdapter.swift"; sourceTree = "<group>"; };
-		B49459A32B63199A00D41A8E /* GetTransfersAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetTransfersAdapter.swift; path = "View Models/Transfers/GetTransfersAdapter.swift"; sourceTree = "<group>"; };
-		B49459A52B631A2400D41A8E /* ItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ItemViewModel.swift; path = "View Models/General/ItemViewModel.swift"; sourceTree = "<group>"; };
 		B49459A72B631A3300D41A8E /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Helpers.swift; path = Helpers/Helpers.swift; sourceTree = "<group>"; };
 		B49459A92B631A4600D41A8E /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListViewController.swift; path = "View Controllers/ListViewController.swift"; sourceTree = "<group>"; };
 		B49459AA2B631A4600D41A8E /* SegmentNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SegmentNavigationViewController.swift; path = "View Controllers/SegmentNavigationViewController.swift"; sourceTree = "<group>"; };
@@ -379,7 +379,7 @@
 		B49459972B63110B00D41A8E /* View Models */ = {
 			isa = PBXGroup;
 			children = (
-				B49459A52B631A2400D41A8E /* ItemViewModel.swift */,
+				B40AF0B02B682C370058194C /* ItemViewModel.swift */,
 			);
 			name = "View Models";
 			sourceTree = "<group>";
@@ -387,7 +387,7 @@
 		B494599A2B6311B500D41A8E /* Friends */ = {
 			isa = PBXGroup;
 			children = (
-				B494599B2B63121B00D41A8E /* GetFriendsAdapter.swift */,
+				B40AF0AC2B682C1E0058194C /* GetFriendsAdapter.swift */,
 			);
 			name = Friends;
 			sourceTree = "<group>";
@@ -395,7 +395,7 @@
 		B494599D2B63122400D41A8E /* Cards */ = {
 			isa = PBXGroup;
 			children = (
-				B494599E2B63123100D41A8E /* GetCardsAdapter.swift */,
+				B40AF0AE2B682C2B0058194C /* GetCardsAdapter.swift */,
 			);
 			name = Cards;
 			sourceTree = "<group>";
@@ -403,7 +403,7 @@
 		B49459A02B63184700D41A8E /* Transfers */ = {
 			isa = PBXGroup;
 			children = (
-				B49459A32B63199A00D41A8E /* GetTransfersAdapter.swift */,
+				B40AF0AA2B682C150058194C /* GetTransfersAdapter.swift */,
 			);
 			name = Transfers;
 			sourceTree = "<group>";
@@ -595,14 +595,12 @@
 				08927B932686183A009195BD /* AppDelegate.swift in Sources */,
 				B494598F2B630FE000D41A8E /* CardRepo.swift in Sources */,
 				B49459922B63101200D41A8E /* FriendsCache.swift in Sources */,
-				B49459A62B631A2400D41A8E /* ItemViewModel.swift in Sources */,
 				B49459AD2B631A4600D41A8E /* ListViewController.swift in Sources */,
-				B494599C2B63121B00D41A8E /* GetFriendsAdapter.swift in Sources */,
 				B494598D2B630FE000D41A8E /* FriendsRepo.swift in Sources */,
-				B49459A42B63199A00D41A8E /* GetTransfersAdapter.swift in Sources */,
 				B49459D82B63250100D41A8E /* GetTransfersUseCase.swift in Sources */,
 				B49459902B630FE000D41A8E /* TransfersRepo.swift in Sources */,
-				B494599F2B63123100D41A8E /* GetCardsAdapter.swift in Sources */,
+				B40AF0AF2B682C2B0058194C /* GetCardsAdapter.swift in Sources */,
+				B40AF0AB2B682C150058194C /* GetTransfersAdapter.swift in Sources */,
 				B494598E2B630FE000D41A8E /* ArticlesRepo.swift in Sources */,
 				B49459AF2B631A4600D41A8E /* MainTabBarController.swift in Sources */,
 				08927B952686183A009195BD /* SceneDelegate.swift in Sources */,
@@ -610,8 +608,10 @@
 				B49459CB2B6321A900D41A8E /* Card.swift in Sources */,
 				B49459E52B63583300D41A8E /* GetCardsUseCase.swift in Sources */,
 				B49459AE2B631A4600D41A8E /* SegmentNavigationViewController.swift in Sources */,
+				B40AF0AD2B682C1E0058194C /* GetFriendsAdapter.swift in Sources */,
 				B49459C12B63200500D41A8E /* User.swift in Sources */,
 				B49459D02B63222400D41A8E /* Transfer.swift in Sources */,
+				B40AF0B12B682C370058194C /* ItemViewModel.swift in Sources */,
 				B49459C62B63207C00D41A8E /* Friend.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
