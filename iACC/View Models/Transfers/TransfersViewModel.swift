@@ -9,6 +9,12 @@ struct TransfersViewModelAdapter: ItemsViewModelAdapter {
     let select: (Transfer) -> Void
     var viewModel: TransfersViewModel
     
+    init(longDateStyle: Bool, select: @escaping (Transfer) -> Void, viewModel: TransfersViewModel) {
+        self.longDateStyle = longDateStyle
+        self.select = select
+        self.viewModel = viewModel
+    }
+    
     func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
         viewModel.loadTransfers(completion: completion)
     }

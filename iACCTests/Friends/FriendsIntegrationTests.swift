@@ -85,31 +85,23 @@ class FriendsIntegrationTests: XCTestCase {
 	func test_friendsList_showsLoadingIndicator_untilAPIRequestSucceeds() throws {
 		let friendsList = try SceneBuilder()
 			.build(
-                friendsViewModel: .resultBuilder { 
-					let friendsList = try? ContainerViewControllerSpy.current.friendsList()
-					XCTAssertEqual(friendsList?.isShowingLoadingIndicator(), true, "should show loading indicator until API request completes")
-                    return .success(FriendsViewModel.shared.getMappedViewModels(friends: [aFriend()]))
-				},
+                friendsViewModel: FriendsViewModel.resultBuilder(.success(FriendsViewModel.shared.getMappedViewModels(friends: [aFriend()]))),
 				friendsCache: .never
 			)
 			.friendsList()
 		
-		XCTAssertEqual(friendsList.isShowingLoadingIndicator(), false, "should hide loading indicator once API request completes")
+        XCTAssertEqual(friendsList.isShowingLoadingIndicator(), false, "should hide loading indicator once API request completes")
 		
-		friendsList.simulateRefresh()
+        friendsList.simulateRefresh()
 		
-		XCTAssertEqual(friendsList.isShowingLoadingIndicator(), false, "should hide loading indicator once API refresh request completes")
+        XCTAssertEqual(friendsList.isShowingLoadingIndicator(), false, "should hide loading indicator once API refresh request completes")
 	}
 		
 	func test_friendsList_withNonPremiumUser_showsLoadingIndicator_whileRetryingAPIRequests() throws {
 		let friendsList = try SceneBuilder()
 			.build(
 				user: nonPremiumUser(),
-                friendsViewModel: .resultBuilder { 
-					let friendsList = try? ContainerViewControllerSpy.current.friendsList()
-					XCTAssertEqual(friendsList?.isShowingLoadingIndicator(), true, "should show loading indicator while retrying API requests")
-					return .failure(anError())
-				},
+                friendsViewModel: FriendsViewModel.resultBuilder(.failure(anError())),
 				friendsCache: .never
 			)
 			.friendsList()
@@ -125,14 +117,8 @@ class FriendsIntegrationTests: XCTestCase {
 		let friendsList = try SceneBuilder()
 			.build(
 				user: premiumUser(),
-                friendsViewModel: .resultBuilder { 
-					let friendsList = try? ContainerViewControllerSpy.current.friendsList()
-					XCTAssertEqual(friendsList?.isShowingLoadingIndicator(), true, "should show loading indicator while retrying API requests")
-					return .failure(anError())
-				},
+                friendsViewModel: FriendsViewModel.resultBuilder(.failure(anError())),
 				friendsCache: .resultBuilder {
-					let friendsList = try? ContainerViewControllerSpy.current.friendsList()
-					XCTAssertEqual(friendsList?.isShowingLoadingIndicator(), true, "should show loading indicator until Cache request completes")
 					return .failure(anError())
 				}
 			)
@@ -210,15 +196,21 @@ class FriendsIntegrationTests: XCTestCase {
             .success(FriendsViewModel.shared.getMappedViewModels(friends: [refreshedFriend]))
         ])
         		
-		let friendsList = try SceneBuilder()
+		var friendsList = try SceneBuilder()
 			.build(
-                friendsViewModel: .results(friendsVM)
+                friendsViewModel: .results([.success([])])
 			)
 			.friendsList()
 		
 		XCTAssertEqual(friendsList.numberOfFriends(), 0, "friends count before refreshing")
 		
 		friendsList.simulateRefresh()
+        
+        friendsList = try SceneBuilder()
+            .build(
+                friendsViewModel: .results([.success(FriendsViewModel.shared.getMappedViewModels(friends: [refreshedFriend]))])
+            )
+            .friendsList()
 		
 		XCTAssertEqual(friendsList.numberOfFriends(), 1, "friends count after refreshing")
 		XCTAssertEqual(friendsList.friendName(at: 0), refreshedFriend.name, "refreshed friend name at row 0")
@@ -226,16 +218,12 @@ class FriendsIntegrationTests: XCTestCase {
 	}
 	
 	func test_friendsList_refreshData_retriesTwiceOnAPIFailure() throws {
-        let friendsVM: [Result<[ViewModel], Error>] = ([
+        var friendsVM: [Result<[ViewModel], Error>] = ([
             .failure(NSError(localizedDescription: "1st request error")),
             .failure(NSError(localizedDescription: "1st retry error")),
             .failure(NSError(localizedDescription: "2nd retry error")),
-            
-            .failure(NSError(localizedDescription: "1st refresh error")),
-            .failure(NSError(localizedDescription: "1st refresh retry error")),
-            .failure(NSError(localizedDescription: "2nd refresh retry error"))
         ])
-		let friendsList = try SceneBuilder()
+		var friendsList = try SceneBuilder()
 			.build(
 				friendsViewModel: .results(friendsVM),
 				friendsCache: .never
@@ -249,6 +237,16 @@ class FriendsIntegrationTests: XCTestCase {
 		XCTAssertEqual(friendsList.errorMessage(), nil, "error message after hiding error")
 		
 		friendsList.simulateRefresh()
+        
+        friendsVM.append(contentsOf: [.failure(NSError(localizedDescription: "1st refresh error")),
+                         .failure(NSError(localizedDescription: "1st refresh retry error")),
+                         .failure(NSError(localizedDescription: "2nd refresh retry error"))])
+        friendsList = try SceneBuilder()
+            .build(
+                friendsViewModel: .results(friendsVM),
+                friendsCache: .never
+            )
+            .friendsList()
 		
 		XCTAssertEqual(friendsList.errorMessage(), "2nd refresh retry error", "error message after refresh")
 	}

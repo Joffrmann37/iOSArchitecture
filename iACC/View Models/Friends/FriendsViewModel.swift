@@ -11,17 +11,52 @@ protocol ItemsViewModelAdapter {
 
 
 struct FriendsViewModelAdapter: ItemsViewModelAdapter {
+    let select: (Friend) -> Void
+    var viewModel: FriendsViewModel
+    
+    func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+        viewModel.loadFriends(completion: completion)
+    }
+}
+
+struct FriendsViewModelCacheAdapter: ItemsViewModelAdapter {
     let cache: FriendsCache
     let select: (Friend) -> Void
     var viewModel: FriendsViewModel
-    let shouldLoadFromCache: Bool
     
     func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
-        if shouldLoadFromCache {
-            cache.loadFriends(completion: completion)
-        } else {
-            viewModel.loadFriends(completion: completion)
+        cache.loadFriends(completion: completion)
+    }
+}
+
+struct ItemsViewModelAdapterWithFallback: ItemsViewModelAdapter {
+    let primary: ItemsViewModelAdapter
+    let fallback: ItemsViewModelAdapter
+    
+    func load<T>(_ items: [T], _ completion: @escaping (Result<[ViewModel], Error>) -> Void) {
+        primary.load(items) { result in
+            switch result {
+            case .success:
+                completion(result)
+            case .failure:
+                fallback.load(items, completion)
+            }
         }
+    }
+}
+
+extension ItemsViewModelAdapter {
+    func fallback(_ fallback: ItemsViewModelAdapter) -> ItemsViewModelAdapter {
+        return ItemsViewModelAdapterWithFallback(primary: self, fallback: fallback)
+    }
+    
+    func retry(_ retryCount: UInt) -> ItemsViewModelAdapter {
+        var adapter: ItemsViewModelAdapter = self
+        for _ in 0..<retryCount {
+            adapter = adapter.fallback(self)
+        }
+        
+        return adapter
     }
 }
 
