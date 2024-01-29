@@ -35,6 +35,7 @@
 		B40AF0AD2B682C1E0058194C /* GetFriendsAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40AF0AC2B682C1E0058194C /* GetFriendsAdapter.swift */; };
 		B40AF0AF2B682C2B0058194C /* GetCardsAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40AF0AE2B682C2B0058194C /* GetCardsAdapter.swift */; };
 		B40AF0B12B682C370058194C /* ItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40AF0B02B682C370058194C /* ItemViewModel.swift */; };
+		B40AF0B32B682CB20058194C /* GetTransfersUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40AF0B22B682CB20058194C /* GetTransfersUseCase.swift */; };
 		B494598D2B630FE000D41A8E /* FriendsRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459892B630FE000D41A8E /* FriendsRepo.swift */; };
 		B494598E2B630FE000D41A8E /* ArticlesRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B494598A2B630FE000D41A8E /* ArticlesRepo.swift */; };
 		B494598F2B630FE000D41A8E /* CardRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B494598B2B630FE000D41A8E /* CardRepo.swift */; };
@@ -50,7 +51,6 @@
 		B49459C62B63207C00D41A8E /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459C52B63207C00D41A8E /* Friend.swift */; };
 		B49459CB2B6321A900D41A8E /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459CA2B6321A900D41A8E /* Card.swift */; };
 		B49459D02B63222400D41A8E /* Transfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459CF2B63222400D41A8E /* Transfer.swift */; };
-		B49459D82B63250100D41A8E /* GetTransfersUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459D72B63250100D41A8E /* GetTransfersUseCase.swift */; };
 		B49459E52B63583300D41A8E /* GetCardsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459E42B63583300D41A8E /* GetCardsUseCase.swift */; };
 		B49459E72B635A0400D41A8E /* GetArticlesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49459E62B635A0400D41A8E /* GetArticlesUseCase.swift */; };
 /* End PBXBuildFile section */
@@ -98,6 +98,7 @@
 		B40AF0AC2B682C1E0058194C /* GetFriendsAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetFriendsAdapter.swift; path = Adapters/Friends/GetFriendsAdapter.swift; sourceTree = "<group>"; };
 		B40AF0AE2B682C2B0058194C /* GetCardsAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetCardsAdapter.swift; path = Adapters/Cards/GetCardsAdapter.swift; sourceTree = "<group>"; };
 		B40AF0B02B682C370058194C /* ItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ItemViewModel.swift; path = "View Models/ItemViewModel.swift"; sourceTree = "<group>"; };
+		B40AF0B22B682CB20058194C /* GetTransfersUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetTransfersUseCase.swift; path = "iACC/Use Cases/Transfers/GetTransfers/GetTransfersUseCase.swift"; sourceTree = SOURCE_ROOT; };
 		B49459892B630FE000D41A8E /* FriendsRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendsRepo.swift; path = Data/FriendsRepo.swift; sourceTree = "<group>"; };
 		B494598A2B630FE000D41A8E /* ArticlesRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticlesRepo.swift; path = Data/ArticlesRepo.swift; sourceTree = "<group>"; };
 		B494598B2B630FE000D41A8E /* CardRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CardRepo.swift; path = Data/CardRepo.swift; sourceTree = "<group>"; };
@@ -113,7 +114,6 @@
 		B49459C52B63207C00D41A8E /* Friend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Friend.swift; path = Domain/Friend/Friend.swift; sourceTree = "<group>"; };
 		B49459CA2B6321A900D41A8E /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Card.swift; path = Domain/Card/Card.swift; sourceTree = "<group>"; };
 		B49459CF2B63222400D41A8E /* Transfer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Transfer.swift; path = Domain/Transfer/Transfer.swift; sourceTree = "<group>"; };
-		B49459D72B63250100D41A8E /* GetTransfersUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetTransfersUseCase.swift; path = iACC/Transfers/GetTransfersUseCase.swift; sourceTree = SOURCE_ROOT; };
 		B49459E42B63583300D41A8E /* GetCardsUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetCardsUseCase.swift; path = iACC/Cards/GetCardsUseCase.swift; sourceTree = SOURCE_ROOT; };
 		B49459E62B635A0400D41A8E /* GetArticlesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetArticlesUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -451,7 +451,7 @@
 		B49459D62B6324EC00D41A8E /* GetTransfers */ = {
 			isa = PBXGroup;
 			children = (
-				B49459D72B63250100D41A8E /* GetTransfersUseCase.swift */,
+				B40AF0B22B682CB20058194C /* GetTransfersUseCase.swift */,
 			);
 			path = GetTransfers;
 			sourceTree = "<group>";
@@ -590,6 +590,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B49459942B63106900D41A8E /* GetFriendsUseCase.swift in Sources */,
+				B40AF0B32B682CB20058194C /* GetTransfersUseCase.swift in Sources */,
 				B49459B02B631A4600D41A8E /* NotImplementedViewControllers.swift in Sources */,
 				B49459A82B631A3300D41A8E /* Helpers.swift in Sources */,
 				08927B932686183A009195BD /* AppDelegate.swift in Sources */,
@@ -597,7 +598,6 @@
 				B49459922B63101200D41A8E /* FriendsCache.swift in Sources */,
 				B49459AD2B631A4600D41A8E /* ListViewController.swift in Sources */,
 				B494598D2B630FE000D41A8E /* FriendsRepo.swift in Sources */,
-				B49459D82B63250100D41A8E /* GetTransfersUseCase.swift in Sources */,
 				B49459902B630FE000D41A8E /* TransfersRepo.swift in Sources */,
 				B40AF0AF2B682C2B0058194C /* GetCardsAdapter.swift in Sources */,
 				B40AF0AB2B682C150058194C /* GetTransfersAdapter.swift in Sources */,
